@@ -1,0 +1,2118 @@
+{
+  "schema_version": "1.0",
+  "observation_id": "sample_demo",
+  "observation_label": "NISAR GUNW HH · track 30 frame 19 · 2008-10-12 → 2008-11-27",
+  "generated_utc": "2026-10-25T12:15:45Z",
+  "pipeline": {
+    "name": "nisar-earth-in-motion",
+    "version": "0.2.0",
+    "package_version": "0.2.0"
+  },
+  "software_versions": {
+    "python": "3.11.15",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "pipeline": "0.2.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "h5py": "3.16.0",
+    "rasterio": "1.4.4",
+    "pyproj": "3.7.2",
+    "matplotlib": "3.11.2",
+    "shapely": "2.2.0",
+    "PIL": "13.0.0",
+    "gdal": "3.10.3"
+  },
+  "observation_dir": "data\\processed\\sample_demo",
+  "source": {
+    "path": "data\\demo\\sample_gunw.h5",
+    "file_name": "sample_gunw.h5",
+    "file_size_bytes": 264241152,
+    "granule_id": "NISAR_L2_PR_GUNW_001_030_A_019_002_2000_SH_20081012T060911_20081012T060925_20081127T061000_20081127T061014_D00404_N_F_J_001",
+    "product_type": "GUNW",
+    "product_version": "0.0.4",
+    "product_specification_version": "1.2.1",
+    "product_doi": "10.5067/NIL2GUNW-B1",
+    "processing_datetime": "2025-01-29T05:41:57",
+    "processing_type": "Nominal",
+    "processing_center": "JPL",
+    "composite_release_id": "D00404",
+    "mission_id": "ALOS",
+    "instrument_name": "LSAR",
+    "platform_name": "(NOT SPECIFIED)",
+    "radar_band": "L",
+    "track_number": 30,
+    "frame_number": 19,
+    "orbit_pass_direction": "Ascending",
+    "look_direction": "Right",
+    "is_geocoded": "True",
+    "is_full_frame": "True",
+    "reference_absolute_orbit": 0,
+    "secondary_absolute_orbit": 0,
+    "reference_start": "2008-10-12T06:09:11.567105263",
+    "reference_end": "2008-10-12T06:09:25.749342105",
+    "secondary_start": "2008-11-27T06:10:00.442763158",
+    "secondary_end": "2008-11-27T06:10:14.625657895",
+    "temporal_baseline_days": 46,
+    "frequency": "A",
+    "polarization": "HH",
+    "center_frequency_hz": 1269999750.0604727,
+    "wavelength_m": 0.2360571,
+    "wavelength_derivation": "c / centerFrequency (derived here; not a product field)",
+    "static_layers_url": null,
+    "is_pre_launch_sample": true,
+    "bounding_polygon_wkt": "POLYGON ((-118.229299403331 34.3206258749987 1320.76281740076,-118.151534082954 34.3338786942818 1120.77187097282,-118.060028397752 34.3493955091373 1531.91638195187,-117.976604049868 34.363480146242 1720.85009707367,-117.894336528714 34.377308729912 1947.04321289366,-117.828082792363 34.3884100475657 1571.26008907924,-117.751376286448 34.4012063858746 1700.71484374996,-117.682481635952 34.4126591077 1550.66247528041,-117.617191706658 34.4234756780746 1290.07617187468,-117.550087310057 34.4345517270133 1161.1295173484,-117.482689576526 34.4456353398644 1096.66674743904,-117.506925922058 34.530435428607 931.641174041696,-117.528585579219 34.6156581392602 890.22561553607,-117.54671314656 34.7014580589525 1017.096679687,-117.570873525277 34.7862757772161 859.747863768964,-117.59207159806 34.871577676553 843.694519042567,-117.614159877774 34.9567361289629 786.888650710025,-117.635755241316 35.0419761919112 754.54467675034,-117.654709143162 35.1276462689462 847.498962401925,-117.67611782335 35.2129190040495 826.187012163991,-117.69209300021 35.2990728805964 1061.01232910061,-117.761271710933 35.2878040112528 1079.31604004034,-117.837732068655 35.2753034563456 823.23358153982,-117.914455776572 35.2627066418266 623.560240434715,-117.98831638316 35.2505276402536 614.783080267012,-118.060926865139 35.2385056743659 720.585631671674,-118.129360986055 35.2271286636835 1056.71936120458,-118.196381648979 35.2159444422866 1501.11876151622,-118.271931041301 35.2032938532624 1662.3077392721,-118.361230591937 35.188282127991 1370.13891601216,-118.446685787183 35.1738466336016 1315.51849485977,-118.424647404981 35.0885678968307 1322.42089843815,-118.395551489289 35.0044838241846 1588.78906205368,-118.392016505786 34.9160782858475 921.418579101411,-118.374951636001 34.82996022556 749.714538578139,-118.353005353527 34.7446704215085 756.640014648254,-118.328030889496 34.6598963574499 875.14739990388,-118.294714210138 34.5765413984109 1301.26330583215,-118.285687354598 34.4890625828729 837.687561035157,-118.255150667391 34.4052412272057 1164.24100365106,-118.229299403331 34.3206258749987 1320.76281740076))",
+    "identification": {
+      "boundingPolygon": "POLYGON ((-118.229299403331 34.3206258749987 1320.76281740076,-118.151534082954 34.3338786942818 1120.77187097282,-118.060028397752 34.3493955091373 1531.91638195187,-117.976604049868 34.363480146242 1720.85009707367,-117.894336528714 34.377308729912 1947.04321289366,-117.828082792363 34.3884100475657 1571.26008907924,-117.751376286448 34.4012063858746 1700.71484374996,-117.682481635952 34.4126591077 1550.66247528041,-117.617191706658 34.4234756780746 1290.07617187468,-117.550087310057 34.4345517270133 1161.1295173484,-117.482689576526 34.4456353398644 1096.66674743904,-117.506925922058 34.530435428607 931.641174041696,-117.528585579219 34.6156581392602 890.22561553607,-117.54671314656 34.7014580589525 1017.096679687,-117.570873525277 34.7862757772161 859.747863768964,-117.59207159806 34.871577676553 843.694519042567,-117.614159877774 34.9567361289629 786.888650710025,-117.635755241316 35.0419761919112 754.54467675034,-117.654709143162 35.1276462689462 847.498962401925,-117.67611782335 35.2129190040495 826.187012163991,-117.69209300021 35.2990728805964 1061.01232910061,-117.761271710933 35.2878040112528 1079.31604004034,-117.837732068655 35.2753034563456 823.23358153982,-117.914455776572 35.2627066418266 623.560240434715,-117.98831638316 35.2505276402536 614.783080267012,-118.060926865139 35.2385056743659 720.585631671674,-118.129360986055 35.2271286636835 1056.71936120458,-118.196381648979 35.2159444422866 1501.11876151622,-118.271931041301 35.2032938532624 1662.3077392721,-118.361230591937 35.188282127991 1370.13891601216,-118.446685787183 35.1738466336016 1315.51849485977,-118.424647404981 35.0885678968307 1322.42089843815,-118.395551489289 35.0044838241846 1588.78906205368,-118.392016505786 34.9160782858475 921.418579101411,-118.374951636001 34.82996022556 749.714538578139,-118.353005353527 34.7446704215085 756.640014648254,-118.328030889496 34.6598963574499 875.14739990388,-118.294714210138 34.5765413984109 1301.26330583215,-118.285687354598 34.4890625828729 837.687561035157,-118.255150667391 34.4052412272057 1164.24100365106,-118.229299403331 34.3206258749987 1320.76281740076))",
+      "compositeReleaseId": "D00404",
+      "diagnosticModeFlag": 0,
+      "frameNumber": 19,
+      "granuleId": "NISAR_L2_PR_GUNW_001_030_A_019_002_2000_SH_20081012T060911_20081012T060925_20081127T061000_20081127T061014_D00404_N_F_J_001",
+      "instrumentName": "LSAR",
+      "isDithered": "False",
+      "isFullFrame": "True",
+      "isGeocoded": "True",
+      "isMixedMode": "False",
+      "isUrgentObservation": "False",
+      "listOfFrequencies": [
+        "A"
+      ],
+      "lookDirection": "Right",
+      "missionId": "ALOS",
+      "orbitPassDirection": "Ascending",
+      "plannedDatatakeId": [
+        "0"
+      ],
+      "plannedObservationId": [
+        "0"
+      ],
+      "platformName": "(NOT SPECIFIED)",
+      "processingCenter": "JPL",
+      "processingDateTime": "2025-01-29T05:41:57",
+      "processingType": "Nominal",
+      "productDoi": "10.5067/NIL2GUNW-B1",
+      "productLevel": "L2",
+      "productSpecificationVersion": "1.2.1",
+      "productType": "GUNW",
+      "productVersion": "0.0.4",
+      "radarBand": "L",
+      "referenceAbsoluteOrbitNumber": 0,
+      "referenceIsJointObservation": "False",
+      "referenceZeroDopplerEndTime": "2008-10-12T06:09:25.749342105",
+      "referenceZeroDopplerStartTime": "2008-10-12T06:09:11.567105263",
+      "secondaryAbsoluteOrbitNumber": 0,
+      "secondaryIsJointObservation": "False",
+      "secondaryZeroDopplerEndTime": "2008-11-27T06:10:14.625657895",
+      "secondaryZeroDopplerStartTime": "2008-11-27T06:10:00.442763158",
+      "trackNumber": 30
+    },
+    "file_attributes": {
+      "Conventions": "CF-1.7",
+      "contact": "nisar-sds-ops@jpl.nasa.gov",
+      "institution": "NASA JPL",
+      "mission_name": "NISAR",
+      "reference_document": "D-102272 NISAR NASA SDS Product Specification L2 Geocoded Unwrapped Interferogram",
+      "title": "NISAR L2 GUNW Product"
+    },
+    "processing_parameters": {
+      "common/frequencyA/dopplerBandwidth": 1260.1192850457082,
+      "geocoding/azimuthIonosphericCorrectionApplied": "True",
+      "geocoding/hydrostaticTroposphericCorrectionApplied": "True",
+      "geocoding/rangeIonosphericCorrectionApplied": "True",
+      "geocoding/wetTroposphericCorrectionApplied": "True",
+      "ionosphere/highBandBandwidth": 9333333.0,
+      "ionosphere/lowBandBandwidth": 9333333.0,
+      "pixelOffsets/frequencyA/alongTrackSearchWindowSize": 16,
+      "pixelOffsets/frequencyA/alongTrackSkipWindowSize": 20,
+      "pixelOffsets/frequencyA/alongTrackWindowSize": 32,
+      "pixelOffsets/frequencyA/correlationSurfaceOversampling": 64,
+      "pixelOffsets/frequencyA/isOffsetsBlendingApplied": "False",
+      "pixelOffsets/frequencyA/slantRangeSearchWindowSize": 16,
+      "pixelOffsets/frequencyA/slantRangeSkipWindowSize": 8,
+      "pixelOffsets/frequencyA/slantRangeWindowSize": 64,
+      "reference/frequencyA/azimuthBandwidth": 1260.1192850457082,
+      "reference/frequencyA/numberOfAzimuthLines": 21558,
+      "reference/frequencyA/numberOfRangeSamples": 6174,
+      "reference/frequencyA/rangeBandwidth": 28000000.0,
+      "reference/frequencyA/slantRangeSpacing": 4.68425715625,
+      "reference/frequencyA/slantRangeStart": 743610.2093641666,
+      "reference/frequencyA/zeroDopplerEndTime": "2008-10-12T06:09:25.749342105",
+      "reference/frequencyA/zeroDopplerStartTime": "2008-10-12T06:09:11.567105263",
+      "reference/frequencyA/zeroDopplerTimeSpacing": 0.0006578947368421052,
+      "reference/isMixedMode": "False",
+      "reference/rfiMitigationApplied": "True",
+      "secondary/frequencyA/azimuthBandwidth": 1260.0486288302352,
+      "secondary/frequencyA/numberOfAzimuthLines": 21559,
+      "secondary/frequencyA/numberOfRangeSamples": 6174,
+      "secondary/frequencyA/rangeBandwidth": 28000000.0,
+      "secondary/frequencyA/slantRangeSpacing": 4.68425715625,
+      "secondary/frequencyA/slantRangeStart": 743460.3131351667,
+      "secondary/frequencyA/zeroDopplerEndTime": "2008-11-27T06:10:14.625657895",
+      "secondary/frequencyA/zeroDopplerStartTime": "2008-11-27T06:10:00.442763158",
+      "secondary/frequencyA/zeroDopplerTimeSpacing": 0.0006578947368421052,
+      "secondary/isMixedMode": "False",
+      "secondary/rfiMitigationApplied": "True",
+      "unwrappedInterferogram/frequencyA/azimuthBandwidth": 1260.1192850457082,
+      "unwrappedInterferogram/frequencyA/commonBandAzimuthFilterApplied": "False",
+      "unwrappedInterferogram/frequencyA/commonBandRangeFilterApplied": "False",
+      "unwrappedInterferogram/frequencyA/ellipsoidalFlatteningApplied": "True",
+      "unwrappedInterferogram/frequencyA/numberOfAzimuthLooks": 17,
+      "unwrappedInterferogram/frequencyA/numberOfRangeLooks": 7,
+      "unwrappedInterferogram/frequencyA/rangeBandwidth": 28000000.0,
+      "unwrappedInterferogram/frequencyA/topographicFlatteningApplied": "True",
+      "wrappedInterferogram/frequencyA/azimuthBandwidth": 1260.1192850457082,
+      "wrappedInterferogram/frequencyA/commonBandAzimuthFilterApplied": "False",
+      "wrappedInterferogram/frequencyA/commonBandRangeFilterApplied": "False",
+      "wrappedInterferogram/frequencyA/ellipsoidalFlatteningApplied": "True",
+      "wrappedInterferogram/frequencyA/numberOfAzimuthLooks": 17,
+      "wrappedInterferogram/frequencyA/numberOfRangeLooks": 7,
+      "wrappedInterferogram/frequencyA/rangeBandwidth": 28000000.0,
+      "wrappedInterferogram/frequencyA/topographicFlatteningApplied": "True"
+    }
+  },
+  "product_structure": {
+    "frequency": "A",
+    "polarization": "HH",
+    "grid_root": "science/LSAR/GUNW/grids/frequencyA",
+    "unwrapped_group": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram",
+    "layers": {
+      "phase": {
+        "key": "phase",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase",
+        "shape_rows_cols": [
+          1555,
+          1136
+        ],
+        "dtype": "float32",
+        "units": "radians",
+        "description": "Unwrapped interferogram between HH layers",
+        "fill_value": null,
+        "attributes": {
+          "_FillValue": null,
+          "description": "Unwrapped interferogram between HH layers",
+          "grid_mapping": "projection",
+          "max_value": 11.624897003173828,
+          "mean_value": 2.2970986366271973,
+          "min_value": -7.093188285827637,
+          "sample_stddev": 0.7250012159347534,
+          "units": "radians"
+        }
+      },
+      "coherence": {
+        "key": "coherence",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/coherenceMagnitude",
+        "shape_rows_cols": [
+          1555,
+          1136
+        ],
+        "dtype": "float32",
+        "units": "1",
+        "description": "Coherence magnitude between HH layers",
+        "fill_value": null,
+        "attributes": {
+          "_FillValue": null,
+          "description": "Coherence magnitude between HH layers",
+          "grid_mapping": "projection",
+          "max_value": 0.977408766746521,
+          "mean_value": 0.4138314425945282,
+          "min_value": 0.008420306257903576,
+          "sample_stddev": 0.1376485675573349,
+          "units": "1"
+        }
+      },
+      "connected_components": {
+        "key": "connected_components",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/connectedComponents",
+        "shape_rows_cols": [
+          1555,
+          1136
+        ],
+        "dtype": "uint16",
+        "units": "1",
+        "description": "Connected components for HH layer",
+        "fill_value": 65535,
+        "attributes": {
+          "_FillValue": 65535,
+          "description": "Connected components for HH layer",
+          "grid_mapping": "projection",
+          "units": "1"
+        }
+      },
+      "ionosphere": {
+        "key": "ionosphere",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/ionospherePhaseScreen",
+        "shape_rows_cols": [
+          1555,
+          1136
+        ],
+        "dtype": "float32",
+        "units": "radians",
+        "description": "Ionosphere phase screen",
+        "fill_value": null,
+        "attributes": {
+          "_FillValue": null,
+          "description": "Ionosphere phase screen",
+          "grid_mapping": "projection",
+          "max_value": 91.17967987060547,
+          "mean_value": 89.69226837158203,
+          "min_value": 84.37708282470703,
+          "sample_stddev": 0.6007050275802612,
+          "units": "radians"
+        }
+      },
+      "ionosphere_uncertainty": {
+        "key": "ionosphere_uncertainty",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/ionospherePhaseScreenUncertainty",
+        "shape_rows_cols": [
+          1555,
+          1136
+        ],
+        "dtype": "float32",
+        "units": "radians",
+        "description": "Uncertainty of the ionosphere phase screen",
+        "fill_value": null,
+        "attributes": {
+          "_FillValue": null,
+          "description": "Uncertainty of the ionosphere phase screen",
+          "grid_mapping": "projection",
+          "max_value": 8.19471549987793,
+          "mean_value": 4.576105117797852,
+          "min_value": 3.8417797088623047,
+          "sample_stddev": 0.6479380130767822,
+          "units": "radians"
+        }
+      }
+    },
+    "mask_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/mask",
+    "other_grids": [
+      {
+        "name": "pixelOffsets",
+        "datasets": {
+          "HH/alongTrackOffset": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "float32"
+          },
+          "HH/correlationSurfacePeak": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "float32"
+          },
+          "HH/slantRangeOffset": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "float32"
+          },
+          "mask": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "uint8"
+          }
+        }
+      },
+      {
+        "name": "unwrappedInterferogram",
+        "datasets": {
+          "HH/coherenceMagnitude": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "float32"
+          },
+          "HH/connectedComponents": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "uint16"
+          },
+          "HH/ionospherePhaseScreen": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "float32"
+          },
+          "HH/ionospherePhaseScreenUncertainty": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "float32"
+          },
+          "HH/unwrappedPhase": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "float32"
+          },
+          "mask": {
+            "shape": [
+              1555,
+              1136
+            ],
+            "dtype": "uint8"
+          }
+        }
+      },
+      {
+        "name": "wrappedInterferogram",
+        "datasets": {
+          "HH/coherenceMagnitude": {
+            "shape": [
+              6220,
+              4545
+            ],
+            "dtype": "float32"
+          },
+          "HH/wrappedInterferogram": {
+            "shape": [
+              6220,
+              4545
+            ],
+            "dtype": "complex64"
+          },
+          "mask": {
+            "shape": [
+              6220,
+              4545
+            ],
+            "dtype": "uint8"
+          }
+        }
+      }
+    ]
+  },
+  "georeferencing": {
+    "epsg": 32611,
+    "crs_name": "WGS 84 / UTM zone 11N",
+    "width": 1136,
+    "height": 1555,
+    "shape_rows_cols": [
+      1555,
+      1136
+    ],
+    "pixel_spacing": {
+      "x": 80.0,
+      "y": 80.0
+    },
+    "pixel_convention": "pixel_centres",
+    "x_axis": "ascending",
+    "y_axis": "descending",
+    "origin_centre_row0_col0": {
+      "x": 365520.0,
+      "y": 3913580.0
+    },
+    "bounds": {
+      "left": 365480.0,
+      "bottom": 3789220.0,
+      "right": 456360.0,
+      "top": 3913620.0
+    },
+    "transform": [
+      80.0,
+      0.0,
+      365480.0,
+      0.0,
+      -80.0,
+      3913620.0
+    ],
+    "georeferencing_method": "phase raster + hdf5_dimension_scale",
+    "source_datasets": {
+      "xCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates",
+      "yCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates",
+      "projection": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/projection"
+    },
+    "grid_resolution": {
+      "method": "hdf5_dimension_scale",
+      "xCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates",
+      "yCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates",
+      "projection": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/projection",
+      "epsg": 32611,
+      "spacing_hints": {
+        "x": 80.0,
+        "y": -80.0
+      },
+      "projection_attributes": {
+        "description": "Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes",
+        "ellipsoid": "WGS84",
+        "epsg_code": 32611,
+        "false_easting": 500000.0,
+        "false_northing": 0.0,
+        "grid_mapping_name": "transverse_mercator",
+        "inverse_flattening": 298.257223563,
+        "latitude_of_projection_origin": 0.0,
+        "longitude_of_central_meridian": -117.0,
+        "longitude_of_projection_origin": 0.0,
+        "scale_factor_at_central_meridian": 0.9996,
+        "semi_major_axis": 6378137.0,
+        "spatial_ref": "PROJCS[\"WGS 84 / UTM zone 11N\",GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4326\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-117],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"32611\"]]",
+        "utm_zone_number": 11
+      },
+      "candidates_considered": [
+        {
+          "x_path": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates",
+          "y_path": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates",
+          "source": "hdf5_dimension_scale",
+          "x_length": 1136,
+          "y_length": 1555,
+          "matches_raster_shape": true
+        },
+        {
+          "x_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates",
+          "y_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates",
+          "source": "sibling_group:science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH",
+          "x_length": 1136,
+          "y_length": 1555,
+          "matches_raster_shape": true
+        },
+        {
+          "x_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/xCoordinates",
+          "y_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/yCoordinates",
+          "source": "sibling_group:science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram",
+          "x_length": 1136,
+          "y_length": 1555,
+          "matches_raster_shape": true
+        }
+      ]
+    },
+    "roundtrip_check": {
+      "checked_pixels": 9,
+      "max_map_error": 0.0,
+      "max_pixel_error": 0.0,
+      "tolerance": 1e-06,
+      "passed": true
+    },
+    "footprint": {
+      "primary": "product_bounding_polygon",
+      "grid_extent": {
+        "type": "Polygon",
+        "crs": "EPSG:4326",
+        "coordinates": [
+          [
+            -118.48056630105536,
+            35.35681913578847
+          ],
+          [
+            -118.4217444533343,
+            35.35752554220303
+          ],
+          [
+            -118.36292060037891,
+            35.35820333146835
+          ],
+          [
+            -118.30409482504268,
+            35.35885250049846
+          ],
+          [
+            -118.24526721019588,
+            35.35947304633747
+          ],
+          [
+            -118.186437838725,
+            35.36006496615968
+          ],
+          [
+            -118.12760679353198,
+            35.36062825726962
+          ],
+          [
+            -118.06877415753348,
+            35.361162917101964
+          ],
+          [
+            -118.00994001366013,
+            35.36166894322174
+          ],
+          [
+            -117.95110444485579,
+            35.36214633332418
+          ],
+          [
+            -117.89226753407694,
+            35.36259508523494
+          ],
+          [
+            -117.8334293642918,
+            35.36301519690996
+          ],
+          [
+            -117.77459001847961,
+            35.36340666643556
+          ],
+          [
+            -117.7157495796301,
+            35.36376949202847
+          ],
+          [
+            -117.6569081307425,
+            35.36410367203585
+          ],
+          [
+            -117.59806575482493,
+            35.364409204935306
+          ],
+          [
+            -117.53922253489372,
+            35.364686089334896
+          ],
+          [
+            -117.48037855397259,
+            35.364934323973166
+          ],
+          [
+            -117.48010199928373,
+            35.318198205298664
+          ],
+          [
+            -117.47982608049057,
+            35.271461722772514
+          ],
+          [
+            -117.4795507961355,
+            35.22472487660438
+          ],
+          [
+            -117.4792761447661,
+            35.17798766700488
+          ],
+          [
+            -117.47900212493523,
+            35.13125009418557
+          ],
+          [
+            -117.47872873520085,
+            35.08451215835896
+          ],
+          [
+            -117.47845597412608,
+            35.037773859738536
+          ],
+          [
+            -117.4781838402793,
+            34.99103519853872
+          ],
+          [
+            -117.47791233223386,
+            34.94429617497486
+          ],
+          [
+            -117.47764144856832,
+            34.89755678926332
+          ],
+          [
+            -117.47737118786624,
+            34.85081704162134
+          ],
+          [
+            -117.47710154871632,
+            34.804076932267165
+          ],
+          [
+            -117.47683252971225,
+            34.75733646141996
+          ],
+          [
+            -117.47656412945274,
+            34.71059562929985
+          ],
+          [
+            -117.47629634654149,
+            34.66385443612791
+          ],
+          [
+            -117.47602917958719,
+            34.61711288212617
+          ],
+          [
+            -117.47576262720345,
+            34.5703709675176
+          ],
+          [
+            -117.4754966880089,
+            34.523628692526096
+          ],
+          [
+            -117.475231360627,
+            34.47688605737654
+          ],
+          [
+            -117.47496664368612,
+            34.43014306229473
+          ],
+          [
+            -117.47470253581953,
+            34.383399707507444
+          ],
+          [
+            -117.47443903566536,
+            34.33665599324235
+          ],
+          [
+            -117.47417614186652,
+            34.28991191972812
+          ],
+          [
+            -117.47391385307081,
+            34.24316748719435
+          ],
+          [
+            -117.53196602695999,
+            34.24292935110301
+          ],
+          [
+            -117.59001748009884,
+            34.2426637306966
+          ],
+          [
+            -117.64806813385276,
+            34.24237062716307
+          ],
+          [
+            -117.70611790959387,
+            34.24205004181325
+          ],
+          [
+            -117.76416672870172,
+            34.24170197608084
+          ],
+          [
+            -117.82221451256389,
+            34.24132643152236
+          ],
+          [
+            -117.88026118257667,
+            34.24092340981719
+          ],
+          [
+            -117.93830666014571,
+            34.24049291276747
+          ],
+          [
+            -117.99635086668668,
+            34.24003494229819
+          ],
+          [
+            -118.05439372362599,
+            34.23954950045702
+          ],
+          [
+            -118.11243515240136,
+            34.23903658941442
+          ],
+          [
+            -118.17047507446253,
+            34.23849621146354
+          ],
+          [
+            -118.22851341127195,
+            34.23792836902023
+          ],
+          [
+            -118.28655008430535,
+            34.23733306462295
+          ],
+          [
+            -118.3445850150525,
+            34.23671030093281
+          ],
+          [
+            -118.40261812501777,
+            34.23606008073351
+          ],
+          [
+            -118.46064933572083,
+            34.23538240693128
+          ],
+          [
+            -118.46145742210688,
+            34.28211325845409
+          ],
+          [
+            -118.46226737192683,
+            34.328843736189924
+          ],
+          [
+            -118.46307918934289,
+            34.37557383986652
+          ],
+          [
+            -118.46389287853208,
+            34.42230356921239
+          ],
+          [
+            -118.46470844368629,
+            34.469032923956895
+          ],
+          [
+            -118.46552588901235,
+            34.51576190383017
+          ],
+          [
+            -118.46634521873207,
+            34.5624905085632
+          ],
+          [
+            -118.46716643708233,
+            34.60921873788775
+          ],
+          [
+            -118.4679895483151,
+            34.65594659153642
+          ],
+          [
+            -118.46881455669761,
+            34.70267406924257
+          ],
+          [
+            -118.46964146651217,
+            34.74940117074042
+          ],
+          [
+            -118.47047028205661,
+            34.796127895764975
+          ],
+          [
+            -118.47130100764396,
+            34.842854244052056
+          ],
+          [
+            -118.47213364760273,
+            34.88958021533826
+          ],
+          [
+            -118.47296820627695,
+            34.93630580936105
+          ],
+          [
+            -118.4738046880262,
+            34.983031025858665
+          ],
+          [
+            -118.47464309722568,
+            35.02975586457015
+          ],
+          [
+            -118.47548343826625,
+            35.07648032523535
+          ],
+          [
+            -118.47632571555455,
+            35.123204407594955
+          ],
+          [
+            -118.47716993351307,
+            35.1699281113904
+          ],
+          [
+            -118.47801609658009,
+            35.21665143636399
+          ],
+          [
+            -118.47886420920993,
+            35.26337438225882
+          ],
+          [
+            -118.4797142758729,
+            35.31009694881874
+          ],
+          [
+            -118.48056630105536,
+            35.35681913578847
+          ]
+        ],
+        "vertex_count": 83,
+        "wgs84_bounds": [
+          -118.480566,
+          34.235382,
+          -117.473914,
+          35.364934
+        ],
+        "area_deg2": 1.1143404796045455,
+        "derivation": "densified edges of the raster's coordinate grid, transformed with pyproj"
+      },
+      "product_bounding_polygon": {
+        "type": "Polygon",
+        "crs": "EPSG:4326",
+        "coordinates": [
+          [
+            -118.229299403331,
+            34.3206258749987
+          ],
+          [
+            -118.151534082954,
+            34.3338786942818
+          ],
+          [
+            -118.060028397752,
+            34.3493955091373
+          ],
+          [
+            -117.976604049868,
+            34.363480146242
+          ],
+          [
+            -117.894336528714,
+            34.377308729912
+          ],
+          [
+            -117.828082792363,
+            34.3884100475657
+          ],
+          [
+            -117.751376286448,
+            34.4012063858746
+          ],
+          [
+            -117.682481635952,
+            34.4126591077
+          ],
+          [
+            -117.617191706658,
+            34.4234756780746
+          ],
+          [
+            -117.550087310057,
+            34.4345517270133
+          ],
+          [
+            -117.482689576526,
+            34.4456353398644
+          ],
+          [
+            -117.506925922058,
+            34.530435428607
+          ],
+          [
+            -117.528585579219,
+            34.6156581392602
+          ],
+          [
+            -117.54671314656,
+            34.7014580589525
+          ],
+          [
+            -117.570873525277,
+            34.7862757772161
+          ],
+          [
+            -117.59207159806,
+            34.871577676553
+          ],
+          [
+            -117.614159877774,
+            34.9567361289629
+          ],
+          [
+            -117.635755241316,
+            35.0419761919112
+          ],
+          [
+            -117.654709143162,
+            35.1276462689462
+          ],
+          [
+            -117.67611782335,
+            35.2129190040495
+          ],
+          [
+            -117.69209300021,
+            35.2990728805964
+          ],
+          [
+            -117.761271710933,
+            35.2878040112528
+          ],
+          [
+            -117.837732068655,
+            35.2753034563456
+          ],
+          [
+            -117.914455776572,
+            35.2627066418266
+          ],
+          [
+            -117.98831638316,
+            35.2505276402536
+          ],
+          [
+            -118.060926865139,
+            35.2385056743659
+          ],
+          [
+            -118.129360986055,
+            35.2271286636835
+          ],
+          [
+            -118.196381648979,
+            35.2159444422866
+          ],
+          [
+            -118.271931041301,
+            35.2032938532624
+          ],
+          [
+            -118.361230591937,
+            35.188282127991
+          ],
+          [
+            -118.446685787183,
+            35.1738466336016
+          ],
+          [
+            -118.424647404981,
+            35.0885678968307
+          ],
+          [
+            -118.395551489289,
+            35.0044838241846
+          ],
+          [
+            -118.392016505786,
+            34.9160782858475
+          ],
+          [
+            -118.374951636001,
+            34.82996022556
+          ],
+          [
+            -118.353005353527,
+            34.7446704215085
+          ],
+          [
+            -118.328030889496,
+            34.6598963574499
+          ],
+          [
+            -118.294714210138,
+            34.5765413984109
+          ],
+          [
+            -118.285687354598,
+            34.4890625828729
+          ],
+          [
+            -118.255150667391,
+            34.4052412272057
+          ],
+          [
+            -118.229299403331,
+            34.3206258749987
+          ]
+        ],
+        "vertex_count": 41,
+        "wgs84_bounds": [
+          -118.446686,
+          34.320626,
+          -117.48269,
+          35.299073
+        ],
+        "area_deg2": 0.6692347828839296,
+        "derivation": "product identification/boundingPolygon (OGR WKT, EPSG:4326)",
+        "source_dataset": "science/LSAR/identification/boundingPolygon"
+      }
+    },
+    "product_polygon_check": {
+      "status": "passed",
+      "product_inside_grid_fraction": 1.0,
+      "grid_inside_product_fraction": 0.600565801146725,
+      "grid_extent_area_deg2": 1.1143404796045455,
+      "product_area_deg2": 0.6692347828839296,
+      "detail": "100.00% of the product image footprint lies inside the derived UTM grid extent. The grid extent is 1.67x the image footprint area, which is expected because a map grid is a rectangle around a rotated swath."
+    }
+  },
+  "layers": {
+    "phase": {
+      "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase",
+      "units": "radians",
+      "description": "Unwrapped interferogram between HH layers",
+      "shape_rows_cols": [
+        1555,
+        1136
+      ],
+      "dtype": "float32",
+      "fill_value": null,
+      "dataset_attributes": {
+        "_FillValue": null,
+        "description": "Unwrapped interferogram between HH layers",
+        "grid_mapping": "projection",
+        "max_value": 11.624897003173828,
+        "mean_value": 2.2970986366271973,
+        "min_value": -7.093188285827637,
+        "sample_stddev": 0.7250012159347534,
+        "units": "radians"
+      },
+      "statistics": {
+        "name": "unwrapped phase",
+        "total_pixels": 1766480,
+        "measured_pixels": 1045629,
+        "minimum": -7.093188285827637,
+        "maximum": 11.624897003173828,
+        "mean": 2.297138303432742,
+        "std": 0.7250008428900268,
+        "median": 2.3537209033966064,
+        "p02": 0.40673382878303554,
+        "p05": 1.022707176208496,
+        "p25": 2.0072481632232666,
+        "p75": 2.6932284832000732,
+        "p95": 3.205582284927368,
+        "p98": 3.494391088485717,
+        "units": "radians",
+        "coverage_percent": 59.193
+      },
+      "display": {
+        "vmin": 0.40673382878303554,
+        "vmax": 3.494391088485717,
+        "percentiles": [
+          2.0,
+          98.0
+        ],
+        "saturated_low_pixels": 20913,
+        "saturated_high_pixels": 20913,
+        "legend": "Unwrapped phase (radians)",
+        "colormap": "viridis"
+      },
+      "outputs": {
+        "quicklook_png": "data\\processed\\sample_demo\\phase.png"
+      }
+    },
+    "coherence": {
+      "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/coherenceMagnitude",
+      "units": "1",
+      "description": "Coherence magnitude between HH layers",
+      "shape_rows_cols": [
+        1555,
+        1136
+      ],
+      "dtype": "float32",
+      "fill_value": null,
+      "dataset_attributes": {
+        "_FillValue": null,
+        "description": "Coherence magnitude between HH layers",
+        "grid_mapping": "projection",
+        "max_value": 0.977408766746521,
+        "mean_value": 0.4138314425945282,
+        "min_value": 0.008420306257903576,
+        "sample_stddev": 0.1376485675573349,
+        "units": "1"
+      },
+      "statistics": {
+        "name": "coherence magnitude",
+        "total_pixels": 1766480,
+        "measured_pixels": 1045629,
+        "minimum": 0.008420306257903576,
+        "maximum": 0.977408766746521,
+        "mean": 0.4138303327954629,
+        "std": 0.1376485053917248,
+        "median": 0.41456109285354614,
+        "p02": 0.11010156273841858,
+        "p05": 0.1761549562215805,
+        "p25": 0.32764336466789246,
+        "p75": 0.49916690587997437,
+        "p95": 0.64528386592865,
+        "p98": 0.7138777685165405,
+        "units": "1",
+        "coverage_percent": 59.193
+      },
+      "display": {
+        "vmin": 0.0,
+        "vmax": 1.0,
+        "percentiles": null,
+        "saturated_low_pixels": 0,
+        "saturated_high_pixels": 0,
+        "legend": "Coherence magnitude (dimensionless, 0–1)",
+        "colormap": "cividis"
+      },
+      "outputs": {
+        "quicklook_png": "data\\processed\\sample_demo\\coherence.png"
+      }
+    },
+    "mask": {
+      "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/mask",
+      "coverage": {
+        "total_pixels": 1766480,
+        "valid_pixels": 1045629,
+        "water_pixels": 1844,
+        "ionosphere_filled_pixels": 0,
+        "reference_anomaly_pixels": 0,
+        "secondary_anomaly_pixels": 0,
+        "fill_pixels": 720851,
+        "encoding": "uint8_three_digit",
+        "invalid_pixels": 720851,
+        "water_fraction_of_valid": 0.001763531807170612
+      },
+      "decoding": "bits 0-7: water flag (hundreds digit), reference subswath (tens), secondary subswath (ones); a zero subswath digit means invalid. bits 8-15 secondary RSLC anomaly flags, bits 16-23 reference RSLC anomaly flags, bit 24 ionospheric-filter fill flag."
+    },
+    "connected_components": {
+      "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/connectedComponents",
+      "component_count": 2,
+      "largest_component": 1,
+      "largest_component_fraction": 0.9339125062522176,
+      "components": [
+        {
+          "label": 1,
+          "pixels": 976526,
+          "fraction_of_valid": 0.9339125062522176
+        },
+        {
+          "label": 0,
+          "pixels": 69103,
+          "fraction_of_valid": 0.06608749374778243
+        }
+      ],
+      "label_semantics": "0 is a valid label; 65535 (fill) is missing data"
+    }
+  },
+  "quality": {
+    "default_coherence_threshold": 0.4,
+    "threshold_table": [
+      {
+        "threshold": 0.0,
+        "valid_pixels": 1045629,
+        "coverage_percent": 59.193,
+        "fraction_of_unfiltered": 1.0,
+        "phase_median": 2.3537209033966064,
+        "phase_p05": 1.022707176208496,
+        "phase_p95": 3.205582284927368,
+        "coherence_median": 0.41456109285354614
+      },
+      {
+        "threshold": 0.1,
+        "valid_pixels": 1029201,
+        "coverage_percent": 58.263,
+        "fraction_of_unfiltered": 0.9843,
+        "phase_median": 2.3530185222625732,
+        "phase_p05": 1.0571684837341309,
+        "phase_p95": 3.1806540489196777,
+        "coherence_median": 0.41703176498413086
+      },
+      {
+        "threshold": 0.2,
+        "valid_pixels": 978498,
+        "coverage_percent": 55.393,
+        "fraction_of_unfiltered": 0.9358,
+        "phase_median": 2.3512978553771973,
+        "phase_p05": 1.1279775559902194,
+        "phase_p95": 3.138286113739013,
+        "coherence_median": 0.4245423674583435
+      },
+      {
+        "threshold": 0.3,
+        "valid_pixels": 846560,
+        "coverage_percent": 47.924,
+        "fraction_of_unfiltered": 0.8096,
+        "phase_median": 2.340045213699341,
+        "phase_p05": 1.1591043889522554,
+        "phase_p95": 3.0880500435829155,
+        "coherence_median": 0.4444809705018997
+      },
+      {
+        "threshold": 0.4,
+        "valid_pixels": 571309,
+        "coverage_percent": 32.342,
+        "fraction_of_unfiltered": 0.5464,
+        "phase_median": 2.3230998516082764,
+        "phase_p05": 1.0962028980255127,
+        "phase_p95": 3.01870412826538,
+        "coherence_median": 0.48994651436805725
+      },
+      {
+        "threshold": 0.5,
+        "valid_pixels": 259357,
+        "coverage_percent": 14.682,
+        "fraction_of_unfiltered": 0.248,
+        "phase_median": 2.306037664413452,
+        "phase_p05": 0.8810676336288453,
+        "phase_p95": 2.9815582752227785,
+        "coherence_median": 0.5663108825683594
+      },
+      {
+        "threshold": 0.6,
+        "valid_pixels": 89052,
+        "coverage_percent": 5.041,
+        "fraction_of_unfiltered": 0.0852,
+        "phase_median": 2.2150838375091553,
+        "phase_p05": 0.6613777488470077,
+        "phase_p95": 2.9428988456726075,
+        "coherence_median": 0.6583053767681122
+      },
+      {
+        "threshold": 0.7,
+        "valid_pixels": 25516,
+        "coverage_percent": 1.444,
+        "fraction_of_unfiltered": 0.0244,
+        "phase_median": 2.0754876136779785,
+        "phase_p05": 0.5296245366334915,
+        "phase_p95": 2.8531177639961243,
+        "coherence_median": 0.7444572448730469
+      },
+      {
+        "threshold": 0.8,
+        "valid_pixels": 4453,
+        "coverage_percent": 0.252,
+        "fraction_of_unfiltered": 0.0043,
+        "phase_median": 2.0844829082489014,
+        "phase_p05": 0.5504953503608704,
+        "phase_p95": 2.7639214038848876,
+        "coherence_median": 0.8291667103767395
+      }
+    ],
+    "coherence_range": {
+      "finite_pixels": 1045629,
+      "below_zero": 0,
+      "above_one": 0,
+      "within_range": 1045629,
+      "documented_range": [
+        0.0,
+        1.0
+      ],
+      "note": "Coherence magnitude is documented in the interval [0, 1]; values outside it are reported, not clipped, in the scientific arrays."
+    },
+    "validity_rules": {
+      "phase": "finite value AND product mask valid",
+      "coherence": "finite value AND product mask valid",
+      "display_threshold": "pixels below the interactively selected coherence threshold are hidden in the map overlay; the exported GeoTIFF keeps all valid measurements",
+      "connected_components": "labels retained; 0 is a valid label, fill is missing"
+    },
+    "largest_component": 1
+  },
+  "event_assessment": {
+    "reference_source": "USGS ComCat (see bundled reference file)",
+    "footprint_source": "product_bounding_polygon",
+    "criteria": {
+      "window_radii_px": [
+        2,
+        20,
+        125
+      ],
+      "window_radii_km": [
+        0.16,
+        1.6,
+        10.0
+      ],
+      "usable_min_valid_fraction": 0.2,
+      "usable_min_median_coherence": 0.3,
+      "exploratory_coherence_threshold": 0.4,
+      "statement": "These are exploratory screening rules defined by this application, not NISAR product requirements. Passing them does not establish that earthquake deformation was measured."
+    },
+    "events": [
+      {
+        "event": {
+          "id": "us6000t7zc",
+          "label": "M7.2 foreshock",
+          "role": "foreshock",
+          "magnitude": 7.2,
+          "magnitude_type": "mww",
+          "time_utc": "2026-06-24T22:04:31.806Z",
+          "latitude": 10.3713,
+          "longitude": -68.5564,
+          "depth_km": 10.0,
+          "place": "20 km E of San Felipe, Venezuela",
+          "horizontal_error_km": 5.92,
+          "review_status": "reviewed",
+          "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zc"
+        },
+        "inside_raster_bounds": false,
+        "inside_product_footprint": false,
+        "row_col_fractional": [
+          null,
+          null
+        ],
+        "easting_northing": [
+          null,
+          null
+        ],
+        "nearest_valid_pixel": null,
+        "windows": [
+          {
+            "radius_px": 2,
+            "radius_km": 0.16,
+            "window_rows": [
+              27521,
+              1555
+            ],
+            "window_cols": [
+              76827,
+              1136
+            ],
+            "pixels": 0,
+            "valid_pixels": 0,
+            "valid_fraction": null,
+            "coherence_median": null,
+            "coherence_p90": null,
+            "fraction_coherence_at_or_above_exploratory_threshold": null,
+            "phase_median": null,
+            "phase_p05": null,
+            "phase_p95": null,
+            "components": {
+              "component_count": 0,
+              "largest_component": null,
+              "largest_component_fraction": null
+            }
+          },
+          {
+            "radius_px": 20,
+            "radius_km": 1.6,
+            "window_rows": [
+              27503,
+              1555
+            ],
+            "window_cols": [
+              76809,
+              1136
+            ],
+            "pixels": 0,
+            "valid_pixels": 0,
+            "valid_fraction": null,
+            "coherence_median": null,
+            "coherence_p90": null,
+            "fraction_coherence_at_or_above_exploratory_threshold": null,
+            "phase_median": null,
+            "phase_p05": null,
+            "phase_p95": null,
+            "components": {
+              "component_count": 0,
+              "largest_component": null,
+              "largest_component_fraction": null
+            }
+          },
+          {
+            "radius_px": 125,
+            "radius_km": 10.0,
+            "window_rows": [
+              27398,
+              1555
+            ],
+            "window_cols": [
+              76704,
+              1136
+            ],
+            "pixels": 0,
+            "valid_pixels": 0,
+            "valid_fraction": null,
+            "coherence_median": null,
+            "coherence_p90": null,
+            "fraction_coherence_at_or_above_exploratory_threshold": null,
+            "phase_median": null,
+            "phase_p05": null,
+            "phase_p95": null,
+            "components": {
+              "component_count": 0,
+              "largest_component": null,
+              "largest_component_fraction": null
+            }
+          }
+        ],
+        "status": "outside_footprint",
+        "notes": [
+          "Epicentre falls outside the raster's map extent."
+        ]
+      },
+      {
+        "event": {
+          "id": "us6000t7zp",
+          "label": "M7.5 mainshock",
+          "role": "mainshock",
+          "magnitude": 7.5,
+          "magnitude_type": "mww",
+          "time_utc": "2026-06-24T22:05:04.053Z",
+          "latitude": 10.5955,
+          "longitude": -67.2205,
+          "depth_km": 10.0,
+          "place": "20 km W of Catia La Mar, Venezuela",
+          "horizontal_error_km": 6.43,
+          "review_status": "reviewed",
+          "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zp"
+        },
+        "inside_raster_bounds": false,
+        "inside_product_footprint": false,
+        "row_col_fractional": [
+          null,
+          null
+        ],
+        "easting_northing": [
+          null,
+          null
+        ],
+        "nearest_valid_pixel": null,
+        "windows": [
+          {
+            "radius_px": 2,
+            "radius_km": 0.16,
+            "window_rows": [
+              26498,
+              1555
+            ],
+            "window_cols": [
+              79414,
+              1136
+            ],
+            "pixels": 0,
+            "valid_pixels": 0,
+            "valid_fraction": null,
+            "coherence_median": null,
+            "coherence_p90": null,
+            "fraction_coherence_at_or_above_exploratory_threshold": null,
+            "phase_median": null,
+            "phase_p05": null,
+            "phase_p95": null,
+            "components": {
+              "component_count": 0,
+              "largest_component": null,
+              "largest_component_fraction": null
+            }
+          },
+          {
+            "radius_px": 20,
+            "radius_km": 1.6,
+            "window_rows": [
+              26480,
+              1555
+            ],
+            "window_cols": [
+              79396,
+              1136
+            ],
+            "pixels": 0,
+            "valid_pixels": 0,
+            "valid_fraction": null,
+            "coherence_median": null,
+            "coherence_p90": null,
+            "fraction_coherence_at_or_above_exploratory_threshold": null,
+            "phase_median": null,
+            "phase_p05": null,
+            "phase_p95": null,
+            "components": {
+              "component_count": 0,
+              "largest_component": null,
+              "largest_component_fraction": null
+            }
+          },
+          {
+            "radius_px": 125,
+            "radius_km": 10.0,
+            "window_rows": [
+              26375,
+              1555
+            ],
+            "window_cols": [
+              79291,
+              1136
+            ],
+            "pixels": 0,
+            "valid_pixels": 0,
+            "valid_fraction": null,
+            "coherence_median": null,
+            "coherence_p90": null,
+            "fraction_coherence_at_or_above_exploratory_threshold": null,
+            "phase_median": null,
+            "phase_p05": null,
+            "phase_p95": null,
+            "components": {
+              "component_count": 0,
+              "largest_component": null,
+              "largest_component_fraction": null
+            }
+          }
+        ],
+        "status": "outside_footprint",
+        "notes": [
+          "Epicentre falls outside the raster's map extent."
+        ]
+      }
+    ],
+    "summary": {
+      "events_inside_raster_bounds": 0,
+      "events_with_usable_local_data": 0,
+      "footprint_overlaps_any_event": false,
+      "local_data_usable_for_any_event": false,
+      "displacement_interpretation_validated": false,
+      "displacement_interpretation_reason": "The application presents unwrapped phase in radians and coherence. No phase-to-displacement conversion is applied because the product does not itself document the sign convention, and ionospheric, tropospheric and solid-Earth-tide corrections are included in the product but not applied to the phase."
+    },
+    "reference_retrieved_utc": "2026-10-25",
+    "reference_sources": [
+      {
+        "name": "USGS ComCat event us6000t7zc (M 7.2 foreshock)",
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zc",
+        "machine_readable": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000t7zc&format=csv",
+        "retrieved_utc": "2026-10-25"
+      },
+      {
+        "name": "USGS ComCat event us6000t7zp (M 7.5 mainshock)",
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zp",
+        "machine_readable": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000t7zp&format=csv",
+        "retrieved_utc": "2026-10-25"
+      },
+      {
+        "name": "USGS landslide hazard summary, 2026 Venezuela sequence",
+        "url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-venezuela-sequence-earthquake-triggered-landslide-hazards"
+      },
+      {
+        "name": "NASA Earth Observatory: Where Venezuela's Earthquakes Shifted the Ground",
+        "url": "https://science.nasa.gov/earth/earth-observatory/where-venezuelas-earthquakes-shifted-the-ground/"
+      }
+    ],
+    "sequence": "24 June 2026 Venezuela earthquake doublet"
+  },
+  "checks": [
+    {
+      "id": "dataset_found",
+      "label": "Granule present on disk",
+      "status": "passed",
+      "detail": "264,241,152 bytes at data\\demo\\sample_gunw.h5"
+    },
+    {
+      "id": "metadata_inspected",
+      "label": "Product metadata inspected",
+      "status": "passed",
+      "detail": "GUNW v0.0.4 (spec 1.2.1); 5 layers; frequency A, polarization HH"
+    },
+    {
+      "id": "raster_readable",
+      "label": "Phase and coherence rasters readable",
+      "status": "passed",
+      "detail": "phase [1555, 1136] float32; coherence [1555, 1136] float32; valid pixels 1,045,629/1,766,480"
+    },
+    {
+      "id": "georeferencing_validated",
+      "label": "Grid georeferencing validated",
+      "status": "passed",
+      "detail": "EPSG:32611 (WGS 84 / UTM zone 11N); 80×80 m posting; method phase raster + hdf5_dimension_scale; round-trip max error 0.00e+00; GeoTIFF read-back passed"
+    },
+    {
+      "id": "footprint_validated",
+      "label": "Geographic footprint validated",
+      "status": "passed",
+      "detail": "100.00% of the product image footprint lies inside the derived UTM grid extent. The grid extent is 1.67x the image footprint area, which is expected because a map grid is a rectangle around a rotated swath."
+    },
+    {
+      "id": "scientific_interpretation_validated",
+      "label": "Scientific interpretation validated",
+      "status": "not_validated",
+      "detail": "Phase is delivered in radians with coherence and masks. No phase-to-displacement conversion is applied, so no deformation interpretation is claimed."
+    },
+    {
+      "id": "sample_product_notice",
+      "label": "Pre-launch sample product",
+      "status": "warning",
+      "detail": "Acquisition dates precede the NISAR launch; not a real observation."
+    }
+  ],
+  "validation": {
+    "states": [
+      {
+        "id": "dataset_found",
+        "label": "Granule present on disk",
+        "status": "passed",
+        "detail": "264,241,152 bytes at data\\demo\\sample_gunw.h5"
+      },
+      {
+        "id": "metadata_inspected",
+        "label": "Product metadata inspected",
+        "status": "passed",
+        "detail": "GUNW v0.0.4 (spec 1.2.1); 5 layers; frequency A, polarization HH"
+      },
+      {
+        "id": "raster_readable",
+        "label": "Phase and coherence rasters readable",
+        "status": "passed",
+        "detail": "phase [1555, 1136] float32; coherence [1555, 1136] float32; valid pixels 1,045,629/1,766,480"
+      },
+      {
+        "id": "georeferencing_validated",
+        "label": "Grid georeferencing validated",
+        "status": "passed",
+        "detail": "EPSG:32611 (WGS 84 / UTM zone 11N); 80×80 m posting; method phase raster + hdf5_dimension_scale; round-trip max error 0.00e+00; GeoTIFF read-back passed"
+      },
+      {
+        "id": "footprint_validated",
+        "label": "Geographic footprint validated",
+        "status": "passed",
+        "detail": "100.00% of the product image footprint lies inside the derived UTM grid extent. The grid extent is 1.67x the image footprint area, which is expected because a map grid is a rectangle around a rotated swath."
+      },
+      {
+        "id": "scientific_interpretation_validated",
+        "label": "Scientific interpretation validated",
+        "status": "not_validated",
+        "detail": "Phase is delivered in radians with coherence and masks. No phase-to-displacement conversion is applied, so no deformation interpretation is claimed."
+      }
+    ],
+    "overall_status": "validated_for_phase_and_coherence_display",
+    "geotiff_readback": {
+      "phase": {
+        "path": "data\\processed\\sample_demo\\phase.tif",
+        "passed": true,
+        "errors": [],
+        "driver": "GTiff",
+        "shape": [
+          1555,
+          1136
+        ],
+        "count": 1,
+        "dtypes": [
+          "float32"
+        ],
+        "crs": "EPSG:32611",
+        "epsg": 32611,
+        "transform": [
+          80.0,
+          0.0,
+          365480.0,
+          0.0,
+          -80.0,
+          3913620.0
+        ],
+        "nodata": null,
+        "band_descriptions": [
+          "unwrapped interferometric phase (radians)"
+        ],
+        "tags": {
+          "NISAR_GRANULE_ID": "NISAR_L2_PR_GUNW_001_030_A_019_002_2000_SH_20081012T060911_20081012T060925_20081127T061000_20081127T061014_D00404_N_F_J_001",
+          "NISAR_INTERPRETATION": "Unwrapped phase in radians. Not a displacement map. No phase-to-displacement conversion is applied by this pipeline.",
+          "NISAR_OBSERVATION_ID": "sample_demo",
+          "NISAR_PRODUCT_VERSION": "0.0.4",
+          "NISAR_REFERENCE_START": "2008-10-12T06:09:11.567105263",
+          "NISAR_SECONDARY_START": "2008-11-27T06:10:00.442763158",
+          "NISAR_SOURCE_DATASET": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase",
+          "NISAR_UNITS": "radians",
+          "NISAR_VALID_RULE": "finite phase AND product mask valid",
+          "AREA_OR_POINT": "Area"
+        },
+        "note": "top-left corner window contains no finite values"
+      },
+      "coherence": {
+        "path": "data\\processed\\sample_demo\\coherence.tif",
+        "passed": true,
+        "errors": [],
+        "driver": "GTiff",
+        "shape": [
+          1555,
+          1136
+        ],
+        "count": 1,
+        "dtypes": [
+          "float32"
+        ],
+        "crs": "EPSG:32611",
+        "epsg": 32611,
+        "transform": [
+          80.0,
+          0.0,
+          365480.0,
+          0.0,
+          -80.0,
+          3913620.0
+        ],
+        "nodata": null,
+        "band_descriptions": [
+          "interferometric coherence magnitude (dimensionless, 0-1)"
+        ],
+        "tags": {
+          "NISAR_GRANULE_ID": "NISAR_L2_PR_GUNW_001_030_A_019_002_2000_SH_20081012T060911_20081012T060925_20081127T061000_20081127T061014_D00404_N_F_J_001",
+          "NISAR_INTERPRETATION": "Coherence magnitude is a quality indicator for the interferometric phase relationship, not a displacement measurement.",
+          "NISAR_OBSERVATION_ID": "sample_demo",
+          "NISAR_PRODUCT_VERSION": "0.0.4",
+          "NISAR_REFERENCE_START": "2008-10-12T06:09:11.567105263",
+          "NISAR_SECONDARY_START": "2008-11-27T06:10:00.442763158",
+          "NISAR_SOURCE_DATASET": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/coherenceMagnitude",
+          "NISAR_UNITS": "1",
+          "NISAR_VALID_RULE": "finite coherence AND product mask valid",
+          "AREA_OR_POINT": "Area"
+        },
+        "note": "top-left corner window contains no finite values"
+      }
+    }
+  },
+  "outputs": {
+    "phase_png": "phase.png",
+    "coherence_png": "coherence.png",
+    "phase_tif": "phase.tif",
+    "coherence_tif": "coherence.tif",
+    "metadata_json": "metadata.json",
+    "report_md": "report.md",
+    "map_phase_png": "preview/map_phase.png",
+    "map_coherence_png": "preview/map_coherence.png",
+    "map_quality_png": "preview/map_quality.png",
+    "coherence_preview_bin": "preview/coherence_u8.bin",
+    "map_components_png": "preview/map_components.png"
+  },
+  "output_sizes": {
+    "phase_png": 1089294,
+    "coherence_png": 1019080,
+    "phase_tif": 3409468,
+    "coherence_tif": 3522649,
+    "metadata_json": 71710,
+    "report_md": 9330,
+    "map_phase_png": 3004980,
+    "map_coherence_png": 2753823,
+    "map_quality_png": 25162,
+    "coherence_preview_bin": 3497600,
+    "map_components_png": 54262
+  },
+  "limitations": [
+    "Unwrapped phase is reported in radians, the unit declared by the product. No phase-to-displacement conversion is applied: the GUNW product does not document a sign convention that this project could verify, and metric displacement requires assumptions that are not validated here.",
+    "The product includes an ionospheric phase screen and geocoded tropospheric and solid-Earth-tide correction layers but does not apply them to the interferometric phase. Long-wavelength phase patterns therefore mix atmospheric and orbital effects with any surface signal.",
+    "Coherence magnitude is a similarity/quality indicator. A coherence threshold is an exploratory filter chosen in the interface; no product-defined universal threshold exists.",
+    "Pixels in different connected components can carry different integer phase ambiguities, so phase is not necessarily continuous across component boundaries.",
+    "Geolocation is validated only for internal consistency (coordinate vectors, affine transform, EPSG code, footprint). Absolute product geolocation accuracy is not independently assessed.",
+    "Geographic overlap with the 24 June 2026 Venezuela earthquake sequence does not establish that earthquake-induced deformation was measured. Any such statement would require a verified phase-to-displacement conversion, corrections and independent validation."
+  ],
+  "warnings": [
+    "This granule predates the NISAR launch (2025-07-30). Treat it as a format/pipeline sample, not a real-world observation.",
+    "The raster footprint does not contain any reference event location; the interface must not label this observation as covering the earthquake."
+  ],
+  "processing_config": {
+    "default_coherence_threshold": 0.4,
+    "threshold_steps": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ],
+    "map_preview_width": 1600,
+    "render_dpi": 150
+  },
+  "fingerprint": "98dffa641826d282f2a16e8f21d45ce4b1f138d858711cb9ce7b6cf927132f94",
+  "map_view": {
+    "images": {
+      "phase": {
+        "path": "preview/map_phase.png",
+        "downsample_factor": 1,
+        "width": 1600,
+        "height": 2186
+      },
+      "coherence": {
+        "path": "preview/map_coherence.png",
+        "downsample_factor": 1,
+        "width": 1600,
+        "height": 2186
+      },
+      "quality": {
+        "path": "preview/map_quality.png",
+        "downsample_factor": 1,
+        "width": 1600,
+        "height": 2186
+      },
+      "connected_components": {
+        "path": "preview/map_components.png",
+        "downsample_factor": 1,
+        "width": 1600,
+        "height": 2186
+      }
+    },
+    "coherence_preview": {
+      "path": "preview/coherence_u8.bin",
+      "width": 1600,
+      "height": 2186,
+      "downsample_factor": 1,
+      "encoding": "uint8; 255=invalid; value/200=coherence",
+      "source_shape_rows_cols": [
+        2186,
+        1600
+      ],
+      "metadata_path": "preview/coherence_u8.json"
+    },
+    "display_grid": {
+      "crs": "EPSG:4326",
+      "width": 1600,
+      "height": 2186,
+      "bounds": {
+        "west": -118.48056630105536,
+        "south": 34.23538240693128,
+        "east": -117.47391385307081,
+        "north": 35.364934323973166
+      },
+      "transform": [
+        0.0006291577799903436,
+        0.0,
+        -118.48056630105536,
+        0.0,
+        -0.0005167209135598751,
+        35.364934323973166
+      ],
+      "resampling": "nearest neighbour (display only)",
+      "pixel_size_deg": {
+        "x": 0.0006291577799903436,
+        "y": 0.0005167209135598751
+      }
+    },
+    "native_bounds": {
+      "left": 365480.0,
+      "bottom": 3789220.0,
+      "right": 456360.0,
+      "top": 3913620.0
+    },
+    "epsg": 32611,
+    "crs_name": "WGS 84 / UTM zone 11N",
+    "geometry": {
+      "epsg": 32611,
+      "crs_name": "WGS 84 / UTM zone 11N",
+      "width": 1136,
+      "height": 1555,
+      "shape_rows_cols": [
+        1555,
+        1136
+      ],
+      "pixel_spacing": {
+        "x": 80.0,
+        "y": 80.0
+      },
+      "pixel_convention": "pixel_centres",
+      "x_axis": "ascending",
+      "y_axis": "descending",
+      "origin_centre_row0_col0": {
+        "x": 365520.0,
+        "y": 3913580.0
+      },
+      "bounds": {
+        "left": 365480.0,
+        "bottom": 3789220.0,
+        "right": 456360.0,
+        "top": 3913620.0
+      },
+      "transform": [
+        80.0,
+        0.0,
+        365480.0,
+        0.0,
+        -80.0,
+        3913620.0
+      ],
+      "georeferencing_method": "phase raster + hdf5_dimension_scale",
+      "source_datasets": {
+        "xCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates",
+        "yCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates",
+        "projection": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/projection"
+      }
+    },
+    "legends": {
+      "phase": {
+        "label": "Unwrapped phase (radians)",
+        "vmin": 0.40673382878303554,
+        "vmax": 3.494391088485717,
+        "colormap": "viridis",
+        "stops": [
+          {
+            "t": 0.0,
+            "hex": "#440154"
+          },
+          {
+            "t": 0.1,
+            "hex": "#482475"
+          },
+          {
+            "t": 0.2,
+            "hex": "#414487"
+          },
+          {
+            "t": 0.3,
+            "hex": "#355f8d"
+          },
+          {
+            "t": 0.4,
+            "hex": "#2a788e"
+          },
+          {
+            "t": 0.5,
+            "hex": "#21918c"
+          },
+          {
+            "t": 0.6,
+            "hex": "#22a884"
+          },
+          {
+            "t": 0.7,
+            "hex": "#44bf70"
+          },
+          {
+            "t": 0.8,
+            "hex": "#7ad151"
+          },
+          {
+            "t": 0.9,
+            "hex": "#bddf26"
+          },
+          {
+            "t": 1.0,
+            "hex": "#fde725"
+          }
+        ],
+        "extend": "both",
+        "saturated_low_pixels": 20913,
+        "saturated_high_pixels": 20913
+      },
+      "coherence": {
+        "label": "Coherence magnitude (dimensionless, 0–1)",
+        "vmin": 0.0,
+        "vmax": 1.0,
+        "colormap": "cividis",
+        "stops": [
+          {
+            "t": 0.0,
+            "hex": "#00224e"
+          },
+          {
+            "t": 0.1,
+            "hex": "#083370"
+          },
+          {
+            "t": 0.2,
+            "hex": "#35456c"
+          },
+          {
+            "t": 0.3,
+            "hex": "#4f576c"
+          },
+          {
+            "t": 0.4,
+            "hex": "#666970"
+          },
+          {
+            "t": 0.5,
+            "hex": "#7d7c78"
+          },
+          {
+            "t": 0.6,
+            "hex": "#948e77"
+          },
+          {
+            "t": 0.7,
+            "hex": "#aea371"
+          },
+          {
+            "t": 0.8,
+            "hex": "#c8b866"
+          },
+          {
+            "t": 0.9,
+            "hex": "#e5cf52"
+          },
+          {
+            "t": 1.0,
+            "hex": "#fee838"
+          }
+        ],
+        "extend": "neither"
+      },
+      "quality": {
+        "label": "Quality classes",
+        "classes": [
+          {
+            "label": "Valid land",
+            "color": "#38b2ac"
+          },
+          {
+            "label": "Valid water",
+            "color": "#4285f4"
+          },
+          {
+            "label": "Invalid / outside swath",
+            "color": "transparent"
+          }
+        ]
+      },
+      "connected_components": {
+        "label": "Connected-component label (colour cycles every 20 labels)",
+        "label_count": 2,
+        "stops": [
+          {
+            "t": 0.0,
+            "hex": "#1f77b4"
+          },
+          {
+            "t": 0.0526,
+            "hex": "#aec7e8"
+          },
+          {
+            "t": 0.1053,
+            "hex": "#ff7f0e"
+          },
+          {
+            "t": 0.1579,
+            "hex": "#ffbb78"
+          },
+          {
+            "t": 0.2105,
+            "hex": "#2ca02c"
+          },
+          {
+            "t": 0.2632,
+            "hex": "#98df8a"
+          },
+          {
+            "t": 0.3158,
+            "hex": "#d62728"
+          },
+          {
+            "t": 0.3684,
+            "hex": "#ff9896"
+          },
+          {
+            "t": 0.4211,
+            "hex": "#9467bd"
+          },
+          {
+            "t": 0.4737,
+            "hex": "#c5b0d5"
+          },
+          {
+            "t": 0.5263,
+            "hex": "#8c564b"
+          },
+          {
+            "t": 0.5789,
+            "hex": "#c49c94"
+          },
+          {
+            "t": 0.6316,
+            "hex": "#e377c2"
+          },
+          {
+            "t": 0.6842,
+            "hex": "#f7b6d2"
+          },
+          {
+            "t": 0.7368,
+            "hex": "#7f7f7f"
+          },
+          {
+            "t": 0.7895,
+            "hex": "#c7c7c7"
+          },
+          {
+            "t": 0.8421,
+            "hex": "#bcbd22"
+          },
+          {
+            "t": 0.8947,
+            "hex": "#dbdb8d"
+          },
+          {
+            "t": 0.9474,
+            "hex": "#17becf"
+          },
+          {
+            "t": 1.0,
+            "hex": "#9edae5"
+          }
+        ]
+      }
+    },
+    "note": "Map preview is resampled to a WGS84 display grid with nearest-neighbour resampling; quicklook PNGs and GeoTIFFs retain the native grid."
+  }
+}

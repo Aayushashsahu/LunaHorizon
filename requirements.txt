@@ -1,0 +1,13 @@
+numpy>=2.0,<3
+scipy>=1.13,<2
+h5py>=3.11,<4
+xarray>=2024.10,<2027
+rasterio>=1.4,<2
+matplotlib>=3.9,<4
+pandas>=2.2,<4
+pyproj>=3.7,<4
+shapely>=2.0,<3
+pytest>=8,<10
+jupyterlab>=4,<5
+# Data access helper; Earthdata authentication may be configured later.
+earthaccess>=0.9,<1

@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: nisar-earth-in-motion
+Version: 0.1.0
+Summary: Scientific quicklook and visualization foundation for NISAR surface-change data
+Requires-Python: >=3.11
+Requires-Dist: numpy<3,>=2.0
+Requires-Dist: scipy<2,>=1.13
+Requires-Dist: h5py<4,>=3.11
+Requires-Dist: xarray<2027,>=2024.10
+Requires-Dist: rasterio<2,>=1.4
+Requires-Dist: matplotlib<4,>=3.9
+Requires-Dist: pandas<4,>=2.2
+Requires-Dist: pyproj<4,>=3.7
+Requires-Dist: shapely<3,>=2.0
+Requires-Dist: earthaccess<1,>=0.9
+Provides-Extra: dev
+Requires-Dist: pytest<10,>=8; extra == "dev"
+Requires-Dist: jupyterlab<5,>=4; extra == "dev"
+Requires-Dist: ruff<1,>=0.9; extra == "dev"

@@ -1,0 +1,1934 @@
+{
+  "generated_utc": "2026-10-25T14:54:12Z",
+  "pipeline": {
+    "name": "nisar-earth-in-motion",
+    "version": "0.2.0"
+  },
+  "software_versions": {
+    "python": "3.11.15",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "pipeline": "0.2.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "h5py": "3.16.0",
+    "rasterio": "1.4.4",
+    "pyproj": "3.7.2",
+    "matplotlib": "3.11.2",
+    "shapely": "2.2.0",
+    "PIL": "13.0.0",
+    "gdal": "3.10.3"
+  },
+  "source": {
+    "path": "data\\raw\\nisar_venezuela\\NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_20260613T100731_20260625T100655_20260625T100730_P05023_N_F_J_001.h5",
+    "file_name": "NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_20260613T100731_20260625T100655_20260625T100730_P05023_N_F_J_001.h5",
+    "file_size_bytes": 2336227328,
+    "granule_id": "NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_20260613T100731_20260625T100655_20260625T100730_P05023_N_F_J_001",
+    "product_type": "GUNW",
+    "product_version": "1.0.11",
+    "product_specification_version": "1.5.0",
+    "product_doi": "10.5067/NIL2GUNW-P1",
+    "processing_datetime": "2026-08-11T11:07:23",
+    "processing_type": "Nominal",
+    "processing_center": "JPL",
+    "composite_release_id": "P05023",
+    "mission_id": "NISAR",
+    "instrument_name": "L-SAR",
+    "platform_name": "NISAR",
+    "radar_band": "L",
+    "track_number": 162,
+    "frame_number": 7,
+    "orbit_pass_direction": "Ascending",
+    "look_direction": "Left",
+    "is_geocoded": "True",
+    "is_full_frame": "True",
+    "reference_absolute_orbit": 4586,
+    "secondary_absolute_orbit": 4759,
+    "reference_start": "2026-06-13T10:06:56.000000000",
+    "reference_end": "2026-06-13T10:07:31.999342105",
+    "secondary_start": "2026-06-25T10:06:55.000000000",
+    "secondary_end": "2026-06-25T10:07:30.999342105",
+    "temporal_baseline_days": 11,
+    "frequency": "A",
+    "polarization": "HH",
+    "center_frequency_hz": 1239000000.0,
+    "wavelength_m": 0.2419632429378531,
+    "wavelength_derivation": "c / centerFrequency (derived here; not a product field)",
+    "static_layers_url": "https://nisar-services.earthdata.nasa.gov/redirect/NISAR_L2_STATIC/NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_20260613T100731_20260625T100655_20260625T100730_P05023_N_F_J_001.h5",
+    "is_pre_launch_sample": false,
+    "bounding_polygon_wkt": "POLYGON ((-66.8492652572176 10.0666310671822 655.211791332998,-66.8984790855908 10.2814721890029 559.35021953819,-66.9567123368598 10.4942464684216 1130.06762695253,-66.9919844264641 10.7123299819919 -20.1833572628954,-67.0427477766314 10.9268546590231 -22.1697158954752,-67.0936113627312 11.1413689901802 -24.2502651406892,-67.144588257944 11.3558710012074 -25.5614471647056,-67.1956810194313 11.570359304095 -25.9923572752731,-67.2468762799817 11.7848372466147 -26.6313686782321,-67.2981652882577 11.9993075616803 -28.2288628452037,-67.3495342705371 12.2137725434902 -31.8795796753872,-67.6097792214075 12.1532466912971 -28.3704795998235,-67.858944026695 12.0950421737705 -27.6335029605995,-68.098860563266 12.0387626094469 -25.0116977929593,-68.3308607420291 11.9841211691155 -23.3035755148685,-68.5560144191971 11.9308871643643 -23.2756175992301,-68.7752080715513 11.8788689228471 -22.9443058167585,-68.9891401195248 11.8279159807822 -23.1625298657426,-69.1984067648492 11.7778995394103 -22.8330347296827,-69.4034990725205 11.7287137323104 -21.9409999407142,-69.6048272647384 11.6802703065765 -21.2280333124114,-69.5522378329392 11.4666241421794 22.3560068452845,-69.5048374316868 11.2517499728857 679.685426429117,-69.4484437988141 11.0390548229328 226.339492439317,-69.399924181865 10.8244897906698 714.319092858487,-69.3457019865472 10.6113087427473 491.056305394748,-69.2928881883264 10.3978086868814 422.614806829588,-69.2418158177294 10.1839105418185 549.977234042004,-69.1891582644395 9.97040803723107 467.581360050575,-69.1354376578985 9.75717589834598 239.100371398806,-69.0828124895204 9.543699382396 128.138213816556,-68.8825732604278 9.59124541653249 113.286095470216,-68.6788046775184 9.63949677417592 121.415198107577,-68.4711396221905 9.68853247914545 154.902372972654,-68.260504898764 9.73812663838517 357.521270893249,-68.0434357973695 9.78908357881549 419.597111482117,-67.8211855582269 9.84109675135114 543.038450620992,-67.5969118132997 9.89341972607827 1078.74328683474,-67.351538677264 9.95047037669164 423.632446062913,-67.1089877110319 10.0066712253765 798.566955996945,-66.8492652572176 10.0666310671822 655.211791332998))",
+    "identification": {
+      "boundingPolygon": "POLYGON ((-66.8492652572176 10.0666310671822 655.211791332998,-66.8984790855908 10.2814721890029 559.35021953819,-66.9567123368598 10.4942464684216 1130.06762695253,-66.9919844264641 10.7123299819919 -20.1833572628954,-67.0427477766314 10.9268546590231 -22.1697158954752,-67.0936113627312 11.1413689901802 -24.2502651406892,-67.144588257944 11.3558710012074 -25.5614471647056,-67.1956810194313 11.570359304095 -25.9923572752731,-67.2468762799817 11.7848372466147 -26.6313686782321,-67.2981652882577 11.9993075616803 -28.2288628452037,-67.3495342705371 12.2137725434902 -31.8795796753872,-67.6097792214075 12.1532466912971 -28.3704795998235,-67.858944026695 12.0950421737705 -27.6335029605995,-68.098860563266 12.0387626094469 -25.0116977929593,-68.3308607420291 11.9841211691155 -23.3035755148685,-68.5560144191971 11.9308871643643 -23.2756175992301,-68.7752080715513 11.8788689228471 -22.9443058167585,-68.9891401195248 11.8279159807822 -23.1625298657426,-69.1984067648492 11.7778995394103 -22.8330347296827,-69.4034990725205 11.7287137323104 -21.9409999407142,-69.6048272647384 11.6802703065765 -21.2280333124114,-69.5522378329392 11.4666241421794 22.3560068452845,-69.5048374316868 11.2517499728857 679.685426429117,-69.4484437988141 11.0390548229328 226.339492439317,-69.399924181865 10.8244897906698 714.319092858487,-69.3457019865472 10.6113087427473 491.056305394748,-69.2928881883264 10.3978086868814 422.614806829588,-69.2418158177294 10.1839105418185 549.977234042004,-69.1891582644395 9.97040803723107 467.581360050575,-69.1354376578985 9.75717589834598 239.100371398806,-69.0828124895204 9.543699382396 128.138213816556,-68.8825732604278 9.59124541653249 113.286095470216,-68.6788046775184 9.63949677417592 121.415198107577,-68.4711396221905 9.68853247914545 154.902372972654,-68.260504898764 9.73812663838517 357.521270893249,-68.0434357973695 9.78908357881549 419.597111482117,-67.8211855582269 9.84109675135114 543.038450620992,-67.5969118132997 9.89341972607827 1078.74328683474,-67.351538677264 9.95047037669164 423.632446062913,-67.1089877110319 10.0066712253765 798.566955996945,-66.8492652572176 10.0666310671822 655.211791332998))",
+      "compositeReleaseId": "P05023",
+      "diagnosticModeFlag": 0,
+      "frameNumber": 7,
+      "granuleId": "NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_20260613T100731_20260625T100655_20260625T100730_P05023_N_F_J_001",
+      "instrumentName": "L-SAR",
+      "isDithered": "True",
+      "isFullFrame": "True",
+      "isGeocoded": "True",
+      "isMixedMode": "False",
+      "isUrgentObservation": "False",
+      "listOfFrequencies": [
+        "A"
+      ],
+      "lookDirection": "Left",
+      "missionId": "NISAR",
+      "orbitPassDirection": "Ascending",
+      "platformName": "NISAR",
+      "processingCenter": "JPL",
+      "processingDateTime": "2026-08-11T11:07:23",
+      "processingType": "Nominal",
+      "productDoi": "10.5067/NIL2GUNW-P1",
+      "productLevel": "L2",
+      "productSpecificationVersion": "1.5.0",
+      "productType": "GUNW",
+      "productVersion": "1.0.11",
+      "radarBand": "L",
+      "referenceAbsoluteOrbitNumber": 4586,
+      "referenceHasInputDataException": 0,
+      "referenceIsJointObservation": "False",
+      "referenceListOfObservationModes": [
+        "(NOT SPECIFIED)"
+      ],
+      "referencePlannedDatatakeId": [
+        "dtid_2026164095316"
+      ],
+      "referencePlannedObservationId": [
+        "oid_2026164100540"
+      ],
+      "referenceZeroDopplerEndTime": "2026-06-13T10:07:31.999342105",
+      "referenceZeroDopplerStartTime": "2026-06-13T10:06:56.000000000",
+      "secondaryAbsoluteOrbitNumber": 4759,
+      "secondaryHasInputDataException": 0,
+      "secondaryIsJointObservation": "False",
+      "secondaryListOfObservationModes": [
+        "(NOT SPECIFIED)"
+      ],
+      "secondaryPlannedDatatakeId": [
+        "dtid_2026176095316"
+      ],
+      "secondaryPlannedObservationId": [
+        "oid_2026176100540"
+      ],
+      "secondaryZeroDopplerEndTime": "2026-06-25T10:07:30.999342105",
+      "secondaryZeroDopplerStartTime": "2026-06-25T10:06:55.000000000",
+      "staticLayersDataAccess": "https://nisar-services.earthdata.nasa.gov/redirect/NISAR_L2_STATIC/NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_20260613T100731_20260625T100655_20260625T100730_P05023_N_F_J_001.h5",
+      "trackNumber": 162
+    },
+    "file_attributes": {
+      "Conventions": "CF-1.7",
+      "contact": "nisar-sds-ops@jpl.nasa.gov",
+      "institution": "NASA JPL",
+      "mission_name": "NISAR",
+      "reference_document": "D-102272 NISAR NASA SDS Product Specification L2 Geocoded Unwrapped Interferogram",
+      "title": "NISAR L2 GUNW Product"
+    },
+    "processing_parameters": {
+      "common/frequencyA/dopplerBandwidth": 1261.7874667708181,
+      "geocoding/azimuthIonosphericCorrectionApplied": "True",
+      "geocoding/hydrostaticTroposphericCorrectionApplied": "True",
+      "geocoding/rangeIonosphericCorrectionApplied": "True",
+      "geocoding/wetTroposphericCorrectionApplied": "True",
+      "ionosphere/highBandBandwidth": null,
+      "ionosphere/lowBandBandwidth": null,
+      "pixelOffsets/frequencyA/alongTrackSearchWindowSize": 64,
+      "pixelOffsets/frequencyA/alongTrackSkipWindowSize": 75,
+      "pixelOffsets/frequencyA/alongTrackWindowSize": 96,
+      "pixelOffsets/frequencyA/correlationSurfaceOversampling": 16,
+      "pixelOffsets/frequencyA/isOffsetsBlendingApplied": "None",
+      "pixelOffsets/frequencyA/slantRangeSearchWindowSize": 64,
+      "pixelOffsets/frequencyA/slantRangeSkipWindowSize": 75,
+      "pixelOffsets/frequencyA/slantRangeWindowSize": 64,
+      "reference/frequencyA/azimuthBandwidth": 1261.7874667708181,
+      "reference/frequencyA/numberOfAzimuthLines": 54720,
+      "reference/frequencyA/numberOfRangeSamples": 52649,
+      "reference/frequencyA/rangeBandwidth": 40000000.0,
+      "reference/frequencyA/slantRangeSpacing": 3.1228381041666666,
+      "reference/frequencyA/slantRangeStart": 882289.203894,
+      "reference/frequencyA/zeroDopplerEndTime": "2026-06-13T10:07:31.999342105",
+      "reference/frequencyA/zeroDopplerStartTime": "2026-06-13T10:06:56.000000000",
+      "reference/frequencyA/zeroDopplerTimeSpacing": 0.0006578947368421052,
+      "reference/isMixedMode": "False",
+      "reference/rfiMitigation": "tone-rank",
+      "reference/rfiMitigationApplied": "True",
+      "secondary/frequencyA/azimuthBandwidth": 1261.7931600855811,
+      "secondary/frequencyA/numberOfAzimuthLines": 54720,
+      "secondary/frequencyA/numberOfRangeSamples": 52650,
+      "secondary/frequencyA/rangeBandwidth": 40000000.0,
+      "secondary/frequencyA/slantRangeSpacing": 3.1228381041666666,
+      "secondary/frequencyA/slantRangeStart": 882289.203894,
+      "secondary/frequencyA/zeroDopplerEndTime": "2026-06-25T10:07:30.999342105",
+      "secondary/frequencyA/zeroDopplerStartTime": "2026-06-25T10:06:55.000000000",
+      "secondary/frequencyA/zeroDopplerTimeSpacing": 0.0006578947368421052,
+      "secondary/isMixedMode": "False",
+      "secondary/rfiMitigation": "tone-rank",
+      "secondary/rfiMitigationApplied": "True",
+      "unwrappedInterferogram/frequencyA/azimuthBandwidth": 1261.7874667708181,
+      "unwrappedInterferogram/frequencyA/commonBandAzimuthFilterApplied": "False",
+      "unwrappedInterferogram/frequencyA/commonBandRangeFilterApplied": "False",
+      "unwrappedInterferogram/frequencyA/ellipsoidalFlatteningApplied": "True",
+      "unwrappedInterferogram/frequencyA/numberOfAzimuthLooks": 16,
+      "unwrappedInterferogram/frequencyA/numberOfRangeLooks": 13,
+      "unwrappedInterferogram/frequencyA/rangeBandwidth": 40000000.0,
+      "unwrappedInterferogram/frequencyA/topographicFlatteningApplied": "True",
+      "wrappedInterferogram/frequencyA/azimuthBandwidth": 1261.7874667708181,
+      "wrappedInterferogram/frequencyA/commonBandAzimuthFilterApplied": "False",
+      "wrappedInterferogram/frequencyA/commonBandRangeFilterApplied": "False",
+      "wrappedInterferogram/frequencyA/ellipsoidalFlatteningApplied": "True",
+      "wrappedInterferogram/frequencyA/numberOfAzimuthLooks": 6,
+      "wrappedInterferogram/frequencyA/numberOfRangeLooks": 5,
+      "wrappedInterferogram/frequencyA/rangeBandwidth": 40000000.0,
+      "wrappedInterferogram/frequencyA/topographicFlatteningApplied": "True"
+    }
+  },
+  "raw_file_integrity": {
+    "size_bytes": 2336227328,
+    "mtime_ns": 1792914874000000000,
+    "unchanged_during_validation": true,
+    "sha256": "ae5fbc528b99ba263f2040e56c225762c740eeb8476a75e598e888eb0b838f65"
+  },
+  "product_structure": {
+    "frequency": "A",
+    "polarization": "HH",
+    "grid_root": "science/LSAR/GUNW/grids/frequencyA",
+    "layers": {
+      "phase": {
+        "key": "phase",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase",
+        "shape_rows_cols": [
+          4149,
+          4239
+        ],
+        "dtype": "float32",
+        "units": "radians",
+        "description": "Unwrapped interferogram between HH layers",
+        "fill_value": null,
+        "attributes": {
+          "_FillValue": null,
+          "description": "Unwrapped interferogram between HH layers",
+          "grid_mapping": "projection",
+          "max_value": 48.899925231933594,
+          "mean_value": 15.357818603515625,
+          "min_value": -10.845358848571777,
+          "sample_stddev": 8.274709701538086,
+          "units": "radians"
+        }
+      },
+      "coherence": {
+        "key": "coherence",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/coherenceMagnitude",
+        "shape_rows_cols": [
+          4149,
+          4239
+        ],
+        "dtype": "float32",
+        "units": "1",
+        "description": "Coherence magnitude between HH layers",
+        "fill_value": null,
+        "attributes": {
+          "_FillValue": null,
+          "description": "Coherence magnitude between HH layers",
+          "grid_mapping": "projection",
+          "max_value": 0.9982820749282837,
+          "mean_value": 0.28203248977661133,
+          "min_value": 0.0014959999825805426,
+          "sample_stddev": 0.2372858077287674,
+          "units": "1"
+        }
+      },
+      "connected_components": {
+        "key": "connected_components",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/connectedComponents",
+        "shape_rows_cols": [
+          4149,
+          4239
+        ],
+        "dtype": "uint16",
+        "units": "1",
+        "description": "Connected components for HH layer",
+        "fill_value": 65535,
+        "attributes": {
+          "_FillValue": 65535,
+          "description": "Connected components for HH layer",
+          "grid_mapping": "projection",
+          "units": "1"
+        }
+      },
+      "ionosphere": {
+        "key": "ionosphere",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/ionospherePhaseScreen",
+        "shape_rows_cols": [
+          4149,
+          4239
+        ],
+        "dtype": "float32",
+        "units": "radians",
+        "description": "Ionosphere phase screen",
+        "fill_value": null,
+        "attributes": {
+          "_FillValue": null,
+          "description": "Ionosphere phase screen",
+          "grid_mapping": "projection",
+          "max_value": 68.84103393554688,
+          "mean_value": 30.620590209960938,
+          "min_value": -28.54378318786621,
+          "sample_stddev": 14.413503646850586,
+          "units": "radians"
+        }
+      },
+      "ionosphere_uncertainty": {
+        "key": "ionosphere_uncertainty",
+        "dataset_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/ionospherePhaseScreenUncertainty",
+        "shape_rows_cols": [
+          4149,
+          4239
+        ],
+        "dtype": "float32",
+        "units": "radians",
+        "description": "Uncertainty of the ionosphere phase screen",
+        "fill_value": null,
+        "attributes": {
+          "_FillValue": null,
+          "description": "Uncertainty of the ionosphere phase screen",
+          "grid_mapping": "projection",
+          "max_value": 3.946422576904297,
+          "mean_value": 2.200446367263794,
+          "min_value": 0.47304007411003113,
+          "sample_stddev": 1.0729087591171265,
+          "units": "radians"
+        }
+      }
+    },
+    "mask_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/mask",
+    "other_grids": [
+      {
+        "name": "pixelOffsets",
+        "datasets": {
+          "HH/alongTrackOffset": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "float32"
+          },
+          "HH/correlationSurfacePeak": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "float32"
+          },
+          "HH/slantRangeOffset": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "float32"
+          },
+          "mask": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "uint32"
+          }
+        }
+      },
+      {
+        "name": "unwrappedInterferogram",
+        "datasets": {
+          "HH/coherenceMagnitude": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "float32"
+          },
+          "HH/connectedComponents": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "uint16"
+          },
+          "HH/ionospherePhaseScreen": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "float32"
+          },
+          "HH/ionospherePhaseScreenUncertainty": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "float32"
+          },
+          "HH/unwrappedPhase": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "float32"
+          },
+          "mask": {
+            "shape": [
+              4149,
+              4239
+            ],
+            "dtype": "uint32"
+          }
+        }
+      },
+      {
+        "name": "wrappedInterferogram",
+        "datasets": {
+          "HH/coherenceMagnitude": {
+            "shape": [
+              16596,
+              16956
+            ],
+            "dtype": "float32"
+          },
+          "HH/wrappedInterferogram": {
+            "shape": [
+              16596,
+              16956
+            ],
+            "dtype": "complex64"
+          },
+          "mask": {
+            "shape": [
+              16596,
+              16956
+            ],
+            "dtype": "uint32"
+          }
+        }
+      }
+    ]
+  },
+  "georeferencing": {
+    "epsg": 32619,
+    "crs_name": "WGS 84 / UTM zone 19N",
+    "width": 4239,
+    "height": 4149,
+    "shape_rows_cols": [
+      4149,
+      4239
+    ],
+    "pixel_spacing": {
+      "x": 80.0,
+      "y": 80.0
+    },
+    "pixel_convention": "pixel_centres",
+    "x_axis": "ascending",
+    "y_axis": "descending",
+    "origin_centre_row0_col0": {
+      "x": 410440.0,
+      "y": 1365800.0
+    },
+    "bounds": {
+      "left": 410400.0,
+      "bottom": 1033920.0,
+      "right": 749520.0,
+      "top": 1365840.0
+    },
+    "transform": [
+      80.0,
+      0.0,
+      410400.0,
+      0.0,
+      -80.0,
+      1365840.0
+    ],
+    "georeferencing_method": "phase raster + hdf5_dimension_scale",
+    "source_datasets": {
+      "xCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates",
+      "yCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates",
+      "projection": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/projection"
+    },
+    "grid_resolution": {
+      "method": "hdf5_dimension_scale",
+      "xCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates",
+      "yCoordinates": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates",
+      "projection": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/projection",
+      "epsg": 32619,
+      "spacing_hints": {
+        "x": 80.0,
+        "y": -80.0
+      },
+      "projection_attributes": {
+        "description": "Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes",
+        "ellipsoid": "WGS84",
+        "epsg_code": 32619,
+        "false_easting": 500000.0,
+        "false_northing": 0.0,
+        "grid_mapping_name": "transverse_mercator",
+        "inverse_flattening": 298.257223563,
+        "latitude_of_projection_origin": 0.0,
+        "longitude_of_central_meridian": -69.0,
+        "longitude_of_projection_origin": 0.0,
+        "scale_factor_at_central_meridian": 0.9996,
+        "semi_major_axis": 6378137.0,
+        "spatial_ref": "PROJCS[\"WGS 84 / UTM zone 19N\",GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4326\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-69],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"32619\"]]",
+        "utm_zone_number": 19
+      },
+      "candidates_considered": [
+        {
+          "x_path": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates",
+          "y_path": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates",
+          "source": "hdf5_dimension_scale",
+          "x_length": 4239,
+          "y_length": 4149,
+          "matches_raster_shape": true
+        },
+        {
+          "x_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates",
+          "y_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates",
+          "source": "sibling_group:science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH",
+          "x_length": 4239,
+          "y_length": 4149,
+          "matches_raster_shape": true
+        },
+        {
+          "x_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/xCoordinates",
+          "y_path": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/yCoordinates",
+          "source": "sibling_group:science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram",
+          "x_length": 4239,
+          "y_length": 4149,
+          "matches_raster_shape": true
+        }
+      ]
+    },
+    "roundtrip_check": {
+      "checked_pixels": 9,
+      "max_map_error": 0.0,
+      "max_pixel_error": 0.0,
+      "tolerance": 1e-06,
+      "passed": true
+    },
+    "footprint": {
+      "primary": "product_bounding_polygon",
+      "grid_extent": {
+        "type": "Polygon",
+        "crs": "EPSG:4326",
+        "coordinates": [
+          [
+            -69.82414755943846,
+            12.354030384982725
+          ],
+          [
+            -69.77688931487987,
+            12.354169278623187
+          ],
+          [
+            -69.72963051431327,
+            12.354299974572777
+          ],
+          [
+            -69.68237119155259,
+            12.354422472394768
+          ],
+          [
+            -69.63511138041363,
+            12.354536771679815
+          ],
+          [
+            -69.58785111471413,
+            12.35464287204597
+          ],
+          [
+            -69.54059042827353,
+            12.354740773138671
+          ],
+          [
+            -69.49332935491285,
+            12.354830474630745
+          ],
+          [
+            -69.44606792845455,
+            12.35491197622242
+          ],
+          [
+            -69.39880618272252,
+            12.35498527764132
+          ],
+          [
+            -69.35154415154177,
+            12.355050378642474
+          ],
+          [
+            -69.30428186873844,
+            12.355107279008312
+          ],
+          [
+            -69.25701936813961,
+            12.35515597854866
+          ],
+          [
+            -69.20975668357318,
+            12.35519647710077
+          ],
+          [
+            -69.16249384886777,
+            12.355228774529282
+          ],
+          [
+            -69.11523089785254,
+            12.355252870726247
+          ],
+          [
+            -69.06796786435712,
+            12.355268765611141
+          ],
+          [
+            -69.02070478221142,
+            12.355276459130835
+          ],
+          [
+            -68.97344168524559,
+            12.355275951259618
+          ],
+          [
+            -68.92617860728976,
+            12.355267241999178
+          ],
+          [
+            -68.87891558217405,
+            12.355250331378635
+          ],
+          [
+            -68.83165264372835,
+            12.355225219454505
+          ],
+          [
+            -68.78438982578223,
+            12.355191906310715
+          ],
+          [
+            -68.73712716216481,
+            12.355150392058603
+          ],
+          [
+            -68.68986468670461,
+            12.35510067683692
+          ],
+          [
+            -68.64260243322944,
+            12.355042760811813
+          ],
+          [
+            -68.59534043556626,
+            12.35497664417685
+          ],
+          [
+            -68.54807872754108,
+            12.354902327152994
+          ],
+          [
+            -68.50081734297883,
+            12.35481980998861
+          ],
+          [
+            -68.45355631570315,
+            12.354729092959465
+          ],
+          [
+            -68.40629567953636,
+            12.354630176368733
+          ],
+          [
+            -68.35903546829931,
+            12.354523060546969
+          ],
+          [
+            -68.31177571581124,
+            12.35440774585213
+          ],
+          [
+            -68.2645164558896,
+            12.354284232669562
+          ],
+          [
+            -68.21725772235004,
+            12.354152521411995
+          ],
+          [
+            -68.16999954900616,
+            12.354012612519547
+          ],
+          [
+            -68.12274196966946,
+            12.353864506459711
+          ],
+          [
+            -68.07548501814921,
+            12.353708203727361
+          ],
+          [
+            -68.02822872825224,
+            12.353543704844737
+          ],
+          [
+            -67.98097313378295,
+            12.35337101036145
+          ],
+          [
+            -67.93371826854302,
+            12.353190120854471
+          ],
+          [
+            -67.88646416633142,
+            12.353001036928138
+          ],
+          [
+            -67.83921086094422,
+            12.352803759214131
+          ],
+          [
+            -67.79195838617444,
+            12.352598288371484
+          ],
+          [
+            -67.74470677581198,
+            12.35238462508657
+          ],
+          [
+            -67.69745606364349,
+            12.352162770073104
+          ],
+          [
+            -67.65020628345215,
+            12.35193272407213
+          ],
+          [
+            -67.60295746901764,
+            12.351694487852011
+          ],
+          [
+            -67.55570965411599,
+            12.351448062208437
+          ],
+          [
+            -67.50846287251944,
+            12.351193447964402
+          ],
+          [
+            -67.46121715799629,
+            12.350930645970216
+          ],
+          [
+            -67.41397254431082,
+            12.350659657103474
+          ],
+          [
+            -67.36672906522314,
+            12.35038048226907
+          ],
+          [
+            -67.31948675448905,
+            12.35009312239918
+          ],
+          [
+            -67.27224564585993,
+            12.349797578453252
+          ],
+          [
+            -67.22500577308257,
+            12.349493851418009
+          ],
+          [
+            -67.17776716989918,
+            12.349181942307425
+          ],
+          [
+            -67.13052987004704,
+            12.348861852162727
+          ],
+          [
+            -67.08329390725858,
+            12.348533582052394
+          ],
+          [
+            -67.0360593152611,
+            12.34819713307212
+          ],
+          [
+            -66.98882612777678,
+            12.347852506344845
+          ],
+          [
+            -66.94159437852242,
+            12.347499703020711
+          ],
+          [
+            -66.89436410120942,
+            12.347138724277062
+          ],
+          [
+            -66.84713532954358,
+            12.346769571318456
+          ],
+          [
+            -66.79990809722499,
+            12.34639224537662
+          ],
+          [
+            -66.75268243794795,
+            12.34600674771046
+          ],
+          [
+            -66.7054583854008,
+            12.345613079606059
+          ],
+          [
+            -66.70586590122343,
+            12.298750733943244
+          ],
+          [
+            -66.70627174722085,
+            12.251888214785055
+          ],
+          [
+            -66.7066759248106,
+            12.20502552276022
+          ],
+          [
+            -66.70707843540379,
+            12.158162658497826
+          ],
+          [
+            -66.70747928040514,
+            12.111299622627339
+          ],
+          [
+            -66.70787846121296,
+            12.064436415778568
+          ],
+          [
+            -66.70827597921921,
+            12.017573038581693
+          ],
+          [
+            -66.70867183580944,
+            11.970709491667254
+          ],
+          [
+            -66.70906603236287,
+            11.923845775666132
+          ],
+          [
+            -66.70945857025238,
+            11.876981891209583
+          ],
+          [
+            -66.70984945084447,
+            11.830117838929205
+          ],
+          [
+            -66.71023867549941,
+            11.783253619456957
+          ],
+          [
+            -66.71062624557104,
+            11.736389233425152
+          ],
+          [
+            -66.711012162407,
+            11.689524681466445
+          ],
+          [
+            -66.71139642734862,
+            11.64265996421385
+          ],
+          [
+            -66.7117790417309,
+            11.595795082300723
+          ],
+          [
+            -66.71216000688268,
+            11.54893003636077
+          ],
+          [
+            -66.71253932412645,
+            11.50206482702805
+          ],
+          [
+            -66.71291699477851,
+            11.455199454936947
+          ],
+          [
+            -66.71329302014894,
+            11.408333920722217
+          ],
+          [
+            -66.71366740154157,
+            11.361468225018939
+          ],
+          [
+            -66.71404014025406,
+            11.314602368462536
+          ],
+          [
+            -66.71441123757782,
+            11.267736351688779
+          ],
+          [
+            -66.71478069479815,
+            11.220870175333761
+          ],
+          [
+            -66.71514851319412,
+            11.174003840033935
+          ],
+          [
+            -66.71551469403866,
+            11.127137346426077
+          ],
+          [
+            -66.71587923859857,
+            11.080270695147297
+          ],
+          [
+            -66.71624214813446,
+            11.03340388683505
+          ],
+          [
+            -66.71660342390085,
+            10.986536922127103
+          ],
+          [
+            -66.71696306714615,
+            10.939669801661582
+          ],
+          [
+            -66.71732107911262,
+            10.892802526076915
+          ],
+          [
+            -66.71767746103647,
+            10.845935096011877
+          ],
+          [
+            -66.71803221414781,
+            10.79906751210557
+          ],
+          [
+            -66.71838533967065,
+            10.752199774997413
+          ],
+          [
+            -66.71873683882296,
+            10.705331885327157
+          ],
+          [
+            -66.71908671281666,
+            10.658463843734877
+          ],
+          [
+            -66.71943496285762,
+            10.611595650860965
+          ],
+          [
+            -66.71978159014566,
+            10.56472730734614
+          ],
+          [
+            -66.72012659587459,
+            10.517858813831435
+          ],
+          [
+            -66.72046998123223,
+            10.470990170958205
+          ],
+          [
+            -66.72081174740036,
+            10.424121379368131
+          ],
+          [
+            -66.72115189555478,
+            10.37725243970319
+          ],
+          [
+            -66.72149042686532,
+            10.330383352605699
+          ],
+          [
+            -66.72182734249583,
+            10.283514118718262
+          ],
+          [
+            -66.72216264360418,
+            10.236644738683822
+          ],
+          [
+            -66.72249633134231,
+            10.189775213145609
+          ],
+          [
+            -66.72282840685624,
+            10.14290554274718
+          ],
+          [
+            -66.72315887128597,
+            10.096035728132387
+          ],
+          [
+            -66.7234877257657,
+            10.0491657699454
+          ],
+          [
+            -66.7238149714236,
+            10.002295668830696
+          ],
+          [
+            -66.72414060938199,
+            9.955425425433042
+          ],
+          [
+            -66.72446464075732,
+            9.908555040397522
+          ],
+          [
+            -66.72478706666011,
+            9.861684514369525
+          ],
+          [
+            -66.72510788819503,
+            9.814813847994722
+          ],
+          [
+            -66.72542710646086,
+            9.767943041919098
+          ],
+          [
+            -66.72574472255054,
+            9.721072096788937
+          ],
+          [
+            -66.72606073755121,
+            9.674201013250812
+          ],
+          [
+            -66.72637515254405,
+            9.627329791951597
+          ],
+          [
+            -66.72668796860454,
+            9.580458433538455
+          ],
+          [
+            -66.72699918680223,
+            9.533586938658848
+          ],
+          [
+            -66.72730880820097,
+            9.486715307960528
+          ],
+          [
+            -66.72761683385873,
+            9.439843542091534
+          ],
+          [
+            -66.7279232648277,
+            9.392971641700194
+          ],
+          [
+            -66.72822810215429,
+            9.34609960743513
+          ],
+          [
+            -66.77498448760339,
+            9.34639570949856
+          ],
+          [
+            -66.8217424041655,
+            9.34668566589093
+          ],
+          [
+            -66.86850181973239,
+            9.346969475656259
+          ],
+          [
+            -66.91526270219038,
+            9.347247137858757
+          ],
+          [
+            -66.96202501942064,
+            9.347518651582833
+          ],
+          [
+            -67.0087887392992,
+            9.34778401593312
+          ],
+          [
+            -67.05555382969719,
+            9.348043230034449
+          ],
+          [
+            -67.10232025848076,
+            9.348296293031892
+          ],
+          [
+            -67.14908799351136,
+            9.348543204090745
+          ],
+          [
+            -67.19585700264578,
+            9.348783962396539
+          ],
+          [
+            -67.24262725373627,
+            9.349018567155058
+          ],
+          [
+            -67.2893987146307,
+            9.349247017592337
+          ],
+          [
+            -67.3361713531726,
+            9.349469312954662
+          ],
+          [
+            -67.38294513720132,
+            9.349685452508584
+          ],
+          [
+            -67.42972003455212,
+            9.349895435540931
+          ],
+          [
+            -67.47649601305633,
+            9.350099261358801
+          ],
+          [
+            -67.52327304054141,
+            9.35029692928957
+          ],
+          [
+            -67.5700510848311,
+            9.350488438680905
+          ],
+          [
+            -67.61683011374555,
+            9.350673788900771
+          ],
+          [
+            -67.66361009510133,
+            9.350852979337416
+          ],
+          [
+            -67.7103909967117,
+            9.351026009399401
+          ],
+          [
+            -67.75717278638658,
+            9.35119287851559
+          ],
+          [
+            -67.80395543193276,
+            9.35135358613516
+          ],
+          [
+            -67.850738901154,
+            9.3515081317276
+          ],
+          [
+            -67.89752316185113,
+            9.351656514782723
+          ],
+          [
+            -67.9443081818221,
+            9.351798734810671
+          ],
+          [
+            -67.99109392886223,
+            9.351934791341904
+          ],
+          [
+            -68.03788037076421,
+            9.35206468392722
+          ],
+          [
+            -68.08466747531828,
+            9.35218841213775
+          ],
+          [
+            -68.13145521031232,
+            9.352305975564972
+          ],
+          [
+            -68.17824354353193,
+            9.3524173738207
+          ],
+          [
+            -68.22503244276062,
+            9.352522606537093
+          ],
+          [
+            -68.27182187577986,
+            9.352621673366665
+          ],
+          [
+            -68.31861181036926,
+            9.352714573982272
+          ],
+          [
+            -68.36540221430658,
+            9.352801308077137
+          ],
+          [
+            -68.41219305536798,
+            9.352881875364824
+          ],
+          [
+            -68.45898430132799,
+            9.352956275579277
+          ],
+          [
+            -68.50577591995973,
+            9.353024508474784
+          ],
+          [
+            -68.55256787903504,
+            9.353086573826001
+          ],
+          [
+            -68.59936014632447,
+            9.353142471427951
+          ],
+          [
+            -68.64615268959751,
+            9.35319220109602
+          ],
+          [
+            -68.69294547662268,
+            9.353235762665967
+          ],
+          [
+            -68.73973847516763,
+            9.353273155993925
+          ],
+          [
+            -68.7865316529992,
+            9.353304380956388
+          ],
+          [
+            -68.83332497788366,
+            9.353329437450222
+          ],
+          [
+            -68.88011841758674,
+            9.353348325392671
+          ],
+          [
+            -68.92691193987375,
+            9.353361044721355
+          ],
+          [
+            -68.97370551250967,
+            9.353367595394262
+          ],
+          [
+            -69.02049910325938,
+            9.35336797738975
+          ],
+          [
+            -69.06729267988766,
+            9.353362190706566
+          ],
+          [
+            -69.11408621015929,
+            9.353350235363818
+          ],
+          [
+            -69.1608796618393,
+            9.353332111400992
+          ],
+          [
+            -69.20767300269294,
+            9.353307818877953
+          ],
+          [
+            -69.2544662004859,
+            9.353277357874932
+          ],
+          [
+            -69.3012592229843,
+            9.353240728492535
+          ],
+          [
+            -69.34805203795499,
+            9.353197930851751
+          ],
+          [
+            -69.3948446131655,
+            9.353148965093915
+          ],
+          [
+            -69.4416369163842,
+            9.353093831380754
+          ],
+          [
+            -69.48842891538045,
+            9.353032529894362
+          ],
+          [
+            -69.53522057792472,
+            9.352965060837185
+          ],
+          [
+            -69.58201187178862,
+            9.35289142443205
+          ],
+          [
+            -69.62880276474513,
+            9.35281162092214
+          ],
+          [
+            -69.6755932245686,
+            9.352725650570997
+          ],
+          [
+            -69.722383219035,
+            9.352633513662536
+          ],
+          [
+            -69.76917271592185,
+            9.35253521050101
+          ],
+          [
+            -69.81596168300858,
+            9.352430741411041
+          ],
+          [
+            -69.81607127272345,
+            9.399335080065486
+          ],
+          [
+            -69.816181435397,
+            9.446239293177138
+          ],
+          [
+            -69.81629217140608,
+            9.493143380142078
+          ],
+          [
+            -69.81640348112958,
+            9.540047340356733
+          ],
+          [
+            -69.8165153649485,
+            9.586951173217868
+          ],
+          [
+            -69.81662782324595,
+            9.63385487812258
+          ],
+          [
+            -69.8167408564071,
+            9.680758454468313
+          ],
+          [
+            -69.81685446481922,
+            9.72766190165284
+          ],
+          [
+            -69.81696864887168,
+            9.774565219074299
+          ],
+          [
+            -69.817083408956,
+            9.821468406131153
+          ],
+          [
+            -69.81719874546575,
+            9.868371462222225
+          ],
+          [
+            -69.81731465879659,
+            9.915274386746685
+          ],
+          [
+            -69.81743114934639,
+            9.96217717910404
+          ],
+          [
+            -69.81754821751507,
+            10.009079838694172
+          ],
+          [
+            -69.81766586370463,
+            10.05598236491729
+          ],
+          [
+            -69.81778408831929,
+            10.102884757173976
+          ],
+          [
+            -69.8179028917653,
+            10.149787014865158
+          ],
+          [
+            -69.81802227445112,
+            10.19668913739213
+          ],
+          [
+            -69.81814223678731,
+            10.243591124156543
+          ],
+          [
+            -69.81826277918657,
+            10.29049297456041
+          ],
+          [
+            -69.81838390206372,
+            10.3373946880061
+          ],
+          [
+            -69.81850560583575,
+            10.384296263896346
+          ],
+          [
+            -69.8186278909218,
+            10.431197701634265
+          ],
+          [
+            -69.81875075774315,
+            10.478099000623311
+          ],
+          [
+            -69.81887420672322,
+            10.52500016026734
+          ],
+          [
+            -69.81899823828765,
+            10.571901179970551
+          ],
+          [
+            -69.81912285286414,
+            10.61880205913753
+          ],
+          [
+            -69.81924805088265,
+            10.665702797173228
+          ],
+          [
+            -69.81937383277527,
+            10.712603393482983
+          ],
+          [
+            -69.81950019897627,
+            10.7595038474725
+          ],
+          [
+            -69.81962714992208,
+            10.806404158547858
+          ],
+          [
+            -69.81975468605134,
+            10.85330432611553
+          ],
+          [
+            -69.81988280780485,
+            10.900204349582362
+          ],
+          [
+            -69.82001151562561,
+            10.947104228355583
+          ],
+          [
+            -69.82014080995883,
+            10.994003961842804
+          ],
+          [
+            -69.82027069125186,
+            11.04090354945203
+          ],
+          [
+            -69.82040115995433,
+            11.087802990591644
+          ],
+          [
+            -69.820532216518,
+            11.134702284670428
+          ],
+          [
+            -69.82066386139688,
+            11.181601431097546
+          ],
+          [
+            -69.82079609504719,
+            11.22850042928256
+          ],
+          [
+            -69.82092891792733,
+            11.275399278635426
+          ],
+          [
+            -69.82106233049797,
+            11.32229797856648
+          ],
+          [
+            -69.82119633322198,
+            11.36919652848649
+          ],
+          [
+            -69.82133092656443,
+            11.416094927806583
+          ],
+          [
+            -69.82146611099267,
+            11.462993175938308
+          ],
+          [
+            -69.82160188697627,
+            11.509891272293611
+          ],
+          [
+            -69.82173825498701,
+            11.556789216284844
+          ],
+          [
+            -69.82187521549896,
+            11.603687007324757
+          ],
+          [
+            -69.8220127689884,
+            11.65058464482651
+          ],
+          [
+            -69.82215091593389,
+            11.697482128203673
+          ],
+          [
+            -69.82228965681625,
+            11.744379456870213
+          ],
+          [
+            -69.8224289921185,
+            11.791276630240532
+          ],
+          [
+            -69.822568922326,
+            11.838173647729418
+          ],
+          [
+            -69.82270944792634,
+            11.885070508752088
+          ],
+          [
+            -69.8228505694094,
+            11.931967212724173
+          ],
+          [
+            -69.82299228726731,
+            11.978863759061715
+          ],
+          [
+            -69.82313460199452,
+            12.025760147181174
+          ],
+          [
+            -69.82327751408774,
+            12.07265637649944
+          ],
+          [
+            -69.82342102404597,
+            12.119552446433818
+          ],
+          [
+            -69.82356513237052,
+            12.166448356402032
+          ],
+          [
+            -69.82370983956498,
+            12.213344105822241
+          ],
+          [
+            -69.82385514613526,
+            12.260239694113015
+          ],
+          [
+            -69.82400105258958,
+            12.307135120693363
+          ],
+          [
+            -69.82414755943846,
+            12.354030384982725
+          ]
+        ],
+        "vertex_count": 261,
+        "wgs84_bounds": [
+          -69.824148,
+          9.3461,
+          -66.705458,
+          12.355276
+        ],
+        "area_deg2": 9.311514161777504,
+        "derivation": "densified edges of the raster's coordinate grid, transformed with pyproj"
+      },
+      "product_bounding_polygon": {
+        "type": "Polygon",
+        "crs": "EPSG:4326",
+        "coordinates": [
+          [
+            -66.8492652572176,
+            10.0666310671822
+          ],
+          [
+            -66.8984790855908,
+            10.2814721890029
+          ],
+          [
+            -66.9567123368598,
+            10.4942464684216
+          ],
+          [
+            -66.9919844264641,
+            10.7123299819919
+          ],
+          [
+            -67.0427477766314,
+            10.9268546590231
+          ],
+          [
+            -67.0936113627312,
+            11.1413689901802
+          ],
+          [
+            -67.144588257944,
+            11.3558710012074
+          ],
+          [
+            -67.1956810194313,
+            11.570359304095
+          ],
+          [
+            -67.2468762799817,
+            11.7848372466147
+          ],
+          [
+            -67.2981652882577,
+            11.9993075616803
+          ],
+          [
+            -67.3495342705371,
+            12.2137725434902
+          ],
+          [
+            -67.6097792214075,
+            12.1532466912971
+          ],
+          [
+            -67.858944026695,
+            12.0950421737705
+          ],
+          [
+            -68.098860563266,
+            12.0387626094469
+          ],
+          [
+            -68.3308607420291,
+            11.9841211691155
+          ],
+          [
+            -68.5560144191971,
+            11.9308871643643
+          ],
+          [
+            -68.7752080715513,
+            11.8788689228471
+          ],
+          [
+            -68.9891401195248,
+            11.8279159807822
+          ],
+          [
+            -69.1984067648492,
+            11.7778995394103
+          ],
+          [
+            -69.4034990725205,
+            11.7287137323104
+          ],
+          [
+            -69.6048272647384,
+            11.6802703065765
+          ],
+          [
+            -69.5522378329392,
+            11.4666241421794
+          ],
+          [
+            -69.5048374316868,
+            11.2517499728857
+          ],
+          [
+            -69.4484437988141,
+            11.0390548229328
+          ],
+          [
+            -69.399924181865,
+            10.8244897906698
+          ],
+          [
+            -69.3457019865472,
+            10.6113087427473
+          ],
+          [
+            -69.2928881883264,
+            10.3978086868814
+          ],
+          [
+            -69.2418158177294,
+            10.1839105418185
+          ],
+          [
+            -69.1891582644395,
+            9.97040803723107
+          ],
+          [
+            -69.1354376578985,
+            9.75717589834598
+          ],
+          [
+            -69.0828124895204,
+            9.543699382396
+          ],
+          [
+            -68.8825732604278,
+            9.59124541653249
+          ],
+          [
+            -68.6788046775184,
+            9.63949677417592
+          ],
+          [
+            -68.4711396221905,
+            9.68853247914545
+          ],
+          [
+            -68.260504898764,
+            9.73812663838517
+          ],
+          [
+            -68.0434357973695,
+            9.78908357881549
+          ],
+          [
+            -67.8211855582269,
+            9.84109675135114
+          ],
+          [
+            -67.5969118132997,
+            9.89341972607827
+          ],
+          [
+            -67.351538677264,
+            9.95047037669164
+          ],
+          [
+            -67.1089877110319,
+            10.0066712253765
+          ],
+          [
+            -66.8492652572176,
+            10.0666310671822
+          ]
+        ],
+        "vertex_count": 41,
+        "wgs84_bounds": [
+          -69.604827,
+          9.543699,
+          -66.849265,
+          12.213773
+        ],
+        "area_deg2": 5.087441553271153,
+        "derivation": "product identification/boundingPolygon (OGR WKT, EPSG:4326)",
+        "source_dataset": "science/LSAR/identification/boundingPolygon"
+      }
+    },
+    "product_polygon_check": {
+      "status": "passed",
+      "product_inside_grid_fraction": 1.0000000000000002,
+      "grid_inside_product_fraction": 0.5463602873692023,
+      "grid_extent_area_deg2": 9.311514161777504,
+      "product_area_deg2": 5.087441553271153,
+      "detail": "100.00% of the product image footprint lies inside the derived UTM grid extent. The grid extent is 1.83x the image footprint area, which is expected because a map grid is a rectangle around a rotated swath."
+    }
+  },
+  "read_test": {
+    "phase": {
+      "present": true,
+      "dataset_path": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase",
+      "shape": [
+        4149,
+        4239
+      ],
+      "dtype": "float32",
+      "first_values": [
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "coherence": {
+      "present": true,
+      "dataset_path": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/coherenceMagnitude",
+      "shape": [
+        4149,
+        4239
+      ],
+      "dtype": "float32",
+      "first_values": [
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "connected_components": {
+      "present": true,
+      "dataset_path": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/connectedComponents",
+      "shape": [
+        4149,
+        4239
+      ],
+      "dtype": "uint16",
+      "first_values": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mask": {
+      "present": true,
+      "dataset_path": "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/mask",
+      "shape": [
+        4149,
+        4239
+      ],
+      "dtype": "uint32",
+      "fill_value": 255
+    }
+  },
+  "window_sample": {
+    "window_rows": [
+      0,
+      32
+    ],
+    "window_cols": [
+      0,
+      32
+    ],
+    "phase_finite_fraction": 0.0,
+    "coherence_finite_fraction": 0.0,
+    "phase_nan_count": 1024,
+    "note": "NaNs in an edge window are expected where the rotated footprint leaves the grid."
+  },
+  "events": [
+    {
+      "id": "us6000t7zc",
+      "label": "M7.2 foreshock",
+      "magnitude": 7.2,
+      "inside_raster_bounds": true,
+      "inside_image_footprint": true,
+      "row_col_fractional": [
+        2741.262096525688,
+        1726.5102227088457
+      ],
+      "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zc"
+    },
+    {
+      "id": "us6000t7zp",
+      "label": "M7.5 mainshock",
+      "magnitude": 7.5,
+      "inside_raster_bounds": true,
+      "inside_image_footprint": true,
+      "row_col_fractional": [
+        2424.8710837515537,
+        3553.1129123997407
+      ],
+      "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zp"
+    }
+  ],
+  "checks": [
+    {
+      "id": "dataset_found",
+      "status": "passed",
+      "detail": "2,336,227,328 bytes"
+    },
+    {
+      "id": "metadata_inspected",
+      "status": "passed",
+      "detail": "NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_20260613T100731_20260625T100655_20260625T100730_P05023_N_F_J_001"
+    },
+    {
+      "id": "raster_readable",
+      "status": "passed",
+      "detail": "phase: [4149, 4239], coherence: [4149, 4239], connected_components: [4149, 4239], mask: [4149, 4239]"
+    },
+    {
+      "id": "georeferencing_validated",
+      "status": "passed",
+      "detail": "EPSG:32619; round-trip checked 9 pixels; max map error 0.00e+00"
+    },
+    {
+      "id": "footprint_validated",
+      "status": "passed",
+      "detail": "100.00% of the product image footprint lies inside the derived UTM grid extent. The grid extent is 1.83x the image footprint area, which is expected because a map grid is a rectangle around a rotated swath."
+    },
+    {
+      "id": "scientific_interpretation_validated",
+      "status": "not_validated",
+      "detail": "No displacement conversion or event-causation claim is validated."
+    }
+  ],
+  "validation": {
+    "states": [
+      {
+        "id": "dataset_found",
+        "label": "Granule present on disk",
+        "status": "passed",
+        "detail": "2,336,227,328 bytes"
+      },
+      {
+        "id": "metadata_inspected",
+        "label": "Product metadata inspected",
+        "status": "passed",
+        "detail": "NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_20260613T100731_20260625T100655_20260625T100730_P05023_N_F_J_001"
+      },
+      {
+        "id": "raster_readable",
+        "label": "Phase and coherence rasters readable",
+        "status": "passed",
+        "detail": "phase: [4149, 4239], coherence: [4149, 4239], connected_components: [4149, 4239], mask: [4149, 4239]"
+      },
+      {
+        "id": "georeferencing_validated",
+        "label": "Grid georeferencing validated",
+        "status": "passed",
+        "detail": "EPSG:32619; round-trip checked 9 pixels; max map error 0.00e+00"
+      },
+      {
+        "id": "footprint_validated",
+        "label": "Geographic footprint validated",
+        "status": "passed",
+        "detail": "100.00% of the product image footprint lies inside the derived UTM grid extent. The grid extent is 1.83x the image footprint area, which is expected because a map grid is a rectangle around a rotated swath."
+      },
+      {
+        "id": "scientific_interpretation_validated",
+        "label": "Scientific interpretation validated",
+        "status": "not_validated",
+        "detail": "No displacement conversion or event-causation claim is validated."
+      }
+    ],
+    "overall_status": "metadata_and_georeferencing_validated"
+  },
+  "elapsed_seconds": 3.34
+}

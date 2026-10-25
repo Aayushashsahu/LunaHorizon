@@ -1,0 +1,125 @@
+{
+  "states": [
+    {
+      "id": "dataset_found",
+      "label": "Granule present on disk",
+      "status": "passed",
+      "detail": "264,241,152 bytes at data\\demo\\sample_gunw.h5"
+    },
+    {
+      "id": "metadata_inspected",
+      "label": "Product metadata inspected",
+      "status": "passed",
+      "detail": "GUNW v0.0.4 (spec 1.2.1); 5 layers; frequency A, polarization HH"
+    },
+    {
+      "id": "raster_readable",
+      "label": "Phase and coherence rasters readable",
+      "status": "passed",
+      "detail": "phase [1555, 1136] float32; coherence [1555, 1136] float32; valid pixels 1,045,629/1,766,480"
+    },
+    {
+      "id": "georeferencing_validated",
+      "label": "Grid georeferencing validated",
+      "status": "passed",
+      "detail": "EPSG:32611 (WGS 84 / UTM zone 11N); 80×80 m posting; method phase raster + hdf5_dimension_scale; round-trip max error 0.00e+00; GeoTIFF read-back passed"
+    },
+    {
+      "id": "footprint_validated",
+      "label": "Geographic footprint validated",
+      "status": "passed",
+      "detail": "100.00% of the product image footprint lies inside the derived UTM grid extent. The grid extent is 1.67x the image footprint area, which is expected because a map grid is a rectangle around a rotated swath."
+    },
+    {
+      "id": "scientific_interpretation_validated",
+      "label": "Scientific interpretation validated",
+      "status": "not_validated",
+      "detail": "Phase is delivered in radians with coherence and masks. No phase-to-displacement conversion is applied, so no deformation interpretation is claimed."
+    }
+  ],
+  "overall_status": "validated_for_phase_and_coherence_display",
+  "geotiff_readback": {
+    "phase": {
+      "path": "data\\processed\\sample_demo\\phase.tif",
+      "passed": true,
+      "errors": [],
+      "driver": "GTiff",
+      "shape": [
+        1555,
+        1136
+      ],
+      "count": 1,
+      "dtypes": [
+        "float32"
+      ],
+      "crs": "EPSG:32611",
+      "epsg": 32611,
+      "transform": [
+        80.0,
+        0.0,
+        365480.0,
+        0.0,
+        -80.0,
+        3913620.0
+      ],
+      "nodata": null,
+      "band_descriptions": [
+        "unwrapped interferometric phase (radians)"
+      ],
+      "tags": {
+        "NISAR_GRANULE_ID": "NISAR_L2_PR_GUNW_001_030_A_019_002_2000_SH_20081012T060911_20081012T060925_20081127T061000_20081127T061014_D00404_N_F_J_001",
+        "NISAR_INTERPRETATION": "Unwrapped phase in radians. Not a displacement map. No phase-to-displacement conversion is applied by this pipeline.",
+        "NISAR_OBSERVATION_ID": "sample_demo",
+        "NISAR_PRODUCT_VERSION": "0.0.4",
+        "NISAR_REFERENCE_START": "2008-10-12T06:09:11.567105263",
+        "NISAR_SECONDARY_START": "2008-11-27T06:10:00.442763158",
+        "NISAR_SOURCE_DATASET": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase",
+        "NISAR_UNITS": "radians",
+        "NISAR_VALID_RULE": "finite phase AND product mask valid",
+        "AREA_OR_POINT": "Area"
+      },
+      "note": "top-left corner window contains no finite values"
+    },
+    "coherence": {
+      "path": "data\\processed\\sample_demo\\coherence.tif",
+      "passed": true,
+      "errors": [],
+      "driver": "GTiff",
+      "shape": [
+        1555,
+        1136
+      ],
+      "count": 1,
+      "dtypes": [
+        "float32"
+      ],
+      "crs": "EPSG:32611",
+      "epsg": 32611,
+      "transform": [
+        80.0,
+        0.0,
+        365480.0,
+        0.0,
+        -80.0,
+        3913620.0
+      ],
+      "nodata": null,
+      "band_descriptions": [
+        "interferometric coherence magnitude (dimensionless, 0-1)"
+      ],
+      "tags": {
+        "NISAR_GRANULE_ID": "NISAR_L2_PR_GUNW_001_030_A_019_002_2000_SH_20081012T060911_20081012T060925_20081127T061000_20081127T061014_D00404_N_F_J_001",
+        "NISAR_INTERPRETATION": "Coherence magnitude is a quality indicator for the interferometric phase relationship, not a displacement measurement.",
+        "NISAR_OBSERVATION_ID": "sample_demo",
+        "NISAR_PRODUCT_VERSION": "0.0.4",
+        "NISAR_REFERENCE_START": "2008-10-12T06:09:11.567105263",
+        "NISAR_SECONDARY_START": "2008-11-27T06:10:00.442763158",
+        "NISAR_SOURCE_DATASET": "science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/coherenceMagnitude",
+        "NISAR_UNITS": "1",
+        "NISAR_VALID_RULE": "finite coherence AND product mask valid",
+        "AREA_OR_POINT": "Area"
+      },
+      "note": "top-left corner window contains no finite values"
+    }
+  }
+}

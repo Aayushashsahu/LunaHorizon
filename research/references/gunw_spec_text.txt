@@ -1,0 +1,3051 @@
+This document has been reviewed and determined not to contain export controlled technical data.  
+ 
+ 
+NASA SDS Product Specification  
+Level-2 Geocoded Unwrapped Interferogram  
+L2_GUNW  
+ 
+Rev E  
+ 
+JPL D-102272  
+ 
+November 8, 2024, Version 1.2.1  
+Authors: Virginia Brancato, Jungkyo Jung, Xiaodong Huang, and Heresh Fattahi 
+Copies of this document obtained outside of JPL’s Product Lifecycle Management (PLM) tool may not be 
+current.  Please contact Heresh Fattahi (heresh.fattahi@jpl.nasa.gov) to determine if a more recent 
+revision is available.  
+ 
+ 
+National Aeronautics and 
+Space Administration 
+ 
+Jet Propulsion Laboratory 
+California Institute of Technology 
+Pasadena, California 
+
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+ii 
+This document has been reviewed and determined not to contain export controlled technical data. 
+SIGNATURE PAGE 
+Prepared by: 
+Electronic signature on file  02-Jan-2025  
+Virginia Brancato, NISAR ADT Engineer    Date 
+Email approval on file  02-Jan-2025  
+Jungkyo Jung, NISAR ADT Engineer    Date 
+Email approval on file  02-Jan-2025  
+Xiaodong Huang, NISAR ADT Engineer    Date 
+Electronic signature on file  07-Jan-2025  
+Heresh Fattahi, NISAR ADT Lead  Date 
+ 
+Approved by:  
+Electronic signature on file  03-Jan-2025  
+Ana Maria Guerrero, NISAR Mission System Manager  Date 
+Electronic signature on file  02-Jan-2025  
+Paul Rosen, NISAR Project Scientist  Date 
+Electronic signature on file  06-Jan-2025  
+Cecilia Cheng, NISAR SDS Manager  Date 
+Electronic signature on file  06-Jan-2025  
+Helen Mortensen, NISAR SDS Lead System Engineer  Date 
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+iii 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+EPDM ELECTRONIC SIGNATURES 
+ 
+ 
+ 
+ 
+ACKNOWLEDGEMENT 
+ 
+The research was carried out at the Jet Propulsion Laboratory, California Institute of 
+Technology, under a contract with the National Aeronautics and Space Administration 
+(80NM0018D0004). 
+ 
+© 2024 California Institute of Technology. Government sponsorship acknowledged. 
+
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+iv 
+This document has been reviewed and determined not to contain export controlled technical data. 
+DOCUMENT CHANGE LOG 
+Revision Cover Date Sections Changed ECR # Reason, ECR Title, LRS #* 
+DRAFT 
+Initial 
+Release  
+December 11, 2020  All N/A Draft for Engineering Release for R1.1  
+Initial Release for R1.1 delivery  
+ 
+Initial 
+Release  
+February 2, 2021  All  N/A For Release 1.1.  
+LRR-04xxx  
+Rev A (R1.1) 
+Working 
+Version  
+February 5, 2021  All  N/A  
+Rev A (R2) 
+Working 
+Version 2  
+May 13, 2021 Sec 1.2, Sec 2.1, Sec 
+2.2,  
+Sec 6  
+N/A Merged info from Product Description Document 
+(PDD). Removed reference to PDD.  
+Added Section 6 on metadata cubes. 
+LRR056764 for ISRO 
+LRR056771 for NISAR Science Team 
+Rev A (R2) 
+Working 
+Version 2 
+July 15, 2021 Sec 6.1 N/A Updated metadata cube formula 
+Rev B (R2) 
+Working 
+Version 2 
+July 15, 2021 All N/A Removed LRR number in footer. Updated list of TBD 
+items table. 
+Rev A (ER 
+3.0) Working 
+Version 
+December 10, 2021 Sec 3.2.3 N/A For Engineering Release ER 3.0. 
+Rev A (R3) 
+Working 
+Version 
+March 04, 2022 Sec. 1.3, Figure 2-1, 
+Table 2-1, Appendix A, 
+TBD table. 
+N/A Updated Docushare link in Sec. 1.3. Added 
+description of offset products in Table 2-1. Updated 
+product dependency Figure 2-1. Added missing and 
+new acronyms in Appendix A. Removed incomplete 
+LRR number in the footer. 
+Rev A (R3.1) 
+Working 
+Version 
+August 05, 2022 Front page, Sec 2.1 N/A Updated NISAR ADT Lead; updated product 
+dependency figure 
+Rev A (R3.1) 
+Working 
+Version 
+August 05, 2022 Cover. TBD, TBC 
+tables, Acronym List 
+N/A Requested fixes. 
+LRR067551 
+Rev A (R3.2) 
+Working 
+Version 
+January 27, 2023 All N/A Revised for R3.2 release 
+Rev A (R3.3) June 6, 2023 All N/A Revised for R3.3 release 
+URS CL# 23-3181 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+v 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Rev B (R3.4) November 9, 2023 Cover page, Sec. 1.3, 
+Sec. 2.2, Sec. 3.2.2; 
+Sections 5.2, 5.3, 5.4, 
+5.5, 5.6  
+N/A Modified date on cover page; Updated reference to 
+RSLC product specification and NISAR products 
+filename convention documents; Removed reference 
+and link to EPDM; Corrected formation of blended 
+pixel offsets layers in Sec. 2.2 and added reference 
+to NISAR SDS ATBD; Modified Table 3.4 to reflect 
+information in product XML specifications. Updated 
+Sections 5.2, 5.3, 5.4, 5.5, 5.6.  
+Rev C (R4.0)  February 07, 2024  Cover page, Sec. 1.3, 
+Figure 2-1, Table 2-1, 
+Table 2-2, Sec. 2-2, 
+Table 3-5; Sec. 3.7, 
+Sec. 4.3, Sec. 4.4.2.2; 
+Sec. 4.4.3, Appendix B 
+N/A Added version number to cover page; Updated AD 
+and AR; Updated Fig. 2-1; Revised RIFG, RUNW, 
+GUNW description in Table 2-1; Revised product 
+level description in Table 2-2; Clarified use of offset 
+blending algorithm in Sec. 2.2; Removed unused 
+attributes in Table 3-5; Updated product output grid 
+features in Sec. 3.7; Revised and improved 
+readability of Sec. 4.3; Added subsection on attitude 
+state vectors; Improved description of geolocation 
+grid Datasets in Sec. 4.4.3; Removed “Grid 
+Alignment” paragraph from Appendix B. URS 
+CL#24-1228. 
+Rev D 
+(R4.0.2) 
+May 30, 2024 Cover page, Sec. 3.3, 
+Sec. 4.2.1 
+N/A Update revision and date on cover page; Added 
+Section 3.3 on product cloud optimization properties; 
+Added Section 4.2.1 on CRID. URS CL#24-3372. 
+Rev E 
+(R4.0.4) 
+November 8, 2024 Cover page, Sec. 5 N/A Updated revision and date on cover page; Clarified 
+in Section 5 format of timestamps and string data 
+type. URS CL#24-6082 
+* Include the JPL Limited Release System (LRS) clearance number for each revision to be shared with foreign partners. 
+ 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+vi 
+This document has been reviewed and determined not to contain export controlled technical data. 
+TABLE OF CONTENTS 
+ 
+Table of Tables ............................................................................................................................. vii 
+Table of Figures ........................................................................................................................... viii 
+List of TBC Items .......................................................................................................................... ix 
+List of TBD Items .......................................................................................................................... ix 
+1 Introduction ............................................................................................................................. 1 
+1.1 Purpose of Description .................................................................................................. 1 
+1.2 Document Organization ................................................................................................ 1 
+1.3 Applicable and Reference Documents .......................................................................... 1 
+2 Product Overview .................................................................................................................... 3 
+2.1 Product Background...................................................................................................... 3 
+2.2 GUNW Product Overview ............................................................................................ 5 
+3 Product Organization ............................................................................................................... 7 
+3.1 File Format .................................................................................................................... 7 
+3.1.1 HDF5 File ........................................................................................................ 7 
+3.1.2 HDF5 Group .................................................................................................... 7 
+3.1.3 HDF5 Dataset .................................................................................................. 8 
+3.1.4 HDF5 Datatype ................................................................................................ 8 
+3.1.5 HDF5 Attribute ................................................................................................ 9 
+3.2 NISAR File Organization ........................................................................................... 10 
+3.2.1 Groups ........................................................................................................... 10 
+3.2.2 File Level Metadata ....................................................................................... 10 
+3.2.3 Variable Metadata - HDF5 Attributes ........................................................... 11 
+3.2.4 Variable Metadata - HDF5 Datasets ............................................................. 12 
+3.2.5 Georeferencing .............................................................................................. 13 
+3.3 Cloud Optimization ..................................................................................................... 15 
+3.4 Granule Definition ...................................................................................................... 16 
+3.5 File Naming Convention ............................................................................................. 16 
+3.6 Temporal Organization ............................................................................................... 16 
+3.7 Spatial Organization.................................................................................................... 16 
+3.8 Spatial Sampling and Resolution ................................................................................ 16 
+3.8.1 Mosaicking .................................................................................................... 16 
+3.8.2 Partially compressed SLC data ...................................................................... 17 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+vii 
+This document has been reviewed and determined not to contain export controlled technical data. 
+4 Level 2 Geocoded Unwrapped interferogram Product .......................................................... 18 
+4.1 Dimensions and Shapes of Data ................................................................................. 18 
+4.2 Product Identification.................................................................................................. 18 
+4.2.1 Composite Release Identifier ........................................................................ 18 
+4.3 Radar Imagery ............................................................................................................. 19 
+4.4 Radar Metadata ........................................................................................................... 19 
+4.4.1 Processing Information .................................................................................. 20 
+4.4.2 Other Radar Metadata ................................................................................... 21 
+4.4.3 Radar Grid ..................................................................................................... 21 
+5 Product Specification ............................................................................................................ 24 
+5.1 Dimensions and Shapes .............................................................................................. 24 
+5.2 Product Identification.................................................................................................. 26 
+5.3 Radar Imagery ............................................................................................................. 29 
+5.4 Processing Information ............................................................................................... 41 
+5.5 Other Radar Metadata ................................................................................................. 48 
+5.6 Radar Grid ................................................................................................................... 50 
+6 Metadata Cube ....................................................................................................................... 54 
+6.1 Metadata Cube Interpolation Example ....................................................................... 54 
+6.2 Metadata Cube Usage Note ........................................................................................ 56 
+7 Appendix A: Acronyms ......................................................................................................... 57 
+8 Appendix B: Geocoded product grids ................................................................................... 60 
+Map Projections ..................................................................................................................... 60 
+ 
+ TABLE OF TABLES  
+Table 2-1.  Key to product dependency diagram. ........................................................................... 4 
+Table 2-2 NISAR product level descriptions defined by Science. ................................................. 5 
+Table 3-1 HDF5 Atomic Datatypes. ............................................................................................... 8 
+Table 3-2 NISAR HDF5 Derived and Compound Datatypes. ........................................................ 9 
+Table 3-3 Group organization at the top level of a NISAR HDF5 File. ....................................... 10 
+Table 3-4 Global Attributes of GUNW. ....................................................................................... 10 
+Table 3-5 Common variable Attributes in HDF5 file. .................................................................. 11 
+Table 3-6 Statistical Attributes for real-valued HDF5 Datasets. .................................................. 11 
+Table 3-7. Statistical Attributes for complex-valued HDF5 Datasets. ......................................... 11 
+Table 3-8 Statistical Attributes for mask HDF5 Datasets. ............................................................ 12 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+viii 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Table 3-9 GUNW HDF5 Datasets populated with statistical Attributes. ..................................... 12 
+Table 3-10 Attributes of the HDF5 Dataset "projection" containing the grid mapping. .............. 14 
+Table 3-11 List of GUNW georeferenced Datasets. ..................................................................... 14 
+Table 5-1 Table of dimensions and shapes in GUNW product. ................................................... 24 
+Table 5-2 NISAR HDF5 variables used for product identification. ............................................. 26 
+Table 5-3 NISAR HDF5 variables related to SAR imagery. ........................................................ 29 
+Table 5-4 NISAR HDF5 variables related to processing parameters. .......................................... 41 
+Table 5-5 NISAR HDF5 variables related to useful radar metadata. ........................................... 48 
+Table 5-6 NISAR HDF5 variables related to metadata cube. ....................................................... 50 
+Table 6-1 Example metadata cube properties. .............................................................................. 55 
+Table 8-1 Projection systems for NISAR L2 products. ................................................................ 60 
+ 
+ TABLE OF FIGURES  
+Figure 2-1  Product dependency. .................................................................................................... 3 
+Figure 3-1 A visualization of possible NISAR L-band science acquisition modes ...................... 13 
+Figure 6-1. Metadata cube layer schematic .................................................................................. 54 
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+ix 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ LIST OF TBC ITEMS 
+These items are to be completed when document is ready to enter configuration control. 
+Page Section Date / Release 
+   
+   
+   
+ 
+ 
+ 
+ LIST OF TBD ITEMS 
+These items are to be completed when document is ready to enter configuration control. 
+Page Section Date / Release 
+   
+   
+   
+ 
+ 
+ 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+1 
+This document has been reviewed and determined not to contain export controlled technical data. 
+1 INTRODUCTION  
+1.1 Purpose of Description  
+This document provides a specification of the NASA-ISRO Synthetic Aperture Radar (NISAR) 
+L-SAR Level-2 (L2) Geocoded Unwrapped interferogram product to be generated by the NASA 
+Science Data System (SDS) and provided to the Alaska Satellite Facility (ASF) Distributed 
+Active Archive Center (DAAC). This data product is referenced by the short name GUNW.  
+ 
+1.2 Document Organization  
+Section 2 provides an overview of the product, including its purpose, and latency.  
+Section 3 provides the structure of the product, including granule definition, file organization, 
+spatial resolution, temporal and spatial organization of the content.  
+Section 4 provides qualitative descriptions of the information provided in the product.  
+Section 5 provides a detailed identification of the individual fields within the GUNW product, 
+including for example their units, size, and coordinates.  
+Section 6 provides a description of the metadata cube representation. 
+Appendix A provides a listing of the acronyms used in this document.  
+Appendix B provides a description of geolocation grids and projection systems used for the 
+product. 
+ 
+1.3 Applicable and Reference Documents  
+Applicable documents levy requirements on areas addressed in this document. Reference 
+documents are cited to provide additional information to readers. In case of conflict between the 
+applicable documents and this document, the Project shall review the conflict to find the most 
+effective resolution.  
+ 
+Applicable Documents    
+[AD1] NISAR NASA SDS Level 4 Requirements, JPL D-95655, Rev A, 
+February 06, 2024  
+[AD2] NISAR NASA SDS Algorithm Development Plan, JPL D-95678, Initial, 
+September 12, 2019  
+[AD3] NISAR Science Data Management and Archive Plan, JPL D-80828, June 1, 2016 
+[AD4] NISAR Science Management Plan, JPL D-76340, Rev A, August 14, 2018  
+[AD5] NISAR SDS ADT Calibration and Validation Plan, JPL D-102256, Rev A, 
+November 20, 2023 
+[AD6] NISAR NASA SDS L4 Software Management Plan (SMP), JPL D-95656, 
+Rev A, September 19, 2022  
+[AD7] ISO-19115-2, https://www.iso.org/obp/ui/#iso:std:iso:19115:-2:ed-2:v1:en  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+2 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+Reference Documents 
+[RD1] NISAR NASA SDS Algorithm Theoretical Basis Document, JPL D-95677, Rev 
+A, November 12, 2023  
+[RD2] EOSDIS Handbook, July 2016, retrieved from 
+https://cdn.earthdata.nasa.gov/conduit/upload/5980/EOSDISHandbookWebFinaL2.pdf  
+[RD3] NISAR SDS L-SAR File Naming Conventions, JPL D-102255, Rev B, April 28, 
+2023 
+[RD4] NISAR L1_RSLC Product Specification Document, JPL D-102268, Rev C, 
+February 07, 2024 
+[RD5] HDF5 documentation at https://portal.hdfgroup.org/display/HDF5/HDF5  
+[RD6] Eineder, M. (2003), Efficient simulation of SAR interferograms of large areas 
+and of rugged terrain, IEEE Transactions on Geoscience and Remote Sensing, 
+41(6), 1415-1427 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+3 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+2 PRODUCT OVERVIEW  
+ 
+2.1 Product Background 
+Each NASA SDS L0-L2 L-band product (Figure 2-1 and Table 2-1 Product dependency) is 
+distributed as a single Hierarchical Data Format version 5 (HDF5, [RD5]) granule. All the 
+metadata and imagery data are packaged in clearly defined sub-groups within the granule in 
+compliance with the HDF5 specification [RD5]. The NISAR product level definitions are given 
+in Table 2-2.  
+ 
+ 
+Figure 2-1  Product dependency. 
+ 
+  
+
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+4 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+Table 2-1.  Key to product dependency diagram.  
+Product L0 Scope Description Granule Size 
+Radar Raw Science 
+Telemetry (RRST) 
+Global This L0A product contains the raw downlinked 
+data delivered to SDS 
+By downlinked files 
+Radar Raw Signal Data 
+(RRSD) 
+Global This L0B product is corrected, aligned radar 
+pulse data derived from the RRST products and 
+used for further processing 
+By radar observation, i.e., 
+continuous data collected 
+in a single radar mode 
+Calibration Raw Signal 
+Data (CRSD)  
+Global This L0B product contains instrument 
+calibration data 
+By radar datatake, i.e., a 
+sequence of observations 
+for one radar-on period 
+ 
+Product L1 Scope Description Granule Size 
+Range-Doppler Single Look 
+Complex (RSLC) 
+Global The L1 RSLC product contains focused SAR 
+images in range-Doppler coordinates. The 
+RSLC is input to other L1 and L2 products 
+On pre-defined track/frame. 
+High-resolution modes will 
+have a high-res RSLC 
+product and a background 
+resolution RSLC product 
+Range-Doppler Nearest-
+Time Interferogram (RIFG)  
+Antarctica, 
+Greenland, and 
+selected mountain 
+glaciers. Nearest 
+pair in time and co-
+pol channels only 
+Multi-looked interferogram in range-Doppler 
+coordinates, ellipsoid and topographic phase 
+flattened and formed with precise coregistration 
+using geometrical offsets and high-resolution 
+pixel offsets obtained from incoherent cross-
+correlation 
+On pre-defined track/frame 
+Range-Doppler Nearest-
+Time Pixel Offsets (ROFF) 
+Antarctica, 
+Greenland, and 
+selected mountain 
+glaciers. Nearest 
+pair in time and co-
+pol channels only 
+Unfiltered and unculled layers of pixel offsets in 
+range-Doppler coordinates with different 
+resolutions obtained from incoherent cross-
+correlation 
+On pre-defined track/frame 
+Range-Doppler Nearest-
+Time Unwrapped 
+Interferogram (RUNW) 
+Antarctica, 
+Greenland, and 
+selected mountain 
+glaciers. Nearest 
+pair in time and co-
+pol channels only 
+Multi-looked unwrapped interferogram in range- 
+Doppler coordinates, ellipsoid- and topography-
+flattened  
+On pre-defined track/frame 
+ 
+Product L2 Scope Description Granule Size 
+Geocoded SLC (GSLC) Global and all 
+channels 
+Single Look Complex SAR image on geocoded 
+map coordinate system 
+On pre-defined track/frame 
+Geocoded Nearest-Time 
+Pixel Offsets (GOFF) 
+Antarctica, 
+Greenland, selected 
+mountain glaciers. 
+Nearest pair in time 
+and co-pol channels 
+only 
+Unfiltered and unculled layers of pixel offsets 
+with different resolutions obtained from 
+incoherent cross-correlation and geocoded on 
+map coordinate system 
+On pre-defined track/frame 
+Geocoded Nearest-Time 
+Unwrapped Interferogram 
+(GUNW) 
+Global. Nearest pair 
+in time and co-pol 
+channels only 
+Geocoded, multi-looked, ellipsoid and 
+topography flattened unwrapped interferogram 
+On pre-defined track/frame 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+5 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Product L2 Scope Description Granule Size 
+Geocoded Polarimetric 
+Covariance Matrix (GCOV) 
+Global and all 
+channels. 
+Single/Dual/Quad pol 
+Geocoded, multi-looked polarimetric covariance 
+matrix 
+On pre-defined track/frame 
+ 
+ 
+Table 2-2 NISAR product level descriptions defined by Science. 
+Product Level Description 
+Level 0A Unprocessed instrument data with all communications artifacts removed, but 
+without reconstruction of missing data and sorting of samples from the 
+instrument.  May still contain bit errors and missing data that needs 
+reconstruction 
+Level 0B Reconstructed, time ordered, unprocessed instrument data at original 
+resolution  
+Level 1 Processed instrument data, focused to full resolution complex images or 
+derived radar parameters including interferometric phase and pixel offsets, 
+in native radar coordinate system  
+Level 2   Focused radar imagery or derived radar parameters projected to a map 
+coordinate system  
+Level 3 Derived geophysical parameters on a geocoded grids with the same or 
+coarser posting as the Level 1 or Level 2 products  
+ 
+ 
+2.2 GUNW Product Overview  
+The GUNW product is a L2 product derived from the RIFG and RUNW products by geocoding 
+the unwrapped phase and its associated data layers (i.e., coherence magnitude, ionospheric phase 
+screen) on a geographical grid at 80 m posting. Geocoding is performed by using the orbit of the 
+reference RSLC product and a Digital Elevation Model (DEM) to project the data onto a pre-
+defined Universal Transverse Mercator (UTM) or Polar stereographic projection system map 
+grid (Appendix B: Geocoded Product Grids).  The geocoding algorithm uses a bilinear 
+interpolation for interpolating data layers with floating-point data types, Sinc for the complex 
+wrapped interferogram, and nearest-neighbor interpolation for unsigned integer datasets (e.g., 
+connected components mask).  
+ 
+The GUNW products also includes the wrapped complex interferogram (multilooked at 30 m in 
+range-Doppler coordinates and geocoded at 20 m posting), the unwrapped interferometric phase 
+in radians (80 m posting), the normalized interferometric coherence magnitude (20 m and 80 m 
+posting), connected components mask, and sub-pixel offset layers obtained from incoherent 
+cross-correlation. If an offset product in range-Doppler coordinates (e.g., ROFF) is available for 
+the processed frame, the sub-pixel offset layers included in GUNW are obtained by optimally 
+blending the multiresolution offset layers included in ROFF. The application of the offset layers 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+6 
+This document has been reviewed and determined not to contain export controlled technical data. 
+blending is indicated by setting the Boolean flag in 
+“/science/LSAR/GUNW/metadata/processingInformation/parameters/pixelOffsets/frequencyA/is
+OffsetsBlendingApplied” to “True”. Conversely, if this Boolean flag is set to “False”, the offset 
+blending algorithm is not applied, and the sub-pixel offset layers included in GUNW are 
+obtained by running incoherent cross-correlation on a coarse radar grid [RD1]. Regardless of the 
+use of the offset blending algorithm, the pixel offsets layers are consistently geocoded at 80 m 
+posting on the same geographical grid of the other data layers included in the GUNW product.  
+ 
+The GUNW product also includes an ionospheric phase screen layer and a layer quantifying its 
+uncertainty. The ionospheric phase screen comes from the RUNW product and is estimated from 
+the two spectral bands “frequencyA” and “frequencyB" whenever possible. In the case of mode 
+transitions where continuity of spectral bands is impacted, a split spectrum ionospheric phase 
+estimate is derived from the main imaging band (“frequencyA”). The estimated ionospheric 
+phase screen is included as a layer in the product but not applied to the data layers within GUNW 
+by default. The GUNW product also includes geocoded lookup tables for external phase 
+corrections (e.g., solid Earth tides, hydrostatic and wet tropospheric phases). These phase 
+corrections, when available, are not removed from the interferometric data.  
+ 
+The GUNW product with its group and basic properties is described in Section 4.  The details of 
+the data elements are given in Section 5. Metadata cubes are discussed in Section 6.  
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+7 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+3 PRODUCT ORGANIZATION  
+ 
+3.1 File Format  
+All NISAR standard products are in the HDF5 [RD5].  HDF5 is a general-purpose file format 
+and programming library for storing scientific data. The National Center for Supercomputing 
+Applications (NCSA) at the University of Illinois developed HDF to help scientists share data 
+more easily. Use of the HDF library enables users to read HDF files regardless of the underlying 
+computing environments. HDF files are equally accessible in Fortran, C/C++, and other high-
+level computation packages such as IDL, MATLAB or Python.   
+ 
+The HDF Group, a spin-off organization of the NCSA, is responsible for development and 
+maintenance of HDF.  Users should reference The HDF Group website at 
+https://portal.hdfgroup.org/display/HDF5/HDF5 [RD5] to download HDF software and 
+documentation. 
+ 
+HDF5 represents a significant departure from the conventions of previous versions of HDF.  The 
+changes that appear in HDF5 provide flexibility to overcome many of the limitations of previous 
+releases.  The basic building blocks have been largely redefined and are more powerful but less 
+numerous.  The key concepts of the HDF5 Abstract Data Model are Files, Groups, Datasets, 
+Datatypes, Attributes, and Property Lists.  The following sections provide a brief description of 
+each of these key HDF5 concepts. 
+ 
+3.1.1 HDF5 File  
+A File is the abstract representation of a physical data file. Files are containers for HDF5 
+Objects. These Objects include Groups, Datasets, and named Datatypes. 
+ 
+3.1.2 HDF5 Group  
+Groups provide a means to organize the HDF5 Objects in HDF5 Files. Groups are containers for 
+other Objects, including other Groups. In that sense, Groups are analogous to directories that are 
+used to categorize and classify files in standard operating systems.  
+ 
+Groups and their nested objects can be accessed using a path-like notation, akin to the notation 
+employed for accessing Unix directories. The root Group is “/”. A Group contained in root might 
+be called “/myGroup”.  
+ 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+8 
+This document has been reviewed and determined not to contain export controlled technical data. 
+3.1.3 HDF5 Dataset  
+The Dataset is the HDF5 component that stores user data. Each Dataset associates with a 
+Dataspace that describes the data dimensions, as well as a Datatype that describes the basic unit 
+of storage element.  A Dataset can also have Attributes. 
+ 
+3.1.4 HDF5 Datatype  
+A Datatype describes a unit of data storage for Datasets and Attributes.  Datatypes are 
+subdivided into Atomic and Composite Types. 
+ 
+Atomic Datatypes are analogous to simple basic types in most programming languages.   HDF5 
+Atomic Datatypes include Time, Bitfield, String, Reference, Opaque, Integer, and Float.  Each 
+atomic type has a specific set of properties.  Examples of the properties associated with Atomic 
+Datatypes are: 
+• Integers are assigned size, precision, offset, pad byte order, and are designated as signed 
+or unsigned.   
+• Strings can be fixed or variable length, and may or may not be null-terminated.  
+• References are constructs within HDF5 Files that point to other HDF5 Objects in the 
+same file. 
+HDF5 provides a large set of predefined Atomic Datatypes. Table 3-1 lists the Atomic Datatypes 
+that are used in NISAR data products. 
+ 
+Table 3-1 HDF5 Atomic Datatypes. 
+HDF5 Atomic Datatypes Description 
+H5T_STD_U8LE unsigned, 8-bit, little-endian integer 
+H5T_STD_U16LE unsigned, 16-bit, little-endian integer 
+H5T_STD_U32LE unsigned, 32-bit, little-endian integer 
+H5T_STD_U64LE unsigned, 64-bit, little-endian integer 
+H5T_STD_I8LE signed, 8-bit, little-endian integer 
+H5T_STD_I16LE signed, 16-bit, little-endian integer 
+H5T_STD_I32LE signed, 32-bit, little-endian integer 
+H5T_STD_I64LE signed, 64-bit, little-endian integer 
+H5T_IEEE_F32LE 32-bit, little-endian, IEEE floating point 
+H5T_IEEE_F64LE 64-bit, little-endian, IEEE floating point 
+H5T_C_S1 character string made up of one or more bytes 
+ 
+Derived Datatypes are user-defined variants of predefined Atomic Datatypes where the data 
+organization has been modified at the bit-level. Derived data types are particularly useful for 
+representing custom N-bit integers and floating-point numbers.  
+ 
+Composite Datatypes incorporate sets of Atomic Datatypes.  Composite Datatypes include 
+Array, Enumeration, Variable Length and Compound.  
+• The Array Datatype defines a multi-dimensional array that can be accessed atomically.  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+9 
+This document has been reviewed and determined not to contain export controlled technical data. 
+• Variable Length presents a 1-D array element of variable length.  Variable Length 
+Datatypes are useful as building blocks of ragged arrays.  
+• Compound Datatypes are composed of named fields, each of which may be dissimilar 
+Datatypes.  Compound Datatypes are conceptually equivalent to structures in the C 
+programming language.  
+Named Datatypes are explicitly stored as Objects within an HDF5 File.  Named Datatypes 
+provide a means to share Datatypes among Objects.  Datatypes that are not explicitly stored as 
+Named Datatypes are stored implicitly. They are stored separately for each Dataset or Attribute 
+they describe.   
+ 
+The Derived and Compound Datatypes used in NISAR products are reported in Table 3-2.  
+ 
+Table 3-2 NISAR HDF5 Derived and Compound Datatypes. 
+Description Comments 
+16-bit little-endian floating point “binary16” half precision type in IEEE 754-2008 
+standard. Matches numpy.float16 type in Python. We 
+will refer to this type as H5T_IEEE_F16LE or Float16 
+in our documents. 
+H5T_COMPOUND 
+{ 
+         16-bit little-endian floating-point "r"; 
+         16-bit little-endian floating-point "i"; 
+} 
+Complex numbers made up of two half precision 
+floating point numbers.  
+H5T_COMPOUND 
+{ 
+         32-bit little-endian floating-point "r"; 
+         32-bit little-endian floating-point "i"; 
+} 
+Complex numbers made of two single precision 
+floating point numbers.  
+H5T_COMPOUND 
+{ 
+         64-bit little-endian floating-point "r"; 
+         64-bit little-endian floating-point "i"; 
+} 
+Complex numbers made of two double precision 
+floating point numbers.  
+ 
+3.1.5 HDF5 Attribute  
+An Attribute is a small aggregate of data that describes Groups or Datasets.  Like Datasets, 
+Attributes are also associated with a particular Dataspace and Datatype. Attributes cannot be 
+subsetted or extended.  Attributes themselves cannot have Attributes. 
+ 
+ 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+10 
+This document has been reviewed and determined not to contain export controlled technical data. 
+3.2 NISAR File Organization  
+3.2.1 Groups 
+All NISAR HDF5 files are organized within a hierarchy of Groups, with no actual data at the 
+root(“/”) level. Table 3-3 shows the general layout of the HDF5 files that are generated by the 
+NISAR SDS.  
+ 
+Table 3-3 Group organization at the top level of a NISAR HDF5 File. 
+Group Name Description 
+/science/LSAR/ All science data from the L-SAR instrument is organized under 
+this group  
+/science/SSAR/ All science data from the S-SAR instrument is organized under 
+this group 
+/science/[L/S]SAR/identification/  File level metadata for cataloging, archiving the granule  
+ 
+In the nominal baseline, L-SAR and S-SAR data will not appear in the same granule, even if they 
+cover the same geographic area. Data structure described below the primary groups 
+(“/science/LSAR/” for L-SAR and “/science/SSAR/” for S-SAR) will be the same for L-SAR 
+and S-SAR products. The rest of the document from this point on describes the layout of the 
+product containing L-SAR data. The specification for equivalent S-SAR data products will be the 
+same except for the substitution of “LSAR” by “SSAR” in the dataset paths in the HDF5 
+granule. 
+ 
+3.2.2 File Level Metadata 
+Global metadata at the file level are currently given as Global Attributes shown in Table 3-4.  
+ 
+Metadata regarding the data in the particular granule are given in 
+“/science/LSAR/identification/”. These data are described further in Section 4.2 and Section 5.2.  
+ 
+Table 3-4 Global Attributes of GUNW. 
+Attribute Format Description Value 
+Conventions string NetCDF-4 conventions adopted in 
+this product 
+CF-1.7 
+Title string Product title NISAR L2_GUNW Product 
+Institution string Name of producing agency NASA JPL 
+mission_name string Mission name NISAR 
+reference_document string Name and version of Product 
+Description Document to use as 
+reference for product 
+D-102272 NISAR NASA SDS 
+Product Specification L2 
+Geocoded Unwrapped 
+Interferogram 
+Contact string Contact information for producer of 
+product  
+nisar-sds-ops@jpl.nasa.gov 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+11 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+3.2.3 Variable Metadata - HDF5 Attributes 
+NISAR standards incorporate additional metadata that describe each HDF5 Dataset within the 
+HDF5 file.  Each of these metadata elements appear in an HDF5 Attribute that is directly 
+associated with the HDF5 Dataset.  Wherever possible, these HDF5 Attributes employ names 
+that conform to the Climate and Forecast (CF) conventions.    
+ 
+Table 3-5 lists the CF names for the HDF5 Attributes that NISAR products typically employ. 
+ 
+Table 3-5 Common variable Attributes in HDF5 file. 
+Attribute Description 
+_FillValue The value used to represent missing or undefined data 
+description Miscellaneous information about the data or the methods to generate it 
+long_name A descriptive variable name that indicates its content 
+quality_flag Names of variable quality flag(s) that are associated with this variable to 
+indicate its quality 
+units Unit of data  
+valid_max Maximum theoretical value of the variable  
+valid_min Minimum theoretical value of the variable  
+ 
+Some HDF5 datasets are populated with statistical Attributes. Error! Reference source not 
+found., Table 3-7 and Table 3-8 describe statistical Attributes added to real- and complex-
+valued, and mask HDF5 datasets, respectively. The list of real- and complex-valued and mask 
+HDF5 datasets for the standard GUNW product is given in Table 3-9. 
+ 
+Table 3-6 Statistical Attributes for real-valued HDF5 Datasets. 
+Attribute Description 
+min_value Minimum value of a real-valued HDF5 Dataset 
+mean_value Mean value of a real-valued HDF5 Dataset 
+max_value Maximum value of a real-valued HDF5 Dataset 
+sample_stddev Sample standard deviation of a real-valued HDF5 Dataset 
+ 
+Table 3-7. Statistical Attributes for complex-valued HDF5 Datasets. 
+Attribute Description 
+min_real_value Minimum value of the real part of a complex-valued HDF5 
+Dataset 
+mean_real_value Mean value of the real part of a complex-valued HDF5 Dataset 
+max_real_value Maximum value of the real part of a complex-valued HDF5 
+Dataset 
+sample_stddev_real Sample standard deviation of the real part of a complex-valued 
+HDF5 Dataset 
+min_imag_value Minimum value of the imaginary part of a complex-valued 
+HDF5 Dataset 
+mean_imag_value Mean value of the imaginary part of a complex-valued HDF5 
+Dataset 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+12 
+This document has been reviewed and determined not to contain export controlled technical data. 
+max_imag_value Maximum value of the imaginary part of a complex-valued 
+HDF5 Dataset 
+sample_stddev_imag Sample standard deviation of the imaginary part of a complex-
+valued HDF5 Dataset 
+ 
+Table 3-8 Statistical Attributes for mask HDF5 Datasets. 
+Attribute Description 
+layover_percentage Percentage of pixels in layover 
+shadow_percentage Percentage of pixels in shadow 
+layover_shadow_percentage Percentage of pixels in layover and shadow 
+land_percentage Percentage of pixels on land 
+water_percentage Percentage of pixels on water bodies (e.g., ocean) 
+ 
+Table 3-9 GUNW HDF5 Datasets populated with statistical Attributes. 
+HDF5 Group HDF5 Datasets Dataset type 
+/science/LSAR/GUNW/grids/frequencyA/unwra
+ppedInterferogram/ 
+mask Four-valued 
+/science/LSAR/GUNW/grids/frequencyA/unwra
+ppedInterferogram/[HH/VV]/ 
+unwrappedPhase, 
+coherenceMagnitude, 
+ionospherePhaseScreen 
+Real-valued 
+/science/LSAR/GUNW/grids/frequency/wrappe
+dInterferogram/[HH/VV]/ 
+coherenceMagnitude Real-valued 
+/science/LSAR/GUNW/grids/frequencyA/pixelO
+ffsets/[HH/VV]/ 
+alongTrackOffset, 
+slantRangeOffset 
+Real-valued 
+/science/LSAR/GUNW/metadata/radarGrid/ parallelBaseline, 
+perpendicularBaseline 
+Real-Valued 
+ 
+3.2.4 Variable Metadata - HDF5 Datasets 
+Users should note that the availability of specific polarizations (e.g., HH, VV) in any given 
+NISAR GUNW product depends on the LSAR instrument’s acquisition mode used over a 
+specific region. 
+ 
+Figure 3-1 illustrates different possibilities of NISAR acquisitions in terms of range bandwidth 
+and polarization of the transmitted and received signal. The LSAR instrument can acquire SAR 
+data at the total 77 MHz range bandwidth or at parts of the spectrum as depicted in Figure 3-1. 
+Acquisitions from the full 77 MHz spectrum and acquisitions from lower band of the spectrum 
+(blue color in Figure 3-1) are stored in the “frequencyA” group of the NISAR L-band products 
+(e.g., /science/LSAR/GUNW/grids/frequencyA). The SAR data at the higher band of the range 
+spectrum (yellow color in Figure 3-1) correspond to “frequencyB”. Under the current processing 
+baseline, only data from the “frequencyA” Group is used for interferometric processing. Data in 
+the “frequencyB” Group of reference and secondary RSLCs is not interferometrically processed 
+and is therefore not included in GUNW products. 
+ 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+13 
+This document has been reviewed and determined not to contain export controlled technical data. 
+The polarization content of the GUNW “frequencyA” Group is determined by the polarizations 
+common to both reference and secondary RSLCs. For example, if the reference RSLC includes 
+HH and HV polarizations while the secondary RSLC includes HH and VV polarizations, the 
+common polarization would be HH, and only this polarization would be present in the GUNW 
+product. Similarly, other polarization combinations may be derived based on the overlapping 
+polarizations between the input RSLCs. Note, per current processing baseline, the cross-
+polarimetric channels HV and VH are not interferometrically processed. 
+ 
+ 
+Figure 3-1 A visualization of possible NISAR L-band science acquisition modes 
+ 
+3.2.5 Georeferencing 
+NISAR L2 products contain georeferenced Datasets where the georeferencing information is 
+provided in accordance with Climate and Forecast 1.7 (CF 1.7) conventions.  
+ 
+CF conventions require a "grid mapping" dataset which describes the coordinate system 
+associated with the georeferenced Dataset. For NISAR L2 products, this grid mapping is 
+represented by the Dataset "projection", which is included under the same Group as each 
+georeferenced Dataset. Accordingly, each georeferenced Dataset contains an Attribute 
+“grid_mapping”, whose value is always hard coded to the string "projection" (see Table 3-10).  
+ 
+The value of the "projection" Dataset is set to the European Petroleum Survey Group (EPSG) 
+code of the associated georeferenced Dataset. The "projection" Dataset has Attributes with 
+additional grid mapping information (see Table 3-10). More information about the projections 
+used to represent NISAR L2 products is provided in Section 8. 
+ 
+
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+14 
+This document has been reviewed and determined not to contain export controlled technical data. 
+In addition to a grid mapping dataset, CF conventions use HDF5 Dimension Scales [RD5] to 
+associate coordinates to each georeferenced Dataset. The Dimension Scales employed in NISAR 
+L2 products are the "xCoordinates", "yCoordinates", and "heightAboveEllipsoid" Datasets, 
+which represent the horizontal X- and Y-coordinates, and elevation Z-coordinates, respectively, 
+and are located within the same Group as the associated georeferenced Dataset. These are one 
+dimensional (1-D) vectors with lengths matching the associated Dataset's dimensions; each 
+vector element corresponds to the grid-mapping location at the center of the georeferenced array 
+pixels. "heightAboveEllipsoid" is only included for three-dimensional (3-D) georeferenced 
+Datasets. 
+ 
+The complete listing of all georeferenced HDF5 Datasets within the GUNW product is given in 
+Table 3-11. Note that the 3-D georeferenced Datasets are contained in the "radarGrid" Group; 
+they are metadata cubes which represent the radar geometry in a compact form. Section 4.4.3 
+contains information about the “radarGrid” Group; Section 6 describes metadata cubes and their 
+usage. 
+ 
+Table 3-10 Attributes of the HDF5 Dataset "projection" containing the grid mapping. 
+Attribute Description 
+ellipsoid Projection ellipsoid 
+epsg_code Projection EPSG code 
+false_easting The value added to all abscissa values in the rectangular coordinates 
+for a map projection 
+false_northing The value added to all ordinate values in the rectangular coordinates 
+for a map projection 
+grid_mapping_name Grid mapping variable name 
+inverse_flattening Inverse flattening of the ellipsoidal figure 
+latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection 
+longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian 
+associated with the geodetic datum 
+semi_major_axis Semi-major axis 
+spatial_ref Spatial reference 
+utm_zone_number UTM zone number 
+ 
+Table 3-11 List of GUNW georeferenced Datasets. 
+HDF5 Group HDF5 Datasets Array 
+Dimension 
+/science/LSAR/GUNW/grids/ 
+frequencyA/wrappedInterferogram/[HH/VV]/ 
+wrappedInterferogram 
+coherenceMagnitude 
+2-D 
+/science/LSAR/GUNW/grids/ 
+frequencyA/unwrappedInterferogram/[HH/VV]/  
+unwrappedPhase 
+coherenceMagnitude 
+connectedComponents 
+ionospherePhaseScreen 
+ionospherePhaseScreenUncertainty 
+2-D 
+/science/LSAR/GUNW/grids/ 
+frequencyA/pixelOffsets/[HH/VV]/ 
+alongTrackOffset 
+slantRangeOffset 
+correlationSurfacePeak 
+2-D 
+/science/LSAR/GUNW/metadata/radarGrid slantRange 3-D 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+15 
+This document has been reviewed and determined not to contain export controlled technical data. 
+zeroDopplerAzimuthTime 
+incidenceAngle, 
+losUnitVectorX 
+losUnitVectorY 
+alongTrackUnitVectorX 
+alongTrackUnitVectorY 
+elevationAngle 
+groundTrackVelocity 
+ 
+3.3 Cloud Optimization 
+NISAR science data products utilize several special features of the HDF5 format to optimize file 
+sizes and enable high-performance read access in a cloud environment. A key challenge of cloud 
+data access is the latency associated with calls to the cloud storage Application Programming 
+Interface (API), so the following strategies are used to minimize the number of cloud API calls 
+needed per byte of data read: 
+ Chunks: Large datasets within the products use chunked storage. Every read operation 
+thus fetches at least one entire chunk of data. The chunk size is nominally 512x512 
+pixels, though the precise chunk dimensions should be obtained using the H5Pget_chunk 
+method of the HDF5 C API (or its equivalent in other language bindings). 
+ Compression: Data are written using a compression filter, minimizing the amount of data 
+stored and hence transferred over the network. The HDF5 API handles decompression 
+automatically. 
+ Paging: Files are created with the “paged” file space strategy 
+(H5F_FSPACE_STRATEGY_PAGE in the HDF5 C API). These pages serve as the 
+basic unit of allocation within the file. The page size is chosen larger than the chunk size 
+so that both a chunk of data and its HDF5-internal metadata can be read in a single cloud 
+API call. This parameter may be queried using the H5Pget_file_space_page_size method 
+of the HDF5 C API. 
+ 
+Software that reads NISAR products stored on the cloud should take heed of the following 
+recommendations: 
+ Set the page buffer size to a multiple of the file space page size using 
+H5Pset_page_buffer_size in the HDF5 C API. This enables caching logic that reduces the 
+number of cloud API calls in the file driver. 
+ Implement chunk-aligned data access patterns. Reads in multiples of the chunk size (and 
+aligned with chunk boundaries) are most efficient. 
+ If other access patterns are desired, try setting the read cache large enough to hold all the 
+chunks that may be re-read. For example, line-by-line access can still be efficient if the 
+read cache is large enough to hold N lines, where N is the chunk dimension. That way 
+lines can be read from the cache instead of fetching the same set of chunks N times over 
+the network. The cache size may be set globally using the H5Pset_cache or locally with 
+the H5Pset_chunk_cache methods of the HDF5 C API. 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+16 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Note that, in general, these optimizations require knowledge of the file contents. Therefore, the 
+most robust approach is to open the file, inspect the contents (e.g., chunk size, page size, and 
+dataset dimensions) and then re-open the file with optimal parameters.  
+ 
+3.4 Granule Definition  
+NISAR GUNW granules will conform to the Tiling Scheme being developed for the mission and 
+are expected to have a ground footprint of 240 km x 240 km.  
+ 
+3.5 File Naming Convention  
+NISAR GUNW Granule names will conform to the Standard Product File Naming Scheme 
+[RD3].  
+ 
+3.6 Temporal Organization  
+Temporal organization is not specifically applicable to the GUNW product, although it is 
+generally arranged in order of increasing azimuth time.  
+ 
+3.7 Spatial Organization  
+The L2 data are arranged on a uniformly spaced, North-up and East-right grid, i.e., decreasing 
+North or Y coordinate in the row direction and increasing East or X coordinate in the column 
+direction following the row-major order convention of representing 2D raster arrays. Pixel-is-
+area convention is used to tag the raster layers with coordinate information.  
+ 
+3.8 Spatial Sampling and Resolution  
+Some salient features of the output grid for the GUNW product are:  
+ 
+1. The top-left corner of the top-left pixel will correspond to the same geographic coordinate 
+for all imagery layers in an L-SAR GUNW product. 
+2. The main imaging band (“frequencyA”) is spatially averaged to the same posting, 
+irrespective of the imaging. This allows for spatial mosaicking operations across 
+instrument mode changes.  
+ 
+3.8.1 Mosaicking 
+The spatial sampling of the output grid has also been designed to facilitate along-track 
+mosaicking of contiguous GUNW product granules if the user desires. See Section 8 for details 
+on the common output grid used for all L2 products.  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+17 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+3.8.2 Partially compressed SLC data 
+Partially compressed data in RSLC files will not be used to produce GUNW products.  
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+18 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+4 LEVEL 2 GEOCODED UNWRAPPED INTERFEROGRAM 
+PRODUCT  
+ 
+In this section, we briefly describe the layout of GUNW data and associated metadata within the 
+NISAR HDF5 file. Detailed description of Group and Dataset names can be found in Section 5. 
+In this section, we focus on the organization of L-SAR instrument data within the file under the 
+Group name “/science/LSAR/”.  
+ 
+4.1 Dimensions and Shapes of Data  
+Information on the dimensions and shapes of the data items in various data tables is described as 
+part of the metadata (Section 5.1). This information is useful both as part of the product 
+identification and for setting up further processing, i.e., dimensioning arrays.  
+ 
+4.2 Product Identification 
+Information needed to identify this product is given under the Group 
+“/science/LSAR/identification/” (Section 5.2). This includes information such as orbit, cycle, 
+track, and frame numbers, acquisition times, a polygon representing the bounding box of the 
+included imagery in geographic coordinates, product version, and product specification version 
+(i.e., the version number of this document).  
+ 
+4.2.1 Composite Release Identifier 
+The Composite Release Identifier (CRID) is a global version identifier documenting the 
+algorithms and the overall status of the science data system used to generate the product. The 
+CRID follows the format EPMMmp where: 
+ 
+ E (Environment): a single character representing the environment or the venue where 
+the product was generated. It can assume the values:  
+o A: if the product was generated in the Algorithm Development environment 
+o D: if the product was generated in the Development environment 
+o P: if the product was generated in the Production environment 
+o T: if the product was generated in the Integration and Test (I&T) environment 
+ P (Mission Phase): a single numerical digit indicating the mission phase in which the 
+product was generated. It can assume the following values: 
+o 0: for pre-launch (Phase D) 
+o 1: for primary science phase operations (Phase E) 
+o 2: extended mission (Phase E) 
+o 3: post-operations (Phase F), decommissioning, end of mission processing 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+19 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ MM (Major Release): two numeric digits monotonically increasing between 0 and 99. 
+The Major Release resets to zero upon a change in the Mission Phase identifier. A change 
+in the Major Release indicates a major change in the products i.e., a change to one or 
+more algorithms or to the processing rules having a significant impact on the science 
+content of the product. The Major Release stands as a composite of the versions of all the 
+algorithms used in the science data production systems. Individual algorithm versions are 
+allocated in the product metadata.  
+ m (Minor Release): a single numeric digit increasing monotonically between 0 and 1 
+indicating a minor update to the product and/or the data system. A change in the Minor 
+Release identifier indicates minor algorithm changes (e.g., bug fixes, small functional 
+updates) that do not have a significant impact on the product. The Minor Release 
+identifier resets to zero upon every update to the Major Release identifier 
+ P (Patch Release): a single numerical digit monotonically increasing between 0 and 1. A 
+change in the Patch Release identifier indicates an update to the science data system 
+software that has undergone the System Deployment Review to fix a critical bug. The 
+Patch Release resets to zero upon updates to the Major Release or Minor Release 
+identifiers. 
+ 
+4.3 Radar Imagery  
+The GUNW product’s imagery layers and associated datasets are initially organized based on the 
+center frequency within the Group “/science/LSAR/GUNW/grids/frequencyA/”. Only the main 
+NISAR imaging band (“frequencyA”) will be processed for GUNW products. Imagery data is 
+further categorized by their type. The Unwrapped Interferogram layer and associated Datasets 
+are located under the Group 
+“/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/”. The Wrapped 
+Interferogram and its associated datasets are situated under the Group 
+“/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/”. Subsequently, the cross-
+correlation sub-pixel offsets are located under the Group 
+“/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/”. Each of these Groups is further 
+organized by polarization (TxRx), and by a final grouping. For example, the Unwrapped Phase 
+Group could contain the Group 
+“/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/”. The imagery datasets 
+reside within these polarization Groups. As an example, the Dataset 
+“/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase” 
+corresponds to the unwrapped phase Dataset derived from the “frequencyA” and “HH” 
+polarization imagery layers within the reference and secondary input RSLCs. 
+ 
+The details of the data elements for the granule are given in Section 5.3.  
+ 
+4.4 Radar Metadata  
+The Group “/science/LSAR/GUNW/metadata/” includes a list of miscellaneous metadata needed 
+to interpret the imagery (e.g., wrapped complex interferogram, unwrapped interferometric phase) 
+included in the GUNW product. 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+20 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+4.4.1 Processing Information  
+The Group “/science/LSAR/GUNW/metadata/processingInformation/”  includes the processing 
+parameters used to generate the GUNW product. This group also include a list of the used 
+algorithms, and the inputs granules and files used to produce GUNW. For a complete description 
+of this group, refer to Section 5.4. 
+ 
+4.4.1.1   Parameters  
+The Group “/science/LSAR/GUNW/metadata/processingInformation/parameters/” is further 
+organized in seven Groups: 
+1. common: organized by frequency, and including the parameters derived by combining the 
+information from the reference and secondary RSLC e.g., Doppler centroid and the 
+Doppler bandwidth. 
+2. reference: including the reference terrain height of the reference RSLC and Boolean flags 
+to indicate if the RSLC is the results of mixed mode processing and if RFI correction has 
+been applied. This Group is further organized by frequency and includes some relevant 
+parameters of the reference RSLC such as the slant range and zero Doppler time 
+spacings, the slant range and the azimuth bandwidths, and the Doppler centroid. 
+3. secondary: this Group follows the same organization of reference but includes the 
+corresponding metadata for the secondary RSLC. 
+4. interferogram: including the parameters used to generate the complex wrapped 
+interferogram and the normalized interferometric correlation e.g., the common slant 
+range and azimuth bandwidths and the number of looks in along-track and slant range 
+directions used to generate the complex wrapped interferogram in radar coordinates. 
+5. ionosphere: including the parameters used to generate the ionosphere phase screen e.g., 
+the bandwidth of the low and high sub-images used in the ionosphere phase estimation 
+with the range split spectrum technique. 
+6. pixelOffsets: including the parameters (e.g., window size, search window, offset 
+spacings) to generate the along-track and slant range layers of pixelOffsets in radar 
+coordinates. This Group is further organized by frequency.  
+7. geocoding: including a set of Boolean flags indicating the corrections that have been 
+applied while geocoding the pixel offsets layers from radar to geographical coordinates 
+i.e., wet and dry troposphere correction, slant range and azimuth ionosphere corrections. 
+The Group parameters also contains the Dataset runConfigurationContents which includes a 
+copy of the run configuration used for processing populated with all the processing options, 
+parameter values, and input files. 
+ 
+4.4.1.2   Algorithms  
+The Group “/science/LSAR/GUNW/metadata/processingInformation/algorithms/” includes the 
+name and the version of the software used to generate the product. The Group is further 
+organized in distinct Groups identifying the processing steps used to generate the GUNW 
+product: 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+21 
+This document has been reviewed and determined not to contain export controlled technical data. 
+1. coregistration: including the algorithms used to perform the coarse and fine 
+coregistration of the reference and secondary RSLCs (e.g., geometry coregistration, 
+cross-correlation algorithm). 
+2. interferogramFormation: including the algorithms used to form the complex wrapped 
+interferogram and the normalized interferometric correlation (e.g., flattening method) 
+3. unwrapping: including the algorithms used to perform phase unwrapping (e.g., 
+unwrapping algorithm, unwrapping initializer, type of performed preprocessing of the 
+wrapped interferometric phase). 
+4. ionosphereEstimation: including the algorithm used to perform the estimation of the 
+ionosphere phase screen (e.g., outlier estimation and filling, unwrapping error 
+correction). 
+5. geocoding: including the algorithms to geocode the different data layers contained in the 
+GUNW product e.g., floating, integer, and complex geocoding interpolation and flags to 
+identify which correction (i.e., slant range ionospheric delay) has been used during 
+geocoding. 
+ 
+4.4.1.3   Input Files  
+The Group “/science/LSAR/GUNW/metadata/processingInformation/inputs/” includes the 
+filenames of the input RSLC granules, configuration files, orbit files, and a description of the 
+DEM used for processing used to generate the product.  
+ 
+4.4.2 Other Radar Metadata  
+4.4.2.1  Orbit  
+The reference RSLC orbit ephemeris used for generating the GUNW product is provided under 
+“/science/LSAR/GUNW/metadata/orbit/” and further detailed in Section 5.5. This Group 
+includes time-tagged antenna phase center position and velocity vectors in Earth Centered Earth 
+Fixed (ECEF) Cartesian coordinates and information on the used orbit fidelity (e.g., Medium 
+Orbit Ephemeris).  
+ 
+4.4.2.2  Attitude 
+The attitude state vectors of the reference RSLC used for generating the GUNW product can be 
+found under the Group “/science/LSAR/GUNW/metadata/attitude/”. This Group includes time-
+tagged quaternions and Euler angles representing the slant range plane from the antenna phase 
+center in an ECEF Cartesian system.  
+ 
+4.4.3 Radar Grid  
+The group "/science/LSAR/GUNW/metadata/radarGrid/” contains information on the radar 
+geometry of the reference RSLCs. The Datasets within this Group are given in the form of 
+metadata cubes, referred to as radar grid cubes, that are organized over a three-dimensional 
+geographic grid. The representation as data cubes, rather than two-dimensional rasters, is used to 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+22 
+This document has been reviewed and determined not to contain export controlled technical data. 
+reduce the amount of space required to store radar geometry values within NISAR L2 products. 
+This is possible because each radar grid cube contains slowly varying values in space that can be 
+described by a low-resolution three-dimensional grid with sufficient accuracy. 
+ 
+These values, however, are usually required at the terrain height, often characterized by a fast-
+varying surface representing the local topography. A higher-resolution DEM can then be used to 
+interpolate radar grid cubes and generate high-resolution maps of the corresponding radar 
+geometry variable. Further information on metadata cubes along with examples on how to 
+interpolate them using a reference DEM is provided in Section 6. 
+ 
+Radar grid cubes (for geocoded products) are provided in the same coordinate system as the 
+product imagery with similar extents (bounding box) but coarser pixel spacing. The three-
+dimensional geographic grid is defined by the HDF5 Datasets “xCoordinates” (defining the east 
+component), “yCoordinates” (north component), and “heightAboveEllipsoid” (height above the 
+WGS84 ellipsoid), common to all radar grid cubes, and following the CF-1.7 convention. 
+ 
+The “radarGrid” Group also included the Datasets:  
+1.   “referenceSlantRange” (“secondarySlantRange”) and 
+“referenceZeroDopplerAzimuthTime” (“secondaryZeroDopplerAzimuthTime” ) 
+defining the zero-Doppler radar grid of the reference (secondary) RSLC. These Datasets 
+contain respectively the range position in meters and the zero-Doppler azimuth time in 
+seconds for each point of the geographical grid  
+2. “losUnitVectorX” and “losUnitVectorY” identifying the East and North components of 
+the Line-Of-Sight (LOS) unit vector (i.e., the vector from the target to the sensor) in the 
+East-North-Up (ENU) coordinate system for each point of the geographic grid. The Up 
+component of the LOS unit vector can be simply derived from the East and North 
+components as: 
+ 
+𝑙𝑜𝑠𝑈𝑛𝑖𝑡𝑉𝑒𝑐𝑡𝑜𝑟𝑍 =  ඥ1 −𝑙𝑜𝑠𝑈𝑛𝑖𝑡𝑉𝑒𝑐𝑡𝑜𝑟𝑋ଶ − 𝑙𝑜𝑠𝑈𝑛𝑖𝑡𝑉𝑒𝑐𝑡𝑜𝑟𝑌ଶ 
+ 
+3. “alongTrackUnitVectorX” and “alongTrackUnitVectorY” containing the East and North 
+components of the along-track unit vector (i.e., the projection of the along-track vector at 
+the ground height) in UTM coordinates 
+4. “incidenceAngle containing the incidence angle, i.e., the angle between the LOS vector 
+and the normal to the ellipsoid at the target height  
+5. “elevationAngle” containing the elevation angle i.e., the angle between the LOS vector 
+and the normal to the ellipsoid at the sensor  
+6. “groundTrackVelocity” containing the ground track velocity i.e., the absolute value of the 
+platform velocity scaled at the target height  
+7. “slantRangeSolidEarthTidesPhase” and “alongTrackSolidEarthTidesPhase” representing 
+the slant range and along-track phase components due to Solid Earth tides 
+8.  “wetTroposphericPhaseScreen”, “hydrostaticTroposphericPhaseScreen” representing the 
+interferometric phase due to the wet and hydrostatic components of the tropospheric 
+delay 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+23 
+This document has been reviewed and determined not to contain export controlled technical data. 
+9. “perpendicularBaseline” and “parallelBaseline” containing the perpendicular and parallel 
+component of the baseline between the reference and secondary RSLCs. The baseline 
+components are only computed for the bottom and top heights of the radar grid cubes 
+ 
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+24 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+5 PRODUCT SPECIFICATION  
+The following subsections provide a detailed overview of the L2_GUNW product contents. In 
+this context, the string data type refers to a fixed-length byte string, and all timestamps are 
+represented in Coordinated Universal Time (UTC). 
+ 
+5.1 Dimensions and Shapes 
+To simplify the description of the layout of data within the HDF5 file, we will use a table of 
+dimensions and shapes to represent the relationship between similarly sized Datasets. The entries 
+in this table do not present actual Datasets in the HDF5. This table is meant to be a guide to 
+interpreting the shapes of the datasets in subsequent subsections.  
+ 
+Table 5-1 Table of dimensions and shapes in GUNW product. 
+Name Shape Description 
+scalar scalar Scalar values 
+numberOfDatatakes scalar Number of datatakes in product 
+numberOfObservations scalar Number of observations in product 
+numberOfFrequencies scalar Number of L-SAR frequencies in product 
+numberOfFrequencyAPolarizations scalar Number of polarization layers associated with L-SAR 
+frequencyA 
+wrappedInterferogramWidth scalar Number of pixels in all L-SAR datasets within the 
+wrappedInterferogram group 
+wrappedInterferogramLength scalar Number of lines in all L-SAR datasets within the 
+wrappedInterferogram group 
+complexWrappedInterferogramShape (wrappedInterferogramLength, 
+wrappedInterferogramWidth) 
+Shape associated with complex datasets in the 
+wrappedInterferogram group 
+wrappedInterferogramShape (wrappedInterferogramLength, 
+wrappedInterferogramWidth) 
+Shape associated with real or integer datasets in the 
+wrappedInterferogram group 
+unwrappedInterferogramWidth scalar Number of pixels in all L-SAR datasets within the 
+unwrappedInterferogram group 
+unwrappedInterferogramLength scalar Number of lines in all L-SAR datasets within the 
+unwrappedInterferogram group 
+unwrappedInterferogramShape (unwrappedInterferogramLength, 
+unwrappedInterferogramWidth) 
+Shape associated with real or integer datasets in the 
+unwrappedInterferogram group 
+offsetShape (offsetLength, offsetWidth) Shape associated with Pixel Offset layers 
+offsetWidth scalar Number of pixels in Pixel Offset layers 
+offsetLength scalar Number of lines in all L-SAR frequencyA imagery 
+datasets 
+radarCubeShape (radarCubeHeight, 
+radarCubeLength, 
+radarCubeWidth) 
+Shape associated with metadata cubes 
+twoLayersCubeShape (radarCubeWidth, 
+radarCubeLength, 
+twoLayersCubeHeight) 
+Shape associated with baseline metadata cubes 
+radarCubeHeight scalar Height dimension of the metadata cube 
+radarCubeLength scalar Length dimension of the metadata cube 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+25 
+This document has been reviewed and determined not to contain export controlled technical data. 
+radarCubeWidth scalar Width dimension of the metadata cube 
+twoLayersCubeHeight scalar Height dimension of the baseline metadata cube 
+dopplerCentroidLength scalar Length dimension of Doppler centroid grid 
+dopplerCentroidWidth scalar Length dimension of Doppler centroid grid 
+dopplerCentroidShape (dopplerCentroidLength, 
+dopplerCentroidWidth) 
+Shape of the Doppler centroid grid 
+orbitListLength scalar Number of orbit state vectors 
+orbitShape (orbitListLength, 3) Shape of orbit state vector triplets dataset 
+attitudeListLength scalar Number of attitude state vectors 
+attitudeQuaternionShape (attitudeListLength, 4) Shape of attitude quaternion dataset 
+attitudeShape (attitudeListLength, 3) Shape of attitude Euler angle triplets dataset 
+numberOfInputL1Files scalar Number of input L1 granules 
+numberOfInputOrbitFiles scalar Number of input orbit files 
+numberOfInputConfigFiles scalar Number of input configuration files 
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+26 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+5.2 Product Identification 
+ 
+Table 5-2 NISAR HDF5 variables used for product identification. 
+Product identification variables 
+/science/LSAR/identification/referenceAbsoluteOrbitNumber  
+Type: UInt32 Shape: scalar 
+Description: Absolute orbit number for the reference RSLC 
+/science/LSAR/identification/secondaryAbsoluteOrbitNumber 
+Type: UInt32 Shape: scalar 
+Description: Absolute orbit number for the secondary RSLC 
+/science/LSAR/identification/referenceIsJointObservation  
+Type: string Shape: scalar 
+Description: "True" if any portion of the reference RSLC was acquired in a joint observation mode (e.g., L-band and S-band 
+simultaneously), "False" otherwise 
+/science/LSAR/identification/secondaryIsJointObservation  
+Type: string Shape: scalar 
+Description: "True" if any portion of the secondary RSLC was acquired in a joint observation mode (e.g., L-band and S-band 
+simultaneously), "False" otherwise 
+/science/LSAR/identification/trackNumber 
+Type: UInt32 Shape: scalar 
+Description: Track number 
+/science/LSAR/identification/frameNumber 
+Type: UInt16 Shape: scalar 
+Description: Frame number 
+/science/LSAR/identification/missionId 
+Type: string Shape: scalar 
+Description: Mission identifier 
+/science/LSAR/identification/processingCenter  
+Type: string Shape: scalar 
+Description: Data processing center 
+/science/LSAR/identification/productType 
+Type: string Shape: scalar 
+Description: Product type 
+/science/LSAR/identification/granuleId 
+Type: string Shape: scalar 
+Description: Unique granule identification name 
+/science/LSAR/identification/productDoi 
+Type: string Shape: scalar 
+Description: Digital Object Identifier (DOI) for the product 
+/science/LSAR/identification/productVersion 
+Type: string Shape: scalar 
+Description: Product version which represents the structure of the product and the science content governed by the algorithm, 
+input data, and processing parameters 
+/science/LSAR/identification/productSpecificationVersion 
+Type: string Shape: scalar 
+Description: Product specification version which represents the schema of this product  
+/science/LSAR/identification/lookDirection  
+Type: string Shape: scalar 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+27 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Description: Look direction, either "Left" or "Right" 
+/science/LSAR/identification/orbitPassDirection  
+Type: string Shape: scalar 
+Description: Orbit direction, either "Ascending" or "Descending" 
+/science/LSAR/identification/referenceZeroDopplerStartTime  
+Type: string Shape: scalar 
+Description: Azimuth start time (in UTC) of reference RSLC product in the format YYYY -mm-ddTHH:MM:SS.sssssssss 
+/science/LSAR/identification/secondaryZeroDopplerStartTime 
+Type: string Shape: scalar 
+Description: Azimuth start time (in UTC) of secondary RSLC product in the format YYYY-mm-ddTHH:MM:SS.sssssssss  
+/science/LSAR/identification/referenceZeroDopplerEndTime  
+Type: string Shape: scalar 
+Description: Azimuth stop time (in UTC) of reference RSLC product in the format YYYY-mm-ddTHH:MM:SS.sssssssss 
+/science/LSAR/identification/secondaryZeroDopplerEndTime  
+Type: string Shape: scalar 
+Description: Azimuth stop time (in UTC) of secondary RSLC product in the format YYYY -mm-ddTHH:MM:SS.sssssssss 
+/science/LSAR/identification/plannedDatatakeId 
+Type: string Shape: (numberOfDatatakes) 
+Description: List of planned datatakes included in the product 
+/science/LSAR/identification/plannedObservationId  
+Type: string Shape: (numberOfObservations) 
+Description: List of planned observations included in the product 
+/science/LSAR/identification/isUrgentObservation 
+Type: string Shape: scalar 
+Description: Flag indicating if observation is nominal ("False") or urgent ("True") 
+/science/LSAR/identification/listOfFrequencies  
+Type: string Shape: (numberOfFrequencies) 
+Description: List of frequency layers available in the product 
+/science/LSAR/identification/diagnosticModeFlag  
+Type: UByte Shape: scalar 
+Description: Indicates if the radar operation mode is a diagnostic mode (1 -2) or DBFed science (0): 0, 1, or 2 
+/science/LSAR/identification/productLevel 
+Type: string Shape: scalar 
+Description: Product level. L0A: Unprocessed instrument data; L0B: Reformatted, unprocessed instrument data; L1: Processed 
+instrument data in radar coordinates system; and L2: Processed instrument data in geocoded coordinates system  
+/science/LSAR/identification/isGeocoded 
+Type: string Shape: scalar 
+Description: Flag to indicate if the product data is in the radar geometry ("False") or in the map geometry ("True")  
+/science/LSAR/identification/boundingPolygon  
+Type: string Shape: scalar 
+Description: OGR compatible WKT representing the bounding polygon of the image. Horizontal coordinates are WGS84 longitude 
+followed by latitude (both in degrees), and the vertical coordinate is the height above the WGS84 ellipsoid in meters. The first point 
+corresponds to the start-time, near-range radar coordinate, and the perimeter is traversed in counterclockwise order on the map. 
+This means the traversal order in radar coordinates differs for left-looking and right-looking sensors. The polygon includes the four 
+corners of the radar grid, with equal numbers of points distributed evenly in radar coordinates along each edge  
+ ogr_geometry polygon 
+ epsg 4326 
+/science/LSAR/identification/processingDateTime 
+Type: string Shape: scalar 
+Description: Processing date and time (in UTC) in the format YYYY-mm-ddTHH:MM:SS  
+/science/LSAR/identification/radarBand 
+Type: string Shape: scalar 
+Description: Acquired frequency band, either "L" or "S" 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+28 
+This document has been reviewed and determined not to contain export controlled technical data. 
+/science/LSAR/identification/platformName  
+Type: string Shape: scalar 
+Description: Name of the platform used to collect the remote sensing data provided in this product  
+/science/LSAR/identification/instrumentName  
+Type: string Shape: scalar 
+Description: Name of the instrument used to collect the remote sensing data provided in this product  
+/science/LSAR/identification/processingType  
+Type: string Shape: scalar 
+Description: Nominal (or) Urgent (or) Custom (or) Undefined 
+/science/LSAR/identification/isDithered 
+Type: string Shape: scalar 
+Description: "True" if the pulse timing was varied (dithered) during acquisition, "False" otherwise 
+/science/LSAR/identification/isMixedMode 
+Type: string Shape: scalar 
+Description: "True" if this product is generated from reference and secondary RSLCs with different range bandwidths, "False" 
+otherwise 
+/science/LSAR/identification/compositeReleaseId  
+Type: string Shape: scalar 
+Description: Unique version identifier of the science data production system  
+/science/LSAR/identification/isFullFrame  
+Type: string Shape: scalar 
+Description: "True" if the product fully covers a NISAR frame, "False" if partial coverage  
+ frameCoveragePercentage Percentage of NISAR frame containing processed data 
+ thresholdPercentage Threshold percentage used to determine if the product is full frame or partial 
+frame 
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+29 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+5.3 Radar Imagery 
+ 
+Table 5-3 NISAR HDF5 variables related to SAR imagery. 
+Product imagery variables 
+/science/LSAR/GUNW/grids/frequencyA/listOfPolarizations  
+Type: string Shape: (numberOfFrequencyAPolarizations) 
+Description: List of processed polarization layers with frequency A 
+/science/LSAR/GUNW/grids/frequencyA/centerFrequency 
+Type: Float64 Shape: scalar 
+Description: Center frequency of the processed image in hertz 
+ units hertz 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/projection 
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes  
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/yCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive lines 
+ long_name Y coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/xCoordinateSpacing 
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive pixels 
+ long_name X coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/projection  
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes  
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+30 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/yCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive lines 
+ long_name Y coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/xCoordinateSpacing 
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive pixels 
+ long_name X coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/projection  
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes  
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/yCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive lines 
+ long_name Y coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/xCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive pixels 
+ long_name X coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/xCoordinates  
+Type: Float64 Shape: (unwrappedInterferogramWidth)  
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/yCoordinates  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+31 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Type: Float64 Shape: (unwrappedInterferogramLength)  
+Description: Y coordinates in specified projection 
+ long_name Y coordinates of projection 
+ standard_name projection_y_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/xCoordinates 
+Type: Float64 Shape: (unwrappedInterferogramWidth)  
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/yCoordinates  
+Type: Float64 Shape: (unwrappedInterferogramLength)  
+Description: Y coordinates in specified projection 
+ long_name Y coordinates of projection 
+ standard_name projection_y_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/xCoordinates  
+Type: Float64 Shape: (unwrappedInterferogramWidth) 
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/yCoordinates  
+Type: Float64 Shape: (unwrappedInterferogramLength)  
+Description: Y coordinates in specified projection 
+ long_name Y coordinates of projection 
+ standard_name projection_y_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/mask 
+Type: UByte Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth)  
+Description: Combination of water mask and a mask of subswaths of valid samples in the reference RSLC and geometrically-
+coregistered secondary RSLC. Each pixel value is a three-digit number: the most significant digit represents the water flag of that 
+pixel the reference RSLC, where 1 is water and 0 is non-water; the second digit represents the subswath number of that pixel in the 
+reference RSLC; the least significant digit represents the subswath number of that pixel in the secondary RSLC. A value of '0' in 
+either subswath digit indicates an invalid sample in the corresp onding RSLC 
+ _FillValue 255 
+ percentage_water Percentage of pixels over water bodies and ocean  
+ valid_min 0 
+ grid_mapping projection 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/projection  
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes  
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+32 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive lines 
+ long_name Y coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive pixels 
+ long_name X coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/HH/projection  
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes  
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/HH/yCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive lines 
+ long_name Y coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/HH/xCoordinateSpacing 
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive pixels 
+ long_name X coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/projection  
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes  
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+33 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/yCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive lines 
+ long_name Y coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/xCoordinateSpacing 
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive pixels 
+ long_name X coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/VV/projection  
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes  
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/VV/yCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive lines 
+ long_name Y coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/VV/xCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive pixels 
+ long_name X coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/xCoordinates  
+Type: Float64 Shape: (unwrappedInterferogramWidth)  
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/yCoordinates  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+34 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Type: Float64 Shape: (unwrappedInterferogramLength)  
+Description: Y coordinates in specified projection 
+ long_name Y coordinates of projection 
+ standard_name projection_y_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/HH/xCoordinates 
+Type: Float64 Shape: (wrappedInterferogramWidth)  
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/HH/yCoordinates  
+Type: Float64 Shape: (wrappedInterferogramLength)  
+Description: Y coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/xCoordinates  
+Type: Float64 Shape: (unwrappedInterferogramWidth) 
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/yCoordinates  
+Type: Float64 Shape: (unwrappedInterferogramLength)  
+Description: Y coordinates in specified projection 
+ long_name Y coordinates of projection 
+ standard_name projection_y_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/VV/xCoordinates 
+Type: Float64 Shape: (wrappedInterferogramWidth)  
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/VV/yCoordinates  
+Type: Float64 Shape: (wrappedInterferogramLength)  
+Description: Y coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase  
+Type: Float32 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth) 
+Description: Unwrapped interferogram between HH layers 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units radians 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/connectedComponents 
+Type: UInt16 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth)  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+35 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Description: Connected components for HH layer 
+ _FillValue 65535 
+ grid_mapping projection 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/coherenceMagnitude  
+Type: Float32 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth) 
+Description: Coherence magnitude between HH layers 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/ionospherePhaseScreen  
+Type: Float32 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth)  
+Description: Ionosphere phase screen 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units radians 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/ionospherePhaseScreenUncertainty  
+Type: Float32 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth)  
+Description: Uncertainty of the ionosphere phase screen 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units radians 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/unwrappedPhase  
+Type: Float32 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth)  
+Description: Unwrapped interferogram between VV layers 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units radians 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/connectedComponents 
+Type: UInt16 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth)  
+Description: Connected components for VV layer 
+ _FillValue 65535 
+ grid_mapping projection 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/coherenceMagnitude  
+Type: Float32 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth) 
+Description: Coherence magnitude between VV layers 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+36 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/ionospherePhaseScreen 
+Type: Float32 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth)  
+Description: Ionosphere phase screen 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units radians 
+/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/VV/ionospherePhaseScreenUncertainty  
+Type: Float32 Shape: (unwrappedInterferogramLength, unwrappedInterferogramWidth) 
+Description: Uncertainty of the ionosphere phase screen 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units radians 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/mask 
+Type: UByte Shape: (wrappedInterferogramLength, wrappedInterferogramWidth)  
+Description: Combination of water mask and a mask of subswaths of valid samples in the reference RSLC and geometrically-
+coregistered secondary RSLC. Each pixel value is a three-digit number: the most significant digit represents the water flag of that 
+pixel the reference RSLC, where 1 is water and 0 is non-water; the second digit represents the subswath number of that pixel in the 
+reference RSLC; the least significant digit represents the subswath number of that pixel in the secondary RSLC. A value of '0' in 
+either subswath digit indicates an invalid sample in the corresponding  RSLC 
+ _FillValue 255 
+ grid_mapping projection 
+ percentage_water Percentage of pixels over water bodies and ocean 
+ valid_min 0 
+ valid_max 155 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/HH/wrappedInterferogram  
+Type: CFloat32 Shape: (wrappedInterferogramLength, wrappedInterferogramWidth)  
+Description: Complex wrapped interferogram between HH layers  
+ _FillValue (nan+nan*j) 
+ grid_mapping projection 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/HH/coherenceMagnitude 
+Type: Float32 Shape: (wrappedInterferogramLength, wrappedInterferogramWidth)  
+Description: Coherence magnitude between HH layers 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+37 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ sample_stddev Standard deviation of the numeric data points 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/VV/wrappedInterferogram  
+Type: CFloat32 Shape: (wrappedInterferogramLength, wrappedInterferogramWidth)  
+Description: Complex wrapped interferogram between VV layers 
+ _FillValue (nan+nan*j) 
+ grid_mapping projection 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/wrappedInterferogram/VV/coherenceMagnitude  
+Type: Float32 Shape: (wrappedInterferogramLength, wrappedInterferogramWidth) 
+Description: Coherence magnitude between VV layers 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/HH/projection 
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes  
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffset/mask 
+Type: UByte Shape: (offsetLength, offsetWidth) 
+Description: Combination of water mask and a mask of subswaths of valid samples in the reference RSLC and geometrically-
+coregistered secondary RSLC. Each pixel value is a three-digit number: the most significant digit represents the water flag of that 
+pixel the reference RSLC, where 1 is water and 0 is non-water; the second digit represents the subswath number of that pixel in the 
+reference RSLC; the least significant digit represents the subswath number of that pixel in the secondary RSLC. A value of '0' in 
+either subswath digit indicates an invalid sample in the corresponding RSLC 
+ _FillValue 255 
+ grid_mapping projection 
+ percentage_water Percentage of pixels over water bodies and ocean  
+ valid_min 0 
+ valid_max 155 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/HH/slantRangeOffset 
+Type: Float32 Shape: (offsetLength, offsetWidth) 
+Description: Slant range offset 
+ _FillValue nan 
+ grid_mapping projection 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+38 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/HH/alongTrackOffset 
+Type: Float32 Shape: (offsetLength, offsetWidth) 
+Description: Along-track offset 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/HH/correlationSurfacePeak  
+Type: Float32 Shape: (offsetLength, offsetWidth) 
+Description: Normalized cross-correlation surface peak 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/VV/projection  
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes  
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/VV/slantRangeOffset 
+Type: Float32 Shape: (offsetLength, offsetWidth) 
+Description: Slant range offset 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units meters 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+39 
+This document has been reviewed and determined not to contain export controlled technical data. 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/VV/alongTrackOffset  
+Type: Float32 Shape: (offsetLength, offsetWidth) 
+Description: Along-track offset 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/VV/correlationSurfacePeak  
+Type: Float32 Shape: (offsetLength, offsetWidth) 
+Description: Normalized correlation surface peak 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ units 1 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/HH/xCoordinates 
+Type: Float64 Shape: (offsetWidth) 
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/HH/yCoordinates  
+Type: Float64 Shape: (offsetLength) 
+Description: Y coordinates in specified projection 
+ long_name Y coordinates of projection 
+ standard_name projection_y_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/VV/xCoordinates  
+Type: Float64 Shape: (offsetWidth) 
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/VV/yCoordinates  
+Type: Float64 Shape: (offsetLength) 
+Description: Y coordinates in specified projection 
+ long_name Y coordinates of projection 
+ standard_name projection_y_coordinate 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/HH/xCoordinateSpacing 
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive pixels 
+ long_name X coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/HH/yCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive lines 
+ long_name Y coordinates spacing 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+40 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/VV/xCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive pixels 
+ long_name X coordinates spacing 
+ units meters 
+/science/LSAR/GUNW/grids/frequencyA/pixelOffsets/VV/yCoordinateSpacing  
+Type: Float64 Shape: scalar 
+Description: Nominal spacing in meters between consecutive lines 
+ long_name Y coordinates spacing 
+ units meters 
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+41 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+5.4 Processing Information 
+ 
+Table 5-4 NISAR HDF5 variables related to processing parameters. 
+Processing-related variables 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/runConfigurationContents  
+Type: string Shape: scalar 
+Description: Contents of the run configuration file with parameters used for processing  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/rfiMitigationApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if RFI mitigation has been applied to reference RSLC  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/isMixedMode  
+Type: string Shape: scalar 
+Description: "True" if reference RSLC is a composite of data collected in multiple radar modes, "False" otherwise  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/referenceTerrainHeight 
+Type: Float32 Shape: (dopplerCentroidLength, dopplerCentroidWidth)  
+Description: Reference Terrain Height as a function of map coordinates for reference RSLC  
+ units meters 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/slantRangeStart  
+Type: Float64 Shape: scalar 
+Description: Slant range start distance for the reference RSLC 
+ units meters 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/numberOfRangeSamples  
+Type: UInt64 Shape: scalar 
+Description: Number of slant range samples for each azimuth line within the reference RSLC  
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/numberOfAzimuthLines  
+Type: UInt64 Shape: scalar 
+Description: Number of azimuth lines within the reference RSLC 
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/slantRangeSpacing  
+Type: Float64 Shape: scalar 
+Description: Slant range spacing of reference RSLC 
+ units meters 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/zeroDopplerTimeSpacing 
+Type: Float64 Shape: scalar 
+Description: Time interval in the along-track direction for reference RSLC raster layers  
+ units seconds 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/zeroDopplerStartTime  
+Type: string Shape: scalar 
+Description: Azimuth start time (in UTC) of the reference RSLC product in the format YYYY-mm-ddTHH:MM:SS.sssssssss 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/zeroDopplerEndTime  
+Type: string Shape: scalar 
+Description: Azimuth stop time (in UTC) of the reference RSLC product in the format YYYY-mm-ddTHH:MM:SS.sssssssss  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/rangeBandwidth  
+Type: Float64 Shape: scalar 
+Description: Processed slant range bandwidth for reference RSLC 
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/azimuthBandwidth  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+42 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Type: Float64 Shape: scalar 
+Description: Processed azimuth bandwidth for reference RSLC 
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/reference/frequencyA/dopplerCentroid  
+Type: Float64 Shape: (dopplerCentroidLength, dopplerCentroidWidth)  
+Description: 2D LUT of Doppler centroid for frequency A 
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/referenceTerrainHeight 
+Type: Float32 Shape: (dopplerCentroidLength, dopplerCentroidWidth)  
+Description: Reference Terrain Height as a function of map coordinates for secondary RSLC  
+ units meters 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/rfiMitigationApplied  
+Type: string Shape: scalar 
+Description: Flag to indicate if RFI mitigation has been applied to secondary RSLC  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/isMixedMode  
+Type: string Shape: scalar 
+Description: "True" if secondary RSLC is a composite of data collected in multiple radar modes, "False" otherwise  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/slantRangeStart  
+Type: Float64 Shape: scalar 
+Description: Slant range start distance for the secondary RSLC 
+ units meters 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/numberOfRangeSamples  
+Type: UInt64 Shape: scalar 
+Description: Number of slant range samples for each azimuth line within the secondary RSLC  
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/numberOfAzimuthLines  
+Type: UInt64 Shape: scalar 
+Description: Number of azimuth lines within the secondary RSLC 
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/slantRangeSpacing 
+Type: Float64 Shape: scalar 
+Description: Slant range spacing of secondary RSLC 
+ units meters 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/zeroDopplerTimeSpacing 
+Type: Float64 Shape: scalar 
+Description: Time interval in the along-track direction for secondary RSLC raster layers 
+ units seconds 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/zeroDopplerStartTime  
+Type: string Shape: scalar 
+Description: Azimuth start time (in UTC) of the secondary RSLC product in the format YYYY-mm-ddTHH:MM:SS.sssssssss 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/zeroDopplerEndTime 
+Type: string Shape: scalar 
+Description: Azimuth stop time (in UTC) of the secondary RSLC product in the format YYYY-mm-ddTHH:MM:SS.sssssssss  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/rangeBandwidth  
+Type: Float64 Shape: scalar 
+Description: Processed slant range bandwidth for secondary RSLC  
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/azimuthBandwidth  
+Type: Float64 Shape: scalar 
+Description: Processed azimuth bandwidth for secondary RSLC 
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/secondary/frequencyA/dopplerCentroid 
+Type: Float64 Shape: (dopplerCentroidLength, dopplerCentroidWidth)  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+43 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Description: 2D LUT of Doppler centroid for frequency A 
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/common/frequencyA/dopplerCentroid  
+Type: Float64 Shape: (dopplerCentroidLength, dopplerCentroidWidth)  
+Description: 2D LUT of common Doppler centroid between reference and secondary RSLCs  
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/common/frequencyA/dopplerBandwidth  
+Type: Float64 Shape: scalar 
+Description: Common Doppler bandwidth between reference and secondary RSLCs  
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/wrappedInterferogram/frequencyA/rangeBandwid
+th 
+Type: Float64 Shape: scalar 
+Description: Processed slant range bandwidth for frequency A interferometric layers  
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/wrappedInterferogram/frequencyA/azimuthBand
+width 
+Type: Float64 Shape: scalar 
+Description: Processed azimuth bandwidth for frequency A interferometric layers  
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/wrappedInterferogram/frequencyA/commonBand
+RangeFilterApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if common band range filter has been applied  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/wrappedInterferogram/frequencyA/commonBand
+AzimuthFilterApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if common band azimuth filter has been applied  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/wrappedInterferogram/frequencyA/numberOfRan
+geLooks 
+Type: UInt32 Shape: scalar 
+Description: Number of looks applied in the slant range direction to form the wrapped interferogram  
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/wrappedInterferogram/frequencyA/numberOfAzi
+muthLooks 
+Type: UInt32 Shape: scalar 
+Description: Number of looks applied in the along-track direction to form the wrapped interferogram  
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/wrappedInterferogram/frequencyA/ellipsoidalFlat
+teningApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if the interferometric phase has been flattened with respect to a zero height ellipsoid 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/wrappedInterferogram/frequencyA/topographicFl
+atteningApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if the interferometric phase has been flattened with respect to topographic height using a DEM  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/unwrappedInterferogram/frequencyA/rangeBand
+width 
+Type: Float64 Shape: scalar 
+Description: Processed slant range bandwidth for frequency A interferometric layers  
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/unwrappedInterferogram/frequencyA/azimuthBan
+dwidth 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+44 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Type: Float64 Shape: scalar 
+Description: Processed azimuth bandwidth for frequency A interferometric layers  
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/unwrappedInterferogram/frequencyA/commonBa
+ndRangeFilterApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if common band range filter has been applied  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/unwrappedInterferogram/frequencyA/commonBa
+ndAzimuthFilterApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if common band azimuth filter has been applied  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/unwrappedInterferogram/frequencyA/numberOfR
+angeLooks 
+Type: UInt32 Shape: scalar 
+Description: Number of looks applied in the slant range direction to form the unwrapped interferogram  
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/unwrappedInterferogram/frequencyA/numberOfA
+zimuthLooks 
+Type: UInt32 Shape: scalar 
+Description: Number of looks applied in the along-track direction to form the unwrapped interferogram 
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/unwrappedInterferogram/frequencyA/ellipsoidalF
+latteningApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if the interferometric phase has been flattened with respect to a zero height ellipsoid  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/unwrappedInterferogram/frequencyA/topographi
+cFlatteningApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if the interferometric phase has been flattened with respect to topographic height using a DEM  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/ionosphere/lowBandBandwidth 
+Type: Float32 Shape: scalar 
+Description: Slant range bandwidth of the low sub-band image 
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/ionosphere/highBandBandwidth 
+Type: Float32 Shape: scalar 
+Description: Slant range bandwidth of the high sub-band image 
+ units hertz 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/geocoding/rangeIonosphericCorrectionApplied  
+Type: string Shape: scalar 
+Description: Flag to indicate if the range ionospheric correction is applied to improve geolocation  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/geocoding/azimuthIonosphericCorrectionApplied 
+Type: string Shape: scalar 
+Description: Flag to indicate if the azimuth ionospheric correction is applied to improve geolocation  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/geocoding/hydrostaticTroposphericCorrectionAp
+plied 
+Type: string Shape: scalar 
+Description: Flag to indicate if the hydrostatic tropospheric correction is applied to improve geolocation  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/geocoding/wetTroposphericCorrectionApplied  
+Type: string Shape: scalar 
+Description: Flag to indicate if the wet tropospheric correction is applied to improve geolocation  
+/science/LSAR/GUNW/metadata/processingInformation/parameters/pixelOffsets/frequencyA/alongTrackWindowSize  
+Type: UInt32 Shape: scalar 
+Description: Along-track cross-correlation window size in pixels 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+45 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/pixelOffsets/frequencyA/slantRangeWindowSize  
+Type: UInt32 Shape: scalar 
+Description: Slant range cross-correlation window size in pixels 
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/pixelOffsets/frequencyA/alongTrackSearchWindo
+wSize 
+Type: UInt32 Shape: scalar 
+Description: Along-track cross-correlation search window size in pixels 
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/pixelOffsets/frequencyA/slantRangeSearchWindo
+wSize 
+Type: UInt32 Shape: scalar 
+Description: Slant range cross-correlation search window size in pixels  
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/pixelOffsets/frequencyA/alongTrackSkipWindow
+Size 
+Type: UInt32 Shape: scalar 
+Description: Along-track cross-correlation skip window size in pixels 
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/pixelOffsets/frequencyA/slantRangeSkipWindow
+Size 
+Type: UInt32 Shape: scalar 
+Description: Slant range cross-correlation skip window size in pixels 
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/pixelOffsets/frequencyA/correlationSurfaceOvers
+ampling 
+Type: UInt32 Shape: scalar 
+Description: Oversampling factor of the cross-correlation surface 
+ units 1 
+/science/LSAR/GUNW/metadata/processingInformation/parameters/pixelOffsets/frequencyA/isOffsetsBlendingApplie
+d 
+Type: string Shape: scalar 
+Description: Flag to indicate if pixel offsets are the results of blending multi-resolution layers of pixel offsets  
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/softwareVersion  
+Type: string Shape: scalar 
+Description: Software version used for processing 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/coregistration/coregistrationMethod  
+Type: string Shape: scalar 
+Description: RSLC coregistration method 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/coregistration/geometryCoregistration 
+Type: string Shape: scalar 
+Description: Geometry coregistration algorithm 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/coregistration/crossCorrelation  
+Type: string Shape: scalar 
+Description: Cross-correlation algorithm for sub-pixel offsets computation 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/coregistration/resampling  
+Type: string Shape: scalar 
+Description: Secondary RSLC resampling algorithm 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/coregistration/crossCorrelationOutliers  
+Type: string Shape: scalar 
+Description: Outliers identification algorithm 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/coregistration/crossCorrelationFilling  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+46 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Type: string Shape: scalar 
+Description: Outliers data filling algorithm for cross-correlation offsets 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/coregistration/crossCorrelationFilterKernel  
+Type: string Shape: scalar 
+Description: Filtering algorithm for cross-correlation offsets 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/interferogramFormation/multilooking 
+Type: string Shape: scalar 
+Description: Multilooking algorithm 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/interferogramFormation/wrappedInterferogramFilt
+ering 
+Type: string Shape: scalar 
+Description: Algorithm used to filter the wrapped interferogram prior to phase unwrapping  
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/interferogramFormation/flatteningMethod  
+Type: string Shape: scalar 
+Description: Algorithm used to flatten the wrapped interferogram 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/unwrapping/unwrappingAlgorithm  
+Type: string Shape: scalar 
+Description: Algorithm used for phase unwrapping 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/unwrapping/unwrappingInitializer  
+Type: string Shape: scalar 
+Description: Algorithm used to initialize phase unwrapping 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/unwrapping/costMode  
+Type: string Shape: scalar 
+Description: Cost mode algorithm for phase unwrapping 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/unwrapping/preprocessing/wrappedPhaseOutlier
+s 
+Type: string Shape: scalar 
+Description: Algorithm identifying outliers in the wrapped interferogram  
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/unwrapping/preprocessing/wrappedPhaseFilling 
+Type: string Shape: scalar 
+Description: Outliers data filling algorithm for phase unwrapping preprocessing  
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/ionosphereEstimation/ionosphereAlgorithm  
+Type: string Shape: scalar 
+Description: Algorithm used to estimate ionosphere phase screen 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/ionosphereEstimation/ionosphereOutliers  
+Type: string Shape: scalar 
+Description: Algorithm identifying outliers in unfiltered ionosphere phase screen  
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/ionosphereEstimation/ionosphereFilling 
+Type: string Shape: scalar 
+Description: Outliers data filling algorithm for ionosphere phase estimation  
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/ionosphereEstimation/ionosphereFiltering  
+Type: string Shape: scalar 
+Description: Filtering algorithm for ionosphere phase screen computation  
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/ionosphereEstimation/unwrappingErrorCorrectio
+n 
+Type: string Shape: scalar 
+Description: Algorithm correcting unwrapping errors in sub-band unwrapped interferograms 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/geocoding/demInterpolation  
+Type: string Shape: scalar 
+Description: DEM interpolation algorithm 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/geocoding/floatingGeocodingInterpolation 
+Type: string Shape: scalar 
+Description: Geocoding interpolation algorithm for floating point datasets  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+47 
+This document has been reviewed and determined not to contain export controlled technical data. 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/geocoding/integerGeocodingInterpolation  
+Type: string Shape: scalar 
+Description: Geocoding interpolation algorithm for integer datasets 
+/science/LSAR/GUNW/metadata/processingInformation/algorithms/geocoding/complexGeocodingInterpolation  
+Type: string Shape: scalar 
+Description: Geocoding interpolation algorithm for complex-valued datasets  
+/science/LSAR/GUNW/metadata/processingInformation/inputs/l1ReferenceSlcGranules  
+Type: string Shape: (numberOfInputL1Files) 
+Description: List of input reference L1 RSLC products used 
+/science/LSAR/GUNW/metadata/processingInformation/inputs/l1SecondarySlcGranules 
+Type: string Shape: (numberOfInputL1Files) 
+Description: List of input secondary L1 RSLC products used 
+/science/LSAR/GUNW/metadata/processingInformation/inputs/orbitFiles  
+Type: string Shape: (numberOfInputOrbitFiles) 
+Description: List of input orbit files used 
+/science/LSAR/GUNW/metadata/processingInformation/inputs/configFiles  
+Type: string Shape: (numberOfInputConfigFiles) 
+Description: List of input config files used 
+/science/LSAR/GUNW/metadata/processingInformation/inputs/demSource 
+Type: string Shape: scalar 
+Description: Description of the input digital elevation model (DEM)  
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+48 
+This document has been reviewed and determined not to contain export controlled technical data. 
+5.5 Other Radar Metadata 
+ 
+Table 5-5 NISAR HDF5 variables related to useful radar metadata. 
+Radar metadata-related variables 
+/science/LSAR/GUNW/metadata/orbit/temporalBaseline  
+Type: UInt16 Shape: scalar 
+Description: Time interval between reference and secondary RSLCs 
+ units days 
+/science/LSAR/GUNW/metadata/orbit/reference/interpMethod  
+Type: string Shape: scalar 
+Description: Orbit interpolation method, either "Hermite" or "Legendre"  
+/science/LSAR/GUNW/metadata/orbit/reference/time  
+Type: Float64 Shape: (orbitListLength) 
+Description: Time vector record. This record contains the time since UTC epoch corresponding to position and velocity records  
+ units seconds since YYYY-mm-ddTHH:MM:SS 
+/science/LSAR/GUNW/metadata/orbit/reference/position  
+Type: Float64 Shape: (orbitListLength, tripletxyz) 
+Description: Position vector record. This record contains the platform position data with respect to WGS84 G1762 reference frame  
+ units meters 
+/science/LSAR/GUNW/metadata/orbit/reference/velocity  
+Type: Float64 Shape: (orbitListLength, tripletxyz) 
+Description: Velocity vector record. This record contains the platform velocity data with respect to WGS84 G1762 reference frame  
+ units meters / second 
+/science/LSAR/GUNW/metadata/orbit/reference/orbitType 
+Type: string Shape: scalar 
+Description: Orbit product type, either "FOE", "NOE", "MOE", "POE", or "Custom", where "FOE" stands for Forecast Orbit 
+Ephemeris, "NOE" is Near real-time Orbit Ephemeris, "MOE" is Medium precision Orbit Ephemeris, and "POE" is Precise Orbit 
+Ephemeris 
+/science/LSAR/GUNW/metadata/orbit/secondary/interpMethod  
+Type: string Shape: scalar 
+Description: Orbit interpolation method, either "Hermite" or "Legendre"  
+/science/LSAR/GUNW/metadata/orbit/secondary/time 
+Type: Float64 Shape: (orbitListLength) 
+Description: Time vector record. This record contains the time since UTC epoch corresponding to position and velocity records  
+ units seconds since YYYY-mm-ddTHH:MM:SS 
+/science/LSAR/GUNW/metadata/orbit/secondary/position 
+Type: Float64 Shape: (orbitListLength, tripletxyz) 
+Description: Position vector record. This record contains the platform position data with respect to WGS84 G1762 reference frame 
+ units meters 
+/science/LSAR/GUNW/metadata/orbit/secondary/velocity  
+Type: Float64 Shape: (orbitListLength, tripletxyz) 
+Description: Velocity vector record. This record contains the platform velocity data with respect to WGS84 G1762 reference frame 
+ units meters / second 
+/science/LSAR/GUNW/metadata/orbit/secondary/orbitType  
+Type: string Shape: scalar 
+Description: Orbit product type, either "FOE", "NOE", "MOE", "POE", or "Custom", where "FOE" stands for Forecast Orbit 
+Ephemeris, "NOE" is Near real-time Orbit Ephemeris, "MOE" is Medium precision Orbit Ephemeris, and "POE" is Precise Orbit 
+Ephemeris 
+/science/LSAR/GUNW/metadata/attitude/reference/time  
+Type: Float64 Shape: (attitudeListLength) 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+49 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Description: Time vector record. This record contains the time since UTC epoch corresponding to attitude and quaternion records  
+ units seconds since YYYY-mm-ddTHH:MM:SS 
+/science/LSAR/GUNW/metadata/attitude/reference/quaternions  
+Type: Float64 Shape: (attitudeListLength, quaternions) 
+Description: Attitude quaternions (q0, q1, q2, q3) 
+ units 1 
+/science/LSAR/GUNW/metadata/attitude/reference/eulerAngles  
+Type: Float64 Shape: (attitudeListLength, tripletxyz) 
+Description: Attitude Euler angles (roll, pitch, yaw) 
+ units degrees 
+/science/LSAR/GUNW/metadata/attitude/reference/attitudeType  
+Type: string Shape: scalar 
+Description: Attitude type, either "FRP", "NRP", "PRP, or "Custom", where "FRP" stands for Forecast Radar Pointing, "NRP" is 
+Near Real-time Pointing, and "PRP" is Precise Radar Pointing  
+/science/LSAR/GUNW/metadata/attitude/secondary/time  
+Type: Float64 Shape: (attitudeListLength) 
+Description: Time vector record. This record contains the time since UTC epoch corresponding to attitude and quaternion records  
+ units seconds since YYYY-mm-ddTHH:MM:SS 
+/science/LSAR/GUNW/metadata/attitude/secondary/quaternions  
+Type: Float64 Shape: (attitudeListLength, quaternions) 
+Description: Attitude quaternions (q0, q1, q2, q3) 
+ units 1 
+/science/LSAR/GUNW/metadata/attitude/secondary/eulerAngles 
+Type: Float64 Shape: (attitudeListLength, tripletxyz)  
+Description: Attitude Euler angles (roll, pitch, yaw) 
+ units degrees 
+/science/LSAR/GUNW/metadata/attitude/secondary/attitudeType  
+Type: string Shape: scalar 
+Description: Attitude type, either "FRP", "NRP", "PRP, or "Custom", where "FRP" stands for Forecast Radar Pointing, "NRP" is 
+Near Real-time Pointing, and "PRP" is Precise Radar Pointing 
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+50 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+5.6 Radar Grid 
+ 
+Table 5-6 NISAR HDF5 variables related to metadata cube. 
+Metadata cube-related variables 
+/science/LSAR/GUNW/metadata/radarGrid/referenceSlantRange  
+Type: Float64 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth)  
+Description: Slant range of the reference RSLC in meters 
+ _FillValue nan 
+ grid_mapping projection 
+ long_name Slant range 
+ units meters 
+/science/LSAR/GUNW/metadata/radarGrid/hydrostaticTroposphericPhaseScreen 
+Type: Float64 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth)  
+Description: Hydrostatic component of the troposphere phase screen  
+ _FillValue nan 
+ grid_mapping projection 
+ units radians 
+/science/LSAR/GUNW/metadata/radarGrid/wetTroposphericPhaseScreen  
+Type: Float64 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth)  
+Description: Wet component of the troposphere phase screen 
+ _FillValue nan 
+ grid_mapping projection 
+ units radians 
+/science/LSAR/GUNW/metadata/radarGrid/slantRangeSolidEarthTidesPhase  
+Type: Float64 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth) 
+Description: Solid Earth tides phase along slant range direction 
+ _FillValue nan 
+ grid_mapping projection 
+ units radians 
+/science/LSAR/GUNW/metadata/radarGrid/referenceZeroDopplerAzimuthTime  
+Type: Float64 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth)  
+Description: Zero Doppler azimuth time in seconds since UTC epoch of the reference RSLC image  
+ _FillValue nan 
+ units seconds since YYYY-mm-ddTHH:MM:SS 
+/science/LSAR/GUNW/metadata/radarGrid/incidenceAngle  
+Type: Float32 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth) 
+Description: Incidence angle is defined as the angle between the LOS vector and the normal to the ellipsoid at the target height  
+ valid_max 90.0 
+ valid_min 0.0 
+ _FillValue nan 
+ grid_mapping projection 
+ long_name Incidence angle 
+ units degrees 
+/science/LSAR/GUNW/metadata/radarGrid/losUnitVectorX  
+Type: Float32 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth) 
+Description: East component of unit vector of LOS from target to sensor 
+ valid_max 1.0 
+ valid_min -1.0 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+51 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ _FillValue nan 
+ grid_mapping projection 
+ long_name LOS unit vector X 
+ units 1 
+/science/LSAR/GUNW/metadata/radarGrid/losUnitVectorY  
+Type: Float32 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth) 
+Description: North component of unit vector of LOS from target to sensor  
+ valid_max 1.0 
+ valid_min -1.0 
+ _FillValue nan 
+ grid_mapping projection 
+ long_name LOS unit vector Y 
+ units 1 
+/science/LSAR/GUNW/metadata/radarGrid/alongTrackUnitVectorX  
+Type: Float32 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth)  
+Description: East component of unit vector along ground track 
+ valid_max 1.0 
+ valid_min -1.0 
+ _FillValue nan 
+ grid_mapping projection 
+ long_name Along-track unit vector X 
+ units 1 
+/science/LSAR/GUNW/metadata/radarGrid/alongTrackUnitVectorY 
+Type: Float32 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth)  
+Description: North component of unit vector along ground track 
+ valid_max 1.0 
+ valid_min -1.0 
+ _FillValue nan 
+ grid_mapping projection 
+ long_name Along-track unit vector Y 
+ units 1 
+/science/LSAR/GUNW/metadata/radarGrid/elevationAngle 
+Type: Float32 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth) 
+Description: Elevation angle is defined as the angle between the LOS vector and the normal to the ellipsoid at the sensor  
+ valid_max 90.0 
+ valid_min 0.0 
+ _FillValue nan 
+ grid_mapping projection 
+ long_name Elevation angle 
+ units degrees 
+/science/LSAR/GUNW/metadata/radarGrid/groundTrackVelocity 
+Type: Float64 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth)  
+Description: Absolute value of the platform velocity scaled at the target height  
+ _FillValue nan 
+ grid_mapping projection 
+ long_name Ground track velocity 
+ units meters / second 
+/science/LSAR/GUNW/metadata/radarGrid/secondaryZeroDopplerAzimuthTime  
+Type: Float64 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth) 
+Description: Zero Doppler azimuth time in seconds since UTC epoch of the secondary RSLC image  
+ _FillValue nan 
+ units seconds since YYYY-mm-ddTHH:MM:SS 
+/science/LSAR/GUNW/metadata/radarGrid/secondarySlantRange  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+52 
+This document has been reviewed and determined not to contain export controlled technical data. 
+Type: Float64 Shape: (radarCubeHeight, radarCubeLength, radarCubeWidth)  
+Description: Slant range of the secondary RSLC in meters 
+ _FillValue nan 
+ units meters 
+/science/LSAR/GUNW/metadata/radarGrid/parallelBaseline  
+Type: Float32 Shape: (radarCubeWidth, radarCubeLength, twoLayersCubeHeight) 
+Description: Parallel component of the InSAR baseline 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ long_name Parallel baseline 
+ units meters 
+/science/LSAR/GUNW/metadata/radarGrid/perpendicularBaseline  
+Type: Float32 Shape: (radarCubeWidth, radarCubeLength, twoLayersCubeHeight) 
+Description: Perpendicular component of the InSAR baseline 
+ _FillValue nan 
+ grid_mapping projection 
+ mean_value Arithmetic average of the numeric data points 
+ min_value Minimum value of the numeric data points 
+ max_value Maximum value of the numeric data points 
+ sample_stddev Standard deviation of the numeric data points 
+ long_name Perpendicular baseline 
+ units meters 
+/science/LSAR/GUNW/metadata/radarGrid/xCoordinates  
+Type: Float64 Shape: (radarCubeWidth) 
+Description: X coordinates in specified projection 
+ long_name X coordinates of projection 
+ standard_name projection_x_coordinate 
+ units meters 
+/science/LSAR/GUNW/metadata/radarGrid/yCoordinates  
+Type: Float64 Shape: (radarCubeWidth) 
+Description: Y coordinates in specified projection 
+ long_name Y coordinates of projection 
+ standard_name projection_y_coordinate 
+ units meters 
+/science/LSAR/GUNW/metadata/radarGrid/heightAboveEllipsoid  
+Type: Float64 Shape: (radarCubeHeight) 
+Description: Height values above WGS84 Ellipsoid corresponding to the radar grid  
+ standard_name height_above_reference_ellipsoid 
+ units meters 
+/science/LSAR/GUNW/metadata/radarGrid/projection  
+Type: UInt32 Shape: scalar 
+Description: Product map grid projection: EPSG code, with additional projection information as HDF5 Attributes 
+ ellipsoid Projection ellipsoid 
+ epsg_code Projection EPSG code 
+ false_easting The value added to all abscissa values in the rectangular coordinates for a map 
+projection. 
+ false_northing The value added to all ordinate values in the rectangular coordinates for a map 
+projection. 
+ grid_mapping_name Grid mapping variable name 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+53 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ inverse_flattening Inverse flattening of the ellipsoidal figure 
+ latitude_of_projection_origin The latitude chosen as the origin of rectangular coordinates for a map 
+projection. 
+ longitude_of_projection_origin The longitude, with respect to Greenwich, of the prime meridian associated with 
+the geodetic datum. 
+ semi_major_axis Semi-major axis 
+ spatial_ref Spatial reference 
+ utm_zone_number UTM zone number 
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+54 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+6 METADATA CUBE 
+In this section, we provide an overview of the metadata cubes used to store spatially-varying 
+ancillary data in the secondary layers of the NISAR L-SAR product HDF5 granules. Note that 
+this sparse representation is to assist users in ingesting and analyzing NISAR products within 
+existing GIS software and is not meant to replace traditional representations of SAR data within 
+the product granules or traditional processing approaches with radar geometry-aware software. 
+ 
+Metadata cubes are represented as three-dimensional arrays in the NISAR product HDF5 
+modules (Figure 6-1). The axes of the array are interpreted as (height, increasing azimuth time, 
+and increasing slant range) in case of radar geometry products and as (height, decreasing 
+northing, and increasing easting) in case of geocoded products. The data is organized with height 
+as the first axis, as this allows one to directly ingest data as GCPs or rasters into existing GIS 
+software. Each height layer is the same size. Metadata cubes will have fixed grid spacing (3 km 
+in azimuth/northing x 1 km in slant range/easting x 1.5 km in height and will allow for easy 
+merging when multiple products along the same imaging track are to be concatenated. The 
+metadata fields on this coarse resolution grid will be evaluated using traditional radar processing 
+approaches without approximations. The metadata cube will also span a field slightly larger than 
+the original image product to allow users to interpolate data without introducing edge effects. 
+Such low-resolution representation of slowly varying parameters has been demonstrated for 
+InSAR products and processing [RD6]. 
+ 
+ 
+Figure 6-1. Metadata cube layer schematic 
+ 
+ 
+6.1 Metadata Cube Interpolation Example 
+We provide here a conceptual example of how these metadata cubes can be used within an 
+existing GIS framework. Let us consider a GUNW product on a UTM Zone 10 grid. We use a 
+
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+55 
+This document has been reviewed and determined not to contain export controlled technical data. 
+geocoded product for the demonstration, but the presented approach can be easily extended to 
+radar coordinate products by replacing northing axis by azimuth time and easting axis by slant 
+range. 
+ 
+Table 6-1 Example metadata cube properties. 
+Name Value Description 
+Primary layer properties 
+xmin 100000.0 Easting of the first column (m) 
+xmax 340000.0 Easting of the last column (m) 
+dx 30.0 Column spacing in Easting (m) 
+Nx 8001 Number of columns 
+ymax 570000.0 Northing of first row (m) 
+ymin 330000.0 Northing of last row (m) 
+dy -30.0 Row spacing in Northing (m). Negative to emphasize North-up imagery in geocoded products 
+Ny 8001 Number of rows 
+Metadata cube properties 
+Cxmin 97000.0 Easting of first column (m) 
+Cxmax 343000.0 Easting of last column (m) 
+Cdx 1000.0 Column spacing in Easting (m) 
+CNx 247 Number of columns 
+Cymax 579000.0 Northing of first row (m) 
+Cymin 321000.0 Northing of last row(m) 
+Cdy -3000.0 Row spacing in Northing (m). Negative to emphasize North -up imagery in geocoded products 
+CNy 87 Number of rows 
+Czmin -1500 Height of the first layer (m) 
+Czmax 9000 Height of the last layer (m) 
+Cdz 1500 Layer spacing in height (m) 
+CNz 8 Number of height layers 
+ 
+Suppose we are interested in computing the Perpendicular Baseline (Bperp) at a pixel of interest 
+located at UTM coordinates point (Px,Py). Since these are coordinates on a map domain, we can 
+look up a DEM to get the height at this point. The three-dimensional point of interest then 
+becomes (Px, Py, h(Px,Py)). 
+ 
+The metadata cube for Perpendicular baseline can be thought of as a three-dimensional field 
+Bperp(x,y,z) – even though it is oriented as (Nz,Ny,Nx) in the HDF5 file for ease of use with a 
+GIS. The user can use standard built-in regular grid three-dimensional interpolation routines in 
+languages like MATLAB (e.g, interp3), IDL or Python (e.g, RegularGridInterpolator) to 
+interpolate the Bperp array. We recommend cubic interpolation for best results. If a three-
+dimensional interpolator is not available, one could use two-dimensional cubic interpolation for 
+each height layer followed by a one-dimensional cubic interpolation in the following manner: 
+ 
+ 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+56 
+This document has been reviewed and determined not to contain export controlled technical data. 
+ 
+1. Populate f(i), i=0,…Nz-1 by two-dimensional cubic interpolation of each height layer: 
+ 
+𝑓(𝑖) = 𝐵𝑝𝑒𝑟𝑝 ൤𝑖, 𝑃𝑦 − 𝐶𝑦𝑚𝑎𝑥𝐶𝑑𝑦 , 𝑃𝑥 − 𝐶𝑥𝑚𝑎𝑥𝐶𝑑𝑥 ൨ 
+ 
+where the numbers in the square brackets indicate indices into the three-dimensional cube. 
+For example, if we are interested in the point (107590.0 East, 555870.0 North, 300.0 Height), 
+we would interpolate at Row 7.71 and Column 10.59 for each height layer. 
+ 
+2. Interpolate f(i) using one-dimensional cubic interpolation: 
+ 
+𝐵𝑝𝑒𝑟𝑝൫𝑃𝑥, 𝑃𝑦, ℎ(𝑃𝑥, 𝑃𝑦)൯ = 𝑓 ቈℎ(𝑃𝑥, 𝑃𝑦) − 𝐶𝑧𝑚𝑖𝑛𝐶𝑑𝑧 ቉ 
+ 
+where the number in the square bracket indicates an index into a one-dimensional array. For 
+example, for a height value of 200.0, we would interpolate at an index of 1.2. 
+ 
+6.2 Metadata Cube Usage Note 
+Note that the metadata cubes are designed to accommodate one double-precision cube within 1 
+MB of memory, allowing for information to be easily stored in memory for on-the-fly 
+computation within GIS frameworks or software without much overhead. The metadata cubes 
+are not a replacement for traditional SAR processing approaches or very high-resolution 
+analyses. They are meant to facilitate rapid processing and analysis by non-experts and will serve 
+the needs for most SAR applications. Analyses show that the geolocation error is on the order of 
+1.5 cm due to interpolation which is significantly smaller than errors from sources such as DEM, 
+orbits, and atmospheric path delay. Interpolation errors for each of the metadata layers will be 
+reported after additional study. 
+ 
+ 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+57 
+This document has been reviewed and determined not to contain export controlled technical data. 
+7 APPENDIX A: ACRONYMS  
+ADT Algorithm Development Team 
+AT Along Track 
+AWS Amazon Web Services 
+BFPQ Block adaptive Floating-Point Quantization 
+Cal/Val Calibration and Validation (also sometimes cal/val) 
+CDR Critical Design Review 
+CF Climate and Forecast 
+CPU Central Processing Unit 
+CRSD Calibration Raw Signal Data 
+CSV Comma-separated values 
+DAAC Distributed Active Archive Center 
+DEM Digital Elevation Model 
+DN Digital Number 
+EAR Export Administration Regulations 
+ECMWF European Centre for Medium-Range Weather Forecasts 
+ECEF Earth Centered Earth Fixed 
+EPSG European Petroleum Survey Group 
+ESA European Space Agency 
+FM Frequency Modulation  
+FOP Forecast Orbit Ephemeris 
+FOV Field of View 
+GCOV  Geocoded Polarimetric Covariance (also as L2_GCOV)  
+GCP Ground Control Point 
+GDAL Geospatial Data Abstraction Library 
+GDS Ground Data System 
+GIS Geographic Information System  
+GMTED Global Multi-resolution Terrain Elevation Data 
+GOFF                Geocoded Pixel Offsets (also as L2_GOFF) 
+GPU Graphics Processing Unit 
+GSLC  Geocoded Single Look Complex (also as L2_GSLC)  
+GUNW  Geocoded Unwrapped Interferogram (also as L2_GUNW) 
+HDF5 Hierarchical Data Format version 5 
+HK, HKTM Housekeeping Telemetry 
+InSAR Interferometric Synthetic Aperture Radar 
+ISCE InSAR Scientific Computing Environment 
+ISCE3 InSAR Scientific Computing Environment Enhanced Edition (for NISAR)  
+ISO International Organization for Standardization 
+ISRO Indian Space Research Organisation (British spelling) 
+L0B Level-0B (data) 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+58 
+This document has been reviewed and determined not to contain export controlled technical data. 
+L1 Level-1 (data) 
+L2  Level-2 (data) 
+LOS Line-Of-Sight 
+LUT Lookup Table 
+Mbps Megabits per second 
+MHz Megahertz 
+MOE Medium-precision Orbit Ephemeris 
+NCSA National Center for Supercomputing Applications 
+NetCDF4 Network Common Data Form version 4 
+NISAR NASA-ISRO Synthetic Aperture Radar 
+NOE Near-Realtime Orbit Ephemeris 
+PDR Preliminary Design Review 
+PLM Product Lifecycle Management 
+POD Precision Orbit Determination 
+POE Precision Orbit Ephemeris 
+PRF Pulse Repetition Frequency 
+QA Quality Assurance 
+REE Radar Echo Emulator 
+RFI Radio Frequency Interference  
+RIFG  Range-Doppler Interferogram (also as L1_RIFG) 
+ROFF                Range-Doppler Pixel Offsets (also as L1_ROFF) 
+RRSD Radar Raw Signal Data 
+RRST Radar Raw Science Telemetry 
+RSLC  Range-Doppler Single Look Complex (also as L1_RSLC)  
+RUNW              Range-Doppler UnWrapped Interferogram (also as L1_RUNW) 
+SAR Synthetic Aperture Radar 
+SAS Science Algorithm Software 
+SDS Science Data System 
+SDT Science Definition Team 
+SIS Software Interface Specification 
+SLC Single Look Complex 
+SNAPHU Statistical-cost, Network-flow Algorithm for Phase Unwrapping 
+SRTM Shuttle Radar Topography Mission 
+ST Science Team 
+TAI International Atomic Time (Temps Atomique International) 
+TCF Terrain Correction Factor 
+TEC Total Electron Content  
+TFdb Track-frame Database 
+SWST Sampling Window Start Time 
+UR Urgent Response 
+UTC  Universal Time Coordinated 
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+59 
+This document has been reviewed and determined not to contain export controlled technical data. 
+UTM Universal Transverse Mercator 
+WGS84  World Geodetic System 84 
+XML eXtensible Markup Language (xml in code) 
+YAML  YAML Ain’t Markup Language 
+  
+NISAR L2_GUNW Rev E 
+JPL D-102272 November 8, 2024, Version 1.2.1 
+60 
+This document has been reviewed and determined not to contain export controlled technical data. 
+8 APPENDIX B: GEOCODED PRODUCT GRIDS 
+ 
+NISAR L2 products will be generated on a pre-defined Track/Frame system. The projection 
+system for a particular frame will be available to the users as a predefined map and will be held 
+constant through the life of the system. Each L2 HDF5 granule itself will include information 
+indicating the projection used for the product. 
+Map Projections 
+NISAR’s SDS is able to ingest any DEM whose vertical datum represents height above the 
+WGS84 ellipsoid and the horizontal datum can be represented by an EPSG code for generating 
+geocoded product. Table 7-1 lists the various projection systems used to output L2 geocoded 
+products. 
+ 
+Table 8-1 Projection systems for NISAR L2 products. 
+EPSG code PROJ.4 string Common Name Geographical scope 
+3031 
++proj=stere +lat_0=-90 +lat_ts=-71 
++lon_0=0 +k=1 +x_0=0 +y_0=0 
++datum=WGS84 +units=m +no_defs 
+Antarctic Polar 
+Stereographic 
+Antarctica and Southern 
+Hemisphere Sea Ice 
+3413 +proj=stere +lat_0=90 +lat_ts=70 +lon_0=-
+45 +k=1 +x_0=0 +y_0=0 +datum=WGS84 
++units=m +no_defs 
+NSIDC Sea Ice Polar 
+Stereographic North 
+Greenland and Northern 
+Hemisphere Sea Ice 
+32601-32660 +proj=utm +zone=X-32600 
++datum=WGS84 +units=m +no_defs 
+UTM Zone North Northern Hemisphere Land 
+except Greenland 
+32701-32760 +proj=utm +zone=X-32700 +south 
++datum=WGS84 +units=m +no_defs 
+UTM Zone South Southern Hemisphere Land 
+except Antarctica 
+ 
+ 

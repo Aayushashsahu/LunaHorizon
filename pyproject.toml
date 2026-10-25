@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nisar-earth-in-motion"
+version = "0.1.0"
+description = "Scientific quicklook and visualization foundation for NISAR surface-change data"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.0,<3",
+  "scipy>=1.13,<2",
+  "h5py>=3.11,<4",
+  "xarray>=2024.10,<2027",
+  "rasterio>=1.4,<2",
+  "matplotlib>=3.9,<4",
+  "pandas>=2.2,<4",
+  "pyproj>=3.7,<4",
+  "shapely>=2.0,<3",
+  "earthaccess>=0.9,<1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "jupyterlab>=4,<5", "ruff>=0.9,<1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

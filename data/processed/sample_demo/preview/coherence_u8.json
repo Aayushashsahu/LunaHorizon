@@ -1,0 +1,11 @@
+{
+  "path": "data\\processed\\sample_demo\\preview\\coherence_u8.bin",
+  "width": 1600,
+  "height": 2186,
+  "downsample_factor": 1,
+  "encoding": "uint8; 255=invalid; value/200=coherence",
+  "source_shape_rows_cols": [
+    2186,
+    1600
+  ]
+}

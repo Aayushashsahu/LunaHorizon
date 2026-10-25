@@ -1,0 +1,59 @@
+{
+  "sequence": "24 June 2026 Venezuela earthquake doublet",
+  "description": "Two reviewed USGS events: an Mw 7.2 foreshock near San Felipe (Yaracuy) followed ~32 s later by an Mw 7.5 mainshock offshore west of Catia La Mar (La Guaira).",
+  "retrieved_utc": "2026-10-25",
+  "sources": [
+    {
+      "name": "USGS ComCat event us6000t7zc (M 7.2 foreshock)",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zc",
+      "machine_readable": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000t7zc&format=csv",
+      "retrieved_utc": "2026-10-25"
+    },
+    {
+      "name": "USGS ComCat event us6000t7zp (M 7.5 mainshock)",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zp",
+      "machine_readable": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000t7zp&format=csv",
+      "retrieved_utc": "2026-10-25"
+    },
+    {
+      "name": "USGS landslide hazard summary, 2026 Venezuela sequence",
+      "url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-venezuela-sequence-earthquake-triggered-landslide-hazards"
+    },
+    {
+      "name": "NASA Earth Observatory: Where Venezuela's Earthquakes Shifted the Ground",
+      "url": "https://science.nasa.gov/earth/earth-observatory/where-venezuelas-earthquakes-shifted-the-ground/"
+    }
+  ],
+  "events": [
+    {
+      "id": "us6000t7zc",
+      "label": "M7.2 foreshock",
+      "role": "foreshock",
+      "magnitude": 7.2,
+      "magnitude_type": "mww",
+      "time_utc": "2026-06-24T22:04:31.806Z",
+      "latitude": 10.3713,
+      "longitude": -68.5564,
+      "depth_km": 10.0,
+      "place": "20 km E of San Felipe, Venezuela",
+      "horizontal_error_km": 5.92,
+      "review_status": "reviewed",
+      "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zc"
+    },
+    {
+      "id": "us6000t7zp",
+      "label": "M7.5 mainshock",
+      "role": "mainshock",
+      "magnitude": 7.5,
+      "magnitude_type": "mww",
+      "time_utc": "2026-06-24T22:05:04.053Z",
+      "latitude": 10.5955,
+      "longitude": -67.2205,
+      "depth_km": 10.0,
+      "place": "20 km W of Catia La Mar, Venezuela",
+      "horizontal_error_km": 6.43,
+      "review_status": "reviewed",
+      "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zp"
+    }
+  ]
+}

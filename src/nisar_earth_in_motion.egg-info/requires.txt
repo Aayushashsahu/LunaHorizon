@@ -1,0 +1,15 @@
+numpy<3,>=2.0
+scipy<2,>=1.13
+h5py<4,>=3.11
+xarray<2027,>=2024.10
+rasterio<2,>=1.4
+matplotlib<4,>=3.9
+pandas<4,>=2.2
+pyproj<4,>=3.7
+shapely<3,>=2.0
+earthaccess<1,>=0.9
+
+[dev]
+pytest<10,>=8
+jupyterlab<5,>=4
+ruff<1,>=0.9

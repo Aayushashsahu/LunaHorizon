@@ -1,0 +1,42 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.ipynb_checkpoints/
+.env
+.DS_Store
+# Large scientific data
+/data/raw/*
+/data/processed/*
+# Keep directory placeholders
+!/data/raw/.gitkeep
+!/data/processed/.gitkeep
+
+# Local environments and caches
+.venv/
+**/.venv/
+venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+node_modules/
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+.netrc
+**/.netrc
+*.pem
+*.key
+
+# Large raw scientific data and interrupted downloads
+/data/raw/
+*.h5
+*.hdf5
+partial_*
+
+# Temporary validation screenshots and logs
+/data/processed/_validation/
+*.log

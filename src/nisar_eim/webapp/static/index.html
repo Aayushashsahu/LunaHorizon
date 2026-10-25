@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NISAR // Earth in Motion</title>
+<meta name="description" content="Explore NISAR radar interferometry: unwrapped phase, coherence and data quality, with explicit scientific limits." />
+<link rel="icon" href="data:," />
+<link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 40 40" width="38" height="38">
+        <circle cx="20" cy="20" r="13" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.55"/>
+        <ellipse cx="20" cy="20" rx="18" ry="7" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(-24 20 20)"/>
+        <circle cx="20" cy="20" r="3.2" fill="currentColor"/>
+        <circle cx="33.5" cy="10.4" r="2" fill="currentColor"/>
+      </svg>
+    </span>
+    <div class="brand-text">
+      <h1>NISAR <span class="slash">//</span> Earth in Motion</h1>
+      <p>See how Earth changes. Understand what the radar reveals.</p>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="status-pill" id="server-status" data-state="connecting" role="status" aria-live="polite"><span class="dot"></span> connecting…</span>
+    <span class="status-note">local · offline-capable</span>
+  </div>
+</header>
+
+<nav class="view-tabs" role="tablist" aria-label="Views">
+  <button class="view-tab is-active" data-view="dashboard" role="tab" aria-selected="true">Dashboard</button>
+  <button class="view-tab" data-view="explorer" role="tab" aria-selected="false">Observation explorer</button>
+</nav>
+
+<main>
+  <section id="view-dashboard" class="view" aria-label="Dashboard">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">NASA–ISRO Synthetic Aperture Radar · Level-2 GUNW</p>
+        <h2>Radar interferometry, made inspectable.</h2>
+        <p>
+          NISAR measures the distance between a satellite and the ground twice, eleven days apart.
+          Where the surface stays coherent, the phase difference between those two radar echoes
+          records how that distance changed. This application lets you explore those measurements
+          at full precision — and see exactly where they stop being trustworthy.
+        </p>
+        <div class="hero-actions">
+          <button class="button primary" id="open-explorer">Open the observation explorer</button>
+          <a class="button ghost" href="#method">What the radar can and cannot tell us</a>
+        </div>
+      </div>
+      <div class="hero-stats" id="hero-stats"></div>
+    </div>
+
+    <section class="section">
+      <div class="section-head">
+        <h3>Available observations</h3>
+        <p>Explore locally processed NISAR radar observations and pre-launch sample datasets, georeferenced and validated on this machine.</p>
+      </div>
+      <div class="cards" id="observation-cards"></div>
+      <div class="empty-state" id="dashboard-empty" hidden>
+        <h4>No processed observations yet</h4>
+        <p>Process a NISAR GUNW granule from the repository root, then reload this page:</p>
+        <pre><code>python -m nisar_eim process "data\raw\nisar_venezuela\NISAR_L2_PR_GUNW_..._001.h5" --id venezuela</code></pre>
+        <p class="muted">The explorer reads only local files; no internet connection is required.</p>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="section-head">
+        <h3>What this data is — and is not</h3>
+        <p>Three layers, three different kinds of statement.</p>
+      </div>
+      <div class="concept-grid">
+        <article class="concept">
+          <span class="concept-tag phase">Phase</span>
+          <h4>Unwrapped interferometric phase</h4>
+          <p>
+            A measurement of the phase difference between two radar acquisitions, in radians.
+            It responds to changes in range, but also to the ionosphere, the troposphere, orbit
+            geometry and unwrapping offsets. Its absolute level is arbitrary.
+          </p>
+          <p class="concept-not">Not a displacement map in metres. Not vertical uplift.</p>
+        </article>
+        <article class="concept">
+          <span class="concept-tag coherence">Coherence</span>
+          <h4>Interferometric coherence magnitude</h4>
+          <p>
+            A dimensionless 0–1 measure of how similar the two observations are. It tells you
+            where the phase relationship is meaningful: vegetation, water and change decorrelate.
+          </p>
+          <p class="concept-not">A quality indicator, not a measurement of motion.</p>
+        </article>
+        <article class="concept">
+          <span class="concept-tag mask">Mask</span>
+          <h4>Validity and quality layers</h4>
+          <p>
+            The product mask encodes water, reference and secondary subswaths and RSLC anomalies;
+            connected components record how the phase was unwrapped across regions.
+          </p>
+          <p class="concept-not">“Valid” means measurable — not necessarily scientifically usable.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h3>First case under investigation</h3>
+        <p>The 24 June 2026 Venezuela earthquake doublet, and what a single GUNW pair can honestly show.</p>
+      </div>
+      <div class="case-strip" id="case-strip"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h3>Scientific guardrails</h3>
+      </div>
+      <ul class="guardrail-list" id="dashboard-limitations"></ul>
+      <p class="sources">
+        Sources: USGS ComCat for earthquake locations · NASA/JPL NISAR product specification
+        JPL D-102272 · ASF NISAR Data User Guide. Processing provenance is recorded in each
+        observation's <code>metadata.json</code> and <code>report.md</code>.
+      </p>
+    </section>
+  </section>
+
+  <section id="view-explorer" class="view" hidden aria-label="Observation explorer">
+    <div class="explorer-toolbar">
+      <label class="select-wrap">
+        <span>Observation</span>
+        <select id="observation-select"></select>
+      </label>
+      <div class="explorer-toolbar-meta" id="explorer-toolbar-meta"></div>
+    </div>
+
+    <div class="explorer-grid">
+      <aside class="panel meta-panel" aria-label="Observation metadata">
+        <h3>Observation</h3>
+        <div id="meta-body"></div>
+        <h3 class="tight">Validation</h3>
+        <ul class="check-list" id="validation-list"></ul>
+      </aside>
+
+      <section class="panel map-panel" aria-label="Interactive map">
+        <div class="map-toolbar">
+          <div class="layer-tabs" id="layer-tabs" role="tablist" aria-label="Layers"></div>
+          <div class="map-actions">
+            <button class="icon-button" id="zoom-in" title="Zoom in" aria-label="Zoom in">+</button>
+            <button class="icon-button" id="zoom-out" title="Zoom out" aria-label="Zoom out">−</button>
+            <button class="icon-button wide" id="zoom-reset" title="Reset view">reset</button>
+          </div>
+        </div>
+        <div class="canvas-wrap" id="canvas-wrap">
+          <canvas id="map-canvas" aria-label="Georeferenced radar layer"></canvas>
+          <div class="map-hint" id="map-hint">loading preview…</div>
+          <div class="map-badge" id="map-badge"></div>
+        </div>
+        <div class="legend-row">
+          <div class="legend" id="legend"></div>
+          <label class="overlay-toggle">
+            <input type="checkbox" id="overlay-toggle" checked />
+            <span>shade coherence below threshold</span>
+          </label>
+        </div>
+        <div class="threshold-row">
+          <label for="threshold">Exploratory coherence threshold</label>
+          <input type="range" id="threshold" min="0" max="0.9" step="0.05" value="0.4" />
+          <output id="threshold-value">0.40</output>
+          <span class="threshold-stats" id="threshold-stats"></span>
+        </div>
+        <div class="readout" id="readout">
+          <span class="readout-muted">Hover the raster to read pixel values; click to pin a location.</span>
+        </div>
+      </section>
+
+      <aside class="panel insights-panel" aria-label="Statistics and events">
+        <section>
+          <h3>Coverage</h3>
+          <div class="coverage">
+            <div class="coverage-bar"><span id="coverage-fill"></span></div>
+            <div class="coverage-label" id="coverage-label"></div>
+          </div>
+          <div class="stat-grid" id="coverage-grid"></div>
+        </section>
+        <section>
+          <h3>Phase &amp; coherence</h3>
+          <table class="stat-table" id="layer-stats"></table>
+        </section>
+        <section>
+          <h3>Event check</h3>
+          <div id="event-list" class="event-list"></div>
+        </section>
+        <section>
+          <h3>Coherence threshold sweep</h3>
+          <table class="stat-table compact" id="threshold-table"></table>
+        </section>
+      </aside>
+    </div>
+
+    <div class="below-grid">
+      <section class="panel explain-panel" aria-label="Layer meanings">
+        <h3>Reading the layers</h3>
+        <div class="explain-grid" id="layer-explanations"></div>
+      </section>
+      <section class="panel limits-panel" aria-label="Limitations">
+        <h3>Limitations — persistent by design</h3>
+        <ul id="explorer-limitations"></ul>
+        <div id="explorer-warnings"></div>
+      </section>
+      <section class="panel export-panel" aria-label="Exports">
+        <h3>Export what you see</h3>
+        <p class="muted">
+          Images and GeoTIFFs are written by the processing pipeline and served from this
+          machine. GeoTIFFs keep the native grid and units; PNGs carry labels and display limits.
+        </p>
+        <div class="export-grid" id="export-grid"></div>
+      </section>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<footer class="footer">
+  <span>NISAR // Earth in Motion · local scientific explorer</span>
+  <span class="footer-sep">·</span>
+  <span>phase in radians · coherence as quality · no implied displacement</span>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
