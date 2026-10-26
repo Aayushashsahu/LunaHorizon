@@ -262,7 +262,13 @@ async function main() {
   );
 
   const hint = await waitFor(
-    `(() => { const h = document.getElementById('map-hint'); return h && h.hidden ? 'loaded' : (h ? h.textContent.trim() : null); })()`,
+    `(() => {
+      const h = document.getElementById('map-hint');
+      if (!h) return null;
+      if (h.hidden) return 'loaded';
+      const text = h.textContent.trim();
+      return /loading/i.test(text) ? null : (text || null);
+    })()`,
     30000,
   );
   check("explorer loads an observation", hint === "loaded", `hint=${hint}`);

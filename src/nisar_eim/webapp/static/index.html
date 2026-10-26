@@ -38,18 +38,65 @@
 <main>
   <section id="view-dashboard" class="view" aria-label="Dashboard">
     <div class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">NASA–ISRO Synthetic Aperture Radar · Level-2 GUNW</p>
-        <h2>Radar interferometry, made inspectable.</h2>
-        <p>
-          NISAR measures the distance between a satellite and the ground twice, eleven days apart.
-          Where the surface stays coherent, the phase difference between those two radar echoes
-          records how that distance changed. This application lets you explore those measurements
-          at full precision — and see exactly where they stop being trustworthy.
-        </p>
-        <div class="hero-actions">
-          <button class="button primary" id="open-explorer">Open the observation explorer</button>
-          <a class="button ghost" href="#method">What the radar can and cannot tell us</a>
+      <div class="hero-content">
+        <div class="hero-copy">
+          <div class="hero-eyebrow-wrap">
+            <span class="eyebrow-badge">NISAR MISSION</span>
+            <span class="eyebrow-line">NASA–ISRO SYNTHETIC APERTURE RADAR // LEVEL-2 GUNW</span>
+          </div>
+          <h2 class="hero-headline">EARTH IS NEVER STILL.</h2>
+          <p class="hero-desc">
+            Every radar observation reveals another part of Earth's changing story.
+            Explore real NISAR measurements, understand their quality, and discover
+            what the data can—and cannot—tell us.
+          </p>
+          <div class="hero-actions">
+            <button class="button primary" id="open-explorer">EXPLORE OBSERVATIONS</button>
+            <a class="button ghost" href="#method">HOW RADAR REVEALS CHANGE</a>
+          </div>
+          <div class="hero-honesty-note">
+            <span class="honesty-dot"></span>
+            <span>Planetary view is illustrative context · Level-2 radar interferometry and validated rasters explored in workspace</span>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="earth-container">
+            <div class="earth-glow"></div>
+            <picture class="earth-picture">
+              <source srcset="/static/assets/earth_hero.webp" type="image/webp" />
+              <img src="/static/assets/earth_hero.jpg" alt="Earth Western Hemisphere as observed from space (NASA Visible Earth)" class="earth-img" loading="eager" width="700" height="700" />
+            </picture>
+            <div class="earth-limb"></div>
+            <svg class="earth-hud" viewBox="0 0 600 600">
+              <!-- Orbit track trajectory -->
+              <path d="M 80,440 A 280,280 0 0,1 480,120" class="hud-orbit" stroke="rgba(70,214,195,0.45)" stroke-width="1.6" stroke-dasharray="7,5" fill="none" />
+              <!-- Orbit Node & Pulse -->
+              <circle cx="330" cy="190" r="5" fill="#46d6c3" class="hud-sat" />
+              <circle cx="330" cy="190" r="12" fill="none" stroke="rgba(70,214,195,0.45)" stroke-width="1.2" class="hud-pulse" />
+              <text x="345" y="185" class="hud-orbit-label">NISAR ORBIT · 747 KM ALTITUDE</text>
+              <!-- Target Swath Reticle on Venezuela / Caribbean region -->
+              <g class="hud-target-group" transform="translate(315, 305)">
+                <circle cx="0" cy="0" r="16" fill="rgba(70,214,195,0.10)" stroke="#46d6c3" stroke-width="1.2" />
+                <circle cx="0" cy="0" r="3" fill="#46d6c3" />
+                <line x1="-22" y1="0" x2="-10" y2="0" stroke="#46d6c3" stroke-width="1.2" />
+                <line x1="10" y1="0" x2="22" y2="0" stroke="#46d6c3" stroke-width="1.2" />
+                <line x1="0" y1="-22" x2="0" y2="-10" stroke="#46d6c3" stroke-width="1.2" />
+                <line x1="0" y1="10" x2="0" y2="22" stroke="#46d6c3" stroke-width="1.2" />
+                <text x="26" y="2" class="hud-target-title">TARGET SWATH · 10.4°N, 68.6°W</text>
+                <text x="26" y="15" class="hud-target-sub">TRACK 162 · REAL NISAR GUNW</text>
+              </g>
+              <!-- HUD Reticle Brackets -->
+              <path d="M 35,55 L 35,35 L 55,35" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none" />
+              <text x="65" y="42" class="hud-reticle-txt">SWATH COVERAGE: 242 KM</text>
+              <path d="M 545,565 L 565,565 L 565,545" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none" />
+              <text x="555" y="558" text-anchor="end" class="hud-reticle-txt">REPEAT: 11 DAYS · L-BAND 24 CM</text>
+            </svg>
+            <div class="earth-caption">
+              <span class="caption-pulse"></span>
+              <span>PLANETARY CONTEXT · NASA MODIS COMPOSITE</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="hero-stats" id="hero-stats"></div>
@@ -71,38 +118,45 @@
 
     <section class="section" id="method">
       <div class="section-head">
-        <h3>What this data is — and is not</h3>
-        <p>Three layers, three different kinds of statement.</p>
+        <h3>What this radar reveals — and what it cannot claim</h3>
+        <p>Radar interferometry measures phase difference, not physical displacement directly. Understanding each layer is essential to scientific integrity.</p>
       </div>
       <div class="concept-grid">
         <article class="concept">
-          <span class="concept-tag phase">Phase</span>
+          <span class="concept-tag phase">Phase (rad)</span>
           <h4>Unwrapped interferometric phase</h4>
           <p>
-            A measurement of the phase difference between two radar acquisitions, in radians.
-            It responds to changes in range, but also to the ionosphere, the troposphere, orbit
-            geometry and unwrapping offsets. Its absolute level is arbitrary.
+            The difference in radar echo phase between two passes, in radians. It responds to changes in line-of-sight distance, but also wraps ionospheric delays, tropospheric water vapor, orbit geometry, and unwrapping offsets.
           </p>
-          <p class="concept-not">Not a displacement map in metres. Not vertical uplift.</p>
+          <p class="concept-not">⚠️ Not a displacement map in millimetres. Not proven ground motion.</p>
         </article>
         <article class="concept">
-          <span class="concept-tag coherence">Coherence</span>
+          <span class="concept-tag coherence">Coherence (0–1)</span>
           <h4>Interferometric coherence magnitude</h4>
           <p>
-            A dimensionless 0–1 measure of how similar the two observations are. It tells you
-            where the phase relationship is meaningful: vegetation, water and change decorrelate.
+            A dimensionless 0–1 metric of electromagnetic similarity between passes. High coherence indicates stable ground reflectors; water, dense vegetation, and physical surface disruption decorrelate the signal.
           </p>
-          <p class="concept-not">A quality indicator, not a measurement of motion.</p>
+          <p class="concept-not">⚠️ A reliability indicator, not a measurement of deformation.</p>
         </article>
         <article class="concept">
-          <span class="concept-tag mask">Mask</span>
-          <h4>Validity and quality layers</h4>
+          <span class="concept-tag mask">Quality mask</span>
+          <h4>Validity and subswath bitmasks</h4>
           <p>
-            The product mask encodes water, reference and secondary subswaths and RSLC anomalies;
-            connected components record how the phase was unwrapped across regions.
+            The Level-2 GUNW mask decodes open water surfaces, reference and secondary subswaths (1–4), and RSLC processing anomalies. It isolates unmeasurable regions from true radar returns.
           </p>
-          <p class="concept-not">“Valid” means measurable — not necessarily scientifically usable.</p>
+          <p class="concept-not">⚠️ “Valid” means mathematically measurable—not scientifically noise-free.</p>
         </article>
+        <article class="concept">
+          <span class="concept-tag components">Components</span>
+          <h4>Connected phase domains</h4>
+          <p>
+            Connected components partition the scene into spatially continuous regions where the 2π phase ambiguity was solved. Separate components can carry unknown integer cycle offsets.
+          </p>
+          <p class="concept-not">⚠️ Disconnected islands cannot be assumed to share the same phase baseline.</p>
+        </article>
+      </div>
+      <div class="concept-guardrail-banner">
+        <strong>Strict Scientific Guardrail:</strong> In this application, phase-to-displacement conversion is intentionally <em>unvalidated</em>. Without external GPS networks, tropospheric delay models (GACOS), and verified ground control, raw InSAR phase must never be presented as validated ground motion.
       </div>
     </section>
 
@@ -225,9 +279,26 @@
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <footer class="footer">
-  <span>NISAR // Earth in Motion · local scientific explorer</span>
-  <span class="footer-sep">·</span>
-  <span>phase in radians · coherence as quality · no implied displacement</span>
+  <div class="footer-primary">
+    <div class="footer-brand">
+      <strong>NISAR // Earth in Motion</strong>
+      <span>NASA Space Apps Challenge 2026 · Local Scientific Application</span>
+    </div>
+    <div class="footer-links">
+      <span>Phase in radians</span>
+      <span class="footer-sep">·</span>
+      <span>Coherence as quality</span>
+      <span class="footer-sep">·</span>
+      <span>No implied physical displacement</span>
+      <span class="footer-sep">·</span>
+      <span>Offline-capable</span>
+    </div>
+  </div>
+  <div class="footer-attribution">
+    Planetary visual asset: NASA Visible Earth MODIS Blue Marble (GSFC / Reto Stöckli &amp; Robert Simmon).
+    Radar data: NASA-ISRO SAR Level-2 GUNW Product (JPL / ASF).
+    All processing, georeferencing and visualization executed on this local machine.
+  </div>
 </footer>
 
 <script src="/static/app.js"></script>

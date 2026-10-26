@@ -325,23 +325,39 @@ function renderIndexError(error) {
 function renderDashboard(index) {
   const observations = index.observations || [];
   const hero = els["hero-stats"];
-  const totalValid = observations.reduce((acc, o) => acc + ((o.phase || {}).valid_pixels || 0), 0);
-  const totalPixels = observations.reduce((acc, o) => acc + ((o.phase || {}).total_pixels || 0), 0);
+  const realObs = observations.find((o) => !o.is_pre_launch_sample) || observations[0];
+  const realCount = observations.filter((o) => !o.is_pre_launch_sample).length;
+  const sampleCount = observations.filter((o) => o.is_pre_launch_sample).length;
+  const realCoverage = realObs?.phase?.coverage_percent;
+  const realInterval = realObs ? `${realObs.temporal_baseline_days ?? 11} days` : "—";
   const eventsInside = observations.reduce(
     (acc, o) => acc + ((o.event_summary && o.event_summary.events_inside_raster_bounds) || 0),
     0
   );
-  const coverage = totalPixels ? (100 * totalValid) / totalPixels : null;
-  hero.innerHTML = `
-    <div class="hero-stat"><div class="value">${observations.length}</div>
-      <div class="label">validated observation${observations.length === 1 ? "" : "s"}</div>
-      <div class="sub">read from local HDF5 granules</div></div>
-    <div class="hero-stat"><div class="value">${totalValid ? int(totalValid) : "—"}</div>
-      <div class="label">measured pixels</div>
-      <div class="sub">${coverage === null ? "no data yet" : `${pct(coverage)} of processed rasters`}</div></div>
-    <div class="hero-stat"><div class="value">${eventsInside}</div>
-      <div class="label">reference events inside a footprint</div>
-      <div class="sub">USGS locations, checked against the raster</div></div>`;
+
+  if (hero) {
+    hero.innerHTML = `
+    <div class="hero-stat">
+      <div class="value">${observations.length}</div>
+      <div class="label">Available Observations</div>
+      <div class="sub">${realCount} Real NISAR · ${sampleCount} Sample</div>
+    </div>
+    <div class="hero-stat highlight">
+      <div class="value">${realCoverage != null ? pct(realCoverage) : "—"}</div>
+      <div class="label">${escapeHtml(realObs ? realObs.observation_id : "real")} Phase Coverage</div>
+      <div class="sub">${realObs?.phase ? int(realObs.phase.valid_pixels) : "—"} valid pixels @ 80m</div>
+    </div>
+    <div class="hero-stat">
+      <div class="value">${realInterval}</div>
+      <div class="label">Repeat Baseline</div>
+      <div class="sub">Track ${realObs?.track_number ?? "—"} · ${realObs ? prettyDate(realObs.reference_start) : ""}</div>
+    </div>
+    <div class="hero-stat">
+      <div class="value">${eventsInside}</div>
+      <div class="label">Events in Swath</div>
+      <div class="sub">USGS locations checked on raster</div>
+    </div>`;
+  }
 
   const cards = els["observation-cards"];
   // One unreadable observation must not take down the whole dashboard.
@@ -621,7 +637,7 @@ function renderExplorer(payload) {
     .map(
       (s) => `<li>
         <span class="check-dot ${escapeHtml(s.status)}"></span>
-        <span><span class="check-label">${escapeHtml(s.label)}</span>
+        <span class="check-body"><span class="check-label">${escapeHtml(s.label)}</span>
         ${s.detail ? `<span class="check-detail">${escapeHtml(s.detail)}</span>` : ""}</span>
       </li>`
     )
