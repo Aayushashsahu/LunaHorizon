@@ -19,10 +19,10 @@ required internet connection after processing.
 | --- | --- |
 | Real granule processed end to end | **yes** — L2 GUNW, track 162, frame 7, 2026-06-13 -> 2026-06-25 |
 | Georeferencing | validated from the product's own dimension scales (EPSG:32619, 80 m posting, round-trip 0.00e+00) |
-| Footprint vs. event | both June 24, 2026 USGS epicentres fall inside the raster; nearest valid pixel 0.0 km with coherence 0.708 |
+| Footprint vs. event | both June 24, 2026 USGS epicentres fall inside the raster footprint (0.0 km to nearest valid pixel): M7.2 foreshock (`us6000t7zc`, inside_usable) has nearest-pixel coherence 0.708 and 10 km window median coherence 0.354; M7.5 mainshock (`us6000t7zp`, inside_marginal) has nearest-pixel coherence 0.037 and 10 km window median coherence 0.092 |
 | Phase -> displacement conversion | **deliberately not implemented** (see `docs/SCIENTIFIC_METHOD.md` §5) |
 | Earthquake-causation claim | **not made** — the output is presented as an exploratory observation |
-| Test suite | 77 tests passing, including the exact 4x georeferencing regression case |
+| Test suite | 93 tests passing, including the exact 4x georeferencing regression case and orbital geometry verification |
 
 ## The bug this project started from
 
@@ -113,7 +113,7 @@ explicitly asked.
 python -m nisar_eim serve --port 8000
 ```
 
-* **Dashboard** — project purpose, plain-language NISAR/InSAR primer, available
+* **Dashboard** — stylized illustrative rotating Earth and radar acquisition sweep demonstration (concept visualization; not live spacecraft telemetry), project purpose, plain-language NISAR/InSAR primer, available
   observations, acquisition dates, per-check validation states (dataset found,
   metadata inspected, raster readable, georeferencing validated, footprint
   validated, scientific interpretation validated), coverage, reference events,
@@ -146,7 +146,7 @@ tests/                pytest suite (synthetic HDF5 fixtures, no big downloads)
 ## Testing
 
 ```powershell
-pytest                 # 77 tests: georeferencing regression, mask decoding,
+pytest                 # 93 tests: georeferencing regression, mask decoding, orbital geometry,
                        # statistics, rendering, pipeline, web API + HTTP smoke
 pytest tests/test_geospatial.py -k four_times    # just the reported bug case
 ```

@@ -388,7 +388,7 @@ function renderDashboard(index) {
   const realCount = observations.filter((o) => !o.is_pre_launch_sample).length;
   const sampleCount = observations.filter((o) => o.is_pre_launch_sample).length;
   const realCoverage = realObs?.phase?.coverage_percent;
-  const realInterval = realObs ? `${realObs.temporal_baseline_days ?? 11} days` : "—";
+  const realInterval = realObs?.temporal_baseline_days != null ? `${realObs.temporal_baseline_days} days` : "—";
   const eventsInside = observations.reduce(
     (acc, o) => acc + ((o.event_summary && o.event_summary.events_inside_raster_bounds) || 0),
     0
@@ -408,8 +408,8 @@ function renderDashboard(index) {
     </div>
     <div class="hero-stat">
       <div class="value">${realInterval}</div>
-      <div class="label">Repeat Baseline</div>
-      <div class="sub">Track ${realObs?.track_number ?? "—"} · ${realObs ? prettyDate(realObs.reference_start) : ""}</div>
+      <div class="label">${escapeHtml(realObs ? realObs.observation_id : "Observation")} Baseline</div>
+      <div class="sub">Track ${realObs?.track_number ?? "—"} · Nominal Orbit Repeat: 12 days</div>
     </div>
     <div class="hero-stat">
       <div class="value">${eventsInside}</div>
@@ -1531,23 +1531,76 @@ function initRotatingEarth() {
     }
 
     // Expose orbital basis and geometry on earthController for runtime verification
-    earthController.orbitalBasis = { u, v, u_raw, v_raw, R_orbit, R_earth, getOrbitPoint };
+    function findLimbCrossing(degA, degB) {
+      let low = degA, high = degB;
+      for (let i = 0; i < 10; i++) {
+        const mid = (low + high) / 2;
+        const pt = getOrbitPoint((mid * Math.PI) / 180);
+        const ptLow = getOrbitPoint((low * Math.PI) / 180);
+        if ((ptLow.dist > R_earth) === (pt.dist > R_earth)) low = mid;
+        else high = mid;
+      }
+      return getOrbitPoint((((low + high) / 2) * Math.PI) / 180);
+    }
 
-    // Render 3D SVG orbit tracks (front visible, back occluded)
+    function buildContiguousOrbitPaths(stepDeg = 2) {
+      let frontD = "";
+      let backD = "";
+      let currentClass = null;
+
+      for (let deg = 0; deg <= 360; deg += stepDeg) {
+        const pt = getOrbitPoint((deg * Math.PI) / 180);
+        const isFront = pt.pz >= 0 || pt.dist > R_earth;
+        const ptClass = isFront ? "front" : "back";
+
+        if (currentClass !== null && ptClass !== currentClass) {
+          // Visibility classification changed: compute exact limb crossing
+          const limbPt = findLimbCrossing(deg - stepDeg, deg);
+          const limbCoord = `${limbPt.sx.toFixed(1)},${limbPt.sy.toFixed(1)}`;
+
+          // Finish the outgoing segment at the limb
+          if (currentClass === "front") frontD += " L " + limbCoord;
+          else backD += " L " + limbCoord;
+
+          // Start the incoming segment at the limb with M
+          if (ptClass === "front") frontD += (frontD ? " M " : "M ") + limbCoord;
+          else backD += (backD ? " M " : "M ") + limbCoord;
+        }
+
+        const coord = `${pt.sx.toFixed(1)},${pt.sy.toFixed(1)}`;
+        if (currentClass === null) {
+          // Beginning of the sample loop
+          if (ptClass === "front") frontD += "M " + coord;
+          else backD += "M " + coord;
+        } else if (ptClass === currentClass) {
+          // Consecutive samples in the same contiguous segment
+          if (ptClass === "front") frontD += " L " + coord;
+          else backD += " L " + coord;
+        }
+
+        currentClass = ptClass;
+      }
+
+      return { frontD, backD };
+    }
+
+    earthController.orbitalBasis = {
+      u,
+      v,
+      u_raw,
+      v_raw,
+      R_orbit,
+      R_earth,
+      getOrbitPoint,
+      findLimbCrossing,
+      buildContiguousOrbitPaths,
+    };
+
+    // Render 3D SVG orbit tracks with explicit contiguous segment splitting
     const frontTrackEl = document.getElementById("orbit-track-front");
     const backTrackEl = document.getElementById("orbit-track-back");
     if (frontTrackEl && backTrackEl) {
-      let frontD = "";
-      let backD = "";
-      for (let deg = 0; deg <= 360; deg += 3) {
-        const pt = getOrbitPoint((deg * Math.PI) / 180);
-        const coord = `${pt.sx.toFixed(1)},${pt.sy.toFixed(1)}`;
-        if (pt.pz >= 0 || pt.dist > R_earth) {
-          frontD += (frontD ? " L " : "M ") + coord;
-        } else {
-          backD += (backD ? " L " : "M ") + coord;
-        }
-      }
+      const { frontD, backD } = buildContiguousOrbitPaths(2);
       frontTrackEl.setAttribute("d", frontD);
       backTrackEl.setAttribute("d", backD);
     }

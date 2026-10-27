@@ -91,6 +91,48 @@ try {
   assert(orbitInit.spacecraftFound, 'Spacecraft satellite group found');
   assert(orbitInit.replayBtnFound, 'Replay acquisition control button found');
 
+  const pathSegMetrics = await evaluate(`(() => {
+    const frontTrack = document.getElementById('orbit-track-front');
+    const backTrack = document.getElementById('orbit-track-back');
+    const hudTxt = document.querySelector('.hud-reticle-txt');
+
+    const frontD = frontTrack ? frontTrack.getAttribute('d') : '';
+    const backD = backTrack ? backTrack.getAttribute('d') : '';
+
+    const frontMCount = (frontD.match(/M/g) || []).length;
+    const backMCount = (backD.match(/M/g) || []).length;
+
+    const tokens = frontD.trim().split(/\\s+/);
+    let currentCmd = null;
+    let prevCoord = null;
+    let maxFrontStep = 0;
+
+    for (const t of tokens) {
+      if (t === 'M' || t === 'L') {
+        currentCmd = t;
+      } else if (t.includes(',')) {
+        const [x, y] = t.split(',').map(Number);
+        if (currentCmd === 'L' && prevCoord) {
+          const step = Math.hypot(x - prevCoord[0], y - prevCoord[1]);
+          if (step > maxFrontStep) maxFrontStep = step;
+        }
+        prevCoord = [x, y];
+      }
+    }
+
+    return {
+      frontMCount,
+      backMCount,
+      maxFrontStep,
+      hudReticleText: hudTxt ? hudTxt.textContent.trim() : ''
+    };
+  })()`);
+
+  console.log('Orbit Path Segmentation Metrics:', pathSegMetrics);
+  assert(pathSegMetrics.frontMCount >= 2, `Front orbit path contains multiple M subpaths across limb gap: ${pathSegMetrics.frontMCount}`);
+  assert(pathSegMetrics.maxFrontStep < 35, `Front orbit path has no cross-globe lines: max step=${pathSegMetrics.maxFrontStep.toFixed(1)}px`);
+  assert(pathSegMetrics.hudReticleText.includes('ORBIT REPEAT CYCLE · 12 DAYS'), `HUD reticle displays authoritative 12-day repeat cycle: "${pathSegMetrics.hudReticleText}"`);
+
   console.log('\n=== 1B. VERIFY GRAM-SCHMIDT ORTHONORMAL BASIS & 3D CONSTANT RADIUS ===');
   const basisCheck = await evaluate(`(() => {
     const ob = window.earthController?.orbitalBasis;
