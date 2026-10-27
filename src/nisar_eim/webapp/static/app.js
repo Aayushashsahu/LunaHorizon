@@ -150,7 +150,8 @@ const ELEMENT_IDS = [
   "layer-stats", "event-list", "threshold-table", "layer-explanations",
   "explorer-limitations", "explorer-warnings", "export-grid", "readout", "legend",
   "threshold", "threshold-value", "threshold-stats", "overlay-toggle", "map-hint",
-  "map-badge", "toast", "canvas-wrap", "map-canvas", "open-explorer",
+  "map-badge", "toast", "canvas-wrap", "map-canvas", "open-explorer", "earth-canvas",
+  "replay-acquisition", "mission-transition-overlay",
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -184,6 +185,17 @@ document.addEventListener("DOMContentLoaded", () => {
         drawMap();
       })],
     ["map canvas", bindMapEvents],
+    ["rotating earth hero", initRotatingEarth],
+    ["replay acquisition button", () => {
+      const btn = els["replay-acquisition"];
+      if (btn) {
+        btn.addEventListener("click", () => {
+          if (earthController && earthController.triggerSweep) {
+            earthController.triggerSweep();
+          }
+        });
+      }
+    }],
   ];
   for (const [name, bind] of steps) {
     try {
@@ -205,14 +217,60 @@ function bindNavigation() {
     tab.addEventListener("click", () => showView(tab.dataset.view || "dashboard"))
   });
 
-  // CTA: open-explorer button – always use document.getElementById directly,
-  // never depend on els[] lookup that could be undefined during boot.
+  // CTA: open-explorer button – triggers cinematic transition to real NISAR data
   const ctaButton = document.getElementById("open-explorer");
   if (ctaButton) {
-    ctaButton.addEventListener("click", () => showView("explorer"));
+    ctaButton.addEventListener("click", () => triggerCinematicTransition());
   } else {
     console.error("[boot] missing control #open-explorer; CTA disabled");
   }
+}
+
+function triggerCinematicTransition() {
+  const ctaButton = document.getElementById("open-explorer");
+  const overlay = els["mission-transition-overlay"];
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    showView("explorer");
+    openObservation("venezuela");
+    return;
+  }
+
+  if (ctaButton) {
+    ctaButton.classList.add("is-transitioning");
+    ctaButton.disabled = true;
+    ctaButton.setAttribute("aria-busy", "true");
+    ctaButton.dataset.origText = ctaButton.textContent;
+    ctaButton.textContent = "PREPARING OBSERVATION…";
+  }
+
+  const reticleRing = document.getElementById("target-pulse-ring");
+  if (reticleRing) reticleRing.classList.add("is-locked");
+
+  if (overlay) {
+    overlay.classList.add("is-active");
+  }
+
+  if (earthController && earthController.triggerSweep) {
+    earthController.triggerSweep();
+  }
+
+  // Switch view immediately so the holographic radar wipe sweeps across the incoming workspace
+  showView("explorer");
+  openObservation("venezuela");
+
+  setTimeout(() => {
+    if (overlay) overlay.classList.remove("is-active");
+    if (reticleRing) reticleRing.classList.remove("is-locked");
+    if (ctaButton) {
+      ctaButton.classList.remove("is-transitioning");
+      ctaButton.disabled = false;
+      ctaButton.removeAttribute("aria-busy");
+      if (ctaButton.dataset.origText) {
+        ctaButton.textContent = ctaButton.dataset.origText;
+      }
+    }
+  }, 650);
 }
 
 function setServerStatus(state, detail = "") {
@@ -237,6 +295,7 @@ function showView(name) {
   });
   document.getElementById("view-dashboard").hidden = name !== "dashboard";
   document.getElementById("view-explorer").hidden = name !== "explorer";
+  earthController.onViewChange(name);
   if (name === "explorer") {
     if (state.observationId) {
       requestAnimationFrame(() => {
@@ -1288,3 +1347,358 @@ function updateLegend() {
     els["legend"].innerHTML = `<span class="legend-title">${escapeHtml(info.label)}</span>${swatches}`;
   }
 }
+
+/* -------------------------------------------------- Rotating 3D Earth Hero */
+
+const earthController = {
+  onViewChange: () => {},
+};
+
+function initRotatingEarth() {
+  const canvas = els["earth-canvas"];
+  const sphere = document.querySelector(".earth-sphere");
+  if (!canvas || !sphere) return;
+
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (motionQuery.matches) {
+    // Respect reduced-motion preference: static fallback picture remains visible
+    return;
+  }
+
+  let gl = null;
+  try {
+    gl = canvas.getContext("webgl", {
+      alpha: true,
+      antialias: true,
+      premultipliedAlpha: false,
+      preserveDrawingBuffer: true,
+    });
+  } catch (err) {
+    gl = null;
+  }
+  if (!gl) return;
+
+  const vsSource = `
+    attribute vec2 a_pos;
+    varying vec2 v_uv;
+    void main() {
+      v_uv = (a_pos + 1.0) * 0.5;
+      gl_Position = vec4(a_pos, 0.0, 1.0);
+    }
+  `;
+
+  const fsSource = `
+    precision mediump float;
+    varying vec2 v_uv;
+    uniform sampler2D u_texture;
+    uniform float u_rotation;
+
+    void main() {
+      vec2 p = (v_uv - 0.5) * 2.0;
+      p.y = -p.y; // screen Y down -> 3D Y up (North)
+      float r2 = dot(p, p);
+      if (r2 > 1.0) {
+        gl_FragColor = vec4(0.0);
+        return;
+      }
+
+      float z = sqrt(1.0 - r2);
+      vec3 normal = vec3(p.x, p.y, z);
+
+      // Exact orthographic spherical projection
+      float lat = asin(clamp(p.y, -1.0, 1.0));
+      float lon = atan(p.x, z) - u_rotation;
+
+      float u = fract(lon / (2.0 * 3.14159265359) + 0.5);
+      float v = clamp(0.5 - lat / 3.14159265359, 0.002, 0.998);
+
+      vec4 texColor = texture2D(u_texture, vec2(u, v));
+
+      // Fixed directional sunlight from top-left
+      vec3 lightDir = normalize(vec3(-0.45, 0.35, 0.8));
+      float diff = dot(normal, lightDir);
+      float sun = smoothstep(-0.15, 0.3, diff);
+
+      // Day/night terminator & subtle deep space night ambient
+      vec3 dayColor = texColor.rgb;
+      vec3 nightColor = texColor.rgb * 0.08 + vec3(0.005, 0.015, 0.04);
+      vec3 litColor = mix(nightColor, dayColor, sun);
+
+      // Rayleigh atmosphere limb scattering
+      float rim = pow(1.0 - z, 2.5);
+      vec3 atmColor = vec3(0.25, 0.65, 1.0) * rim * (sun * 0.85 + 0.25);
+
+      // Specular ocean glint
+      vec3 viewDir = vec3(0.0, 0.0, 1.0);
+      vec3 halfDir = normalize(lightDir + viewDir);
+      float spec = pow(max(dot(normal, halfDir), 0.0), 32.0) * sun;
+      float isWater = step(texColor.r, 0.25);
+      vec3 specColor = vec3(0.9, 0.95, 1.0) * spec * isWater * 0.35;
+
+      // Anti-aliased outer edge
+      float edgeAlpha = smoothstep(1.0, 0.992, sqrt(r2));
+      gl_FragColor = vec4(litColor + atmColor + specColor, edgeAlpha);
+    }
+  `;
+
+  function createShader(type, source) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, source);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.warn("[earth-webgl] shader compile failed:", gl.getShaderInfoLog(s));
+      return null;
+    }
+    return s;
+  }
+
+  const vs = createShader(gl.VERTEX_SHADER, vsSource);
+  const fs = createShader(gl.FRAGMENT_SHADER, fsSource);
+  if (!vs || !fs) return;
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, vs);
+  gl.attachShader(prog, fs);
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    console.warn("[earth-webgl] program link failed:", gl.getProgramInfoLog(prog));
+    return;
+  }
+  gl.useProgram(prog);
+
+  const posBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+    gl.STATIC_DRAW
+  );
+
+  const aPos = gl.getAttribLocation(prog, "a_pos");
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  const uRot = gl.getUniformLocation(prog, "u_rotation");
+
+  const img = new Image();
+  img.src = "/static/assets/earth_texture_2048.webp";
+  img.onload = () => {
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+
+    // Texture ready: switch cleanly to WebGL canvas and hide static picture fallback
+    sphere.classList.add("has-webgl");
+
+    // 3D Orbital Geometry & NISAR Polar Orbit Parameters
+    const R_orbit = 305;
+    const R_earth = 270;
+    const u_raw = { x: 15, y: -5, z: Math.sqrt(R_orbit * R_orbit - 15 * 15 - 5 * 5) };
+    const u = { x: u_raw.x / R_orbit, y: u_raw.y / R_orbit, z: u_raw.z / R_orbit };
+    const w = { x: -0.35, y: -0.92, z: 0 };
+    const w_dot_u = w.x * u.x + w.y * u.y + w.z * u.z;
+    const v_prime = { x: w.x - w_dot_u * u.x, y: w.y - w_dot_u * u.y, z: w.z - w_dot_u * u.z };
+    const v_len = Math.hypot(v_prime.x, v_prime.y, v_prime.z);
+    const v = { x: v_prime.x / v_len, y: v_prime.y / v_len, z: v_prime.z / v_len };
+
+    function getOrbitPoint(rad) {
+      const px = R_orbit * (u.x * Math.cos(rad) + v.x * Math.sin(rad));
+      const py = R_orbit * (u.y * Math.cos(rad) + v.y * Math.sin(rad));
+      const pz = R_orbit * (u.z * Math.cos(rad) + v.z * Math.sin(rad));
+      const sx = 300 + px;
+      const sy = 300 - py;
+      const dist = Math.hypot(px, py);
+      const occluded = pz < 0 && dist <= R_earth;
+      const dpx = R_orbit * (-u.x * Math.sin(rad) + v.x * Math.cos(rad));
+      const dpy = R_orbit * (-u.y * Math.sin(rad) + v.y * Math.cos(rad));
+      const angleDeg = Math.atan2(-dpy, dpx) * (180 / Math.PI);
+      return { sx, sy, pz, dist, occluded, angleDeg };
+    }
+
+    // Render 3D SVG orbit tracks (front visible, back occluded)
+    const frontTrackEl = document.getElementById("orbit-track-front");
+    const backTrackEl = document.getElementById("orbit-track-back");
+    if (frontTrackEl && backTrackEl) {
+      let frontD = "";
+      let backD = "";
+      for (let deg = 0; deg <= 360; deg += 3) {
+        const pt = getOrbitPoint((deg * Math.PI) / 180);
+        const coord = `${pt.sx.toFixed(1)},${pt.sy.toFixed(1)}`;
+        if (pt.pz >= 0 || pt.dist > R_earth) {
+          frontD += (frontD ? " L " : "M ") + coord;
+        } else {
+          backD += (backD ? " L " : "M ") + coord;
+        }
+      }
+      frontTrackEl.setAttribute("d", frontD);
+      backTrackEl.setAttribute("d", backD);
+    }
+
+    const satEl = document.getElementById("hud-spacecraft");
+    const radarBeamEl = document.getElementById("radar-beam");
+    const swathBaseEl = document.getElementById("radar-swath-base");
+    const swathFringesEl = document.getElementById("radar-swath-fringes");
+    const swathScanlineEl = document.getElementById("radar-swath-scanline");
+    const statusTextEl = document.getElementById("hud-status-text");
+    const statusDotEl = document.getElementById("hud-status-dot");
+    const targetSubEl = document.getElementById("hud-target-sub");
+
+    // Initial angles: Earth centered on Venezuela (lon ~ -68° -> +1.187 rad)
+    let rotation = 1.187;
+    let orbitTime = 0.0;
+    let lastTime = performance.now();
+    let isDashboardVisible = true;
+    let rafId = null;
+
+    function render(now) {
+      if (!lastTime) lastTime = now;
+      const dt = (now - lastTime) / 1000;
+      lastTime = now;
+
+      // 72-second full revolution (2 * PI / 72 rad/sec)
+      if (dt > 0 && dt < 1.0) {
+        rotation += ((Math.PI * 2) / 72.0) * dt;
+        if (rotation > Math.PI * 2000) rotation %= (Math.PI * 2);
+
+        // 28-second orbital period
+        orbitTime = (orbitTime + dt) % 28.0;
+      }
+
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.uniform1f(uRot, rotation);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+      // Orbital satellite tracking & radar sweep choreography
+      // When orbitTime reaches 2.0s, satellite is over target swath at (315, 305)
+      const orbitRad = ((orbitTime - 2.0) / 28.0) * Math.PI * 2;
+      const satPt = getOrbitPoint(orbitRad);
+
+      if (satEl) {
+        let opacity = 1.0;
+        let scale = 0.95;
+        if (satPt.occluded) {
+          opacity = 0.0;
+        } else if (satPt.pz < 0) {
+          opacity = 0.42;
+          scale = 0.82;
+        } else {
+          opacity = 1.0;
+          scale = 0.92 + (satPt.pz / R_orbit) * 0.12;
+        }
+        satEl.style.opacity = opacity.toFixed(2);
+        satEl.setAttribute(
+          "transform",
+          `translate(${satPt.sx.toFixed(1)}, ${satPt.sy.toFixed(1)}) rotate(${satPt.angleDeg.toFixed(1)}) scale(${scale.toFixed(2)})`
+        );
+      }
+
+      // Radar acquisition sweep demonstration (orbitTime between 0.5s and 4.5s)
+      const inAcquisitionPass = orbitTime >= 0.5 && orbitTime <= 4.5;
+      if (inAcquisitionPass) {
+        const sweepProgress = (orbitTime - 0.5) / 4.0; // 0.0 to 1.0
+        const beamIntensity = Math.sin(sweepProgress * Math.PI); // Envelope 0 -> 1 -> 0
+
+        if (radarBeamEl) {
+          radarBeamEl.setAttribute(
+            "points",
+            `${satPt.sx.toFixed(1)},${satPt.sy.toFixed(1)} 265,245 375,370`
+          );
+          radarBeamEl.style.opacity = (beamIntensity * 0.75).toFixed(2);
+        }
+
+        if (swathBaseEl) swathBaseEl.style.opacity = (beamIntensity * 0.70).toFixed(2);
+        if (swathFringesEl) swathFringesEl.style.opacity = (beamIntensity * 0.85).toFixed(2);
+
+        if (swathScanlineEl) {
+          const lx1 = 260 + sweepProgress * 110;
+          const ly1 = 240 + sweepProgress * 125;
+          const lx2 = 280 + sweepProgress * 110;
+          const ly2 = 280 + sweepProgress * 125;
+          swathScanlineEl.setAttribute("x1", lx1.toFixed(1));
+          swathScanlineEl.setAttribute("y1", ly1.toFixed(1));
+          swathScanlineEl.setAttribute("x2", lx2.toFixed(1));
+          swathScanlineEl.setAttribute("y2", ly2.toFixed(1));
+          swathScanlineEl.style.opacity = (beamIntensity * 0.95).toFixed(2);
+        }
+
+        if (statusTextEl) statusTextEl.textContent = "RADAR ACQUISITION ACTIVE · SWATH 242 KM";
+        if (statusDotEl) statusDotEl.classList.add("is-acquiring");
+        if (targetSubEl) targetSubEl.textContent = "ACQUIRING LEVEL-2 GUNW INTERFEROGRAM";
+      } else {
+        if (radarBeamEl) radarBeamEl.style.opacity = "0";
+        if (swathBaseEl) swathBaseEl.style.opacity = "0";
+        if (swathFringesEl) swathFringesEl.style.opacity = "0";
+        if (swathScanlineEl) swathScanlineEl.style.opacity = "0";
+
+        if (statusTextEl) statusTextEl.textContent = "ILLUSTRATIVE ORBIT · 747 KM · SUN-SYNC";
+        if (statusDotEl) statusDotEl.classList.remove("is-acquiring");
+        if (targetSubEl) targetSubEl.textContent = "TRACK 162 · REAL NISAR GUNW";
+      }
+
+      if (isDashboardVisible && !document.hidden) {
+        rafId = requestAnimationFrame(render);
+      } else {
+        rafId = null;
+      }
+    }
+
+    function startLoop() {
+      if (!rafId && isDashboardVisible && !document.hidden) {
+        lastTime = performance.now();
+        rafId = requestAnimationFrame(render);
+      }
+    }
+
+    function stopLoop() {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stopLoop();
+      else if (isDashboardVisible) startLoop();
+    });
+
+    earthController.onViewChange = (name) => {
+      isDashboardVisible = name === "dashboard";
+      if (isDashboardVisible) startLoop();
+      else stopLoop();
+    };
+
+    earthController.triggerSweep = () => {
+      orbitTime = 0.5; // Jumps cleanly to start of sweep demonstration
+    };
+
+    motionQuery.addEventListener("change", (e) => {
+      if (e.matches) {
+        stopLoop();
+        sphere.classList.remove("has-webgl");
+      } else {
+        sphere.classList.add("has-webgl");
+        startLoop();
+      }
+    });
+
+    canvas.addEventListener("webglcontextlost", (event) => {
+      event.preventDefault();
+      stopLoop();
+      sphere.classList.remove("has-webgl");
+    });
+
+    startLoop();
+  };
+
+  img.onerror = () => {
+    // Graceful fallback to static picture
+    sphere.classList.remove("has-webgl");
+  };
+}
+

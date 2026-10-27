@@ -265,10 +265,6 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
   100% { transform: translateY(-7px) rotate(0.6deg); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .earth-container { animation: none; }
-  .hud-pulse { animation: none; }
-}
 
 .earth-glow {
   position: absolute;
@@ -280,12 +276,13 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
   z-index: 0;
 }
 
-.earth-picture {
+.earth-sphere {
   position: relative;
   width: 90%;
   height: 90%;
   border-radius: 50%;
   overflow: hidden;
+  background: #020712;
   box-shadow:
     0 0 70px rgba(45, 120, 220, 0.28),
     0 0 120px rgba(70, 214, 195, 0.15),
@@ -293,7 +290,16 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
   z-index: 1;
 }
 
-.earth-img {
+.earth-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+}
+
+.earth-fallback-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -301,18 +307,38 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
   display: block;
 }
 
-.earth-limb {
+.earth-canvas {
   position: absolute;
-  width: 90%;
-  height: 90%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  top: 5%;
-  left: 5%;
-  pointer-events: none;
-  z-index: 2;
-  box-shadow:
-    inset 16px 16px 36px rgba(160, 230, 255, 0.35),
-    inset -35px -35px 70px rgba(0, 4, 12, 0.88);
+  display: none;
+  z-index: 1;
+}
+
+/* When WebGL initializes successfully, show canvas and hide static fallback */
+.earth-sphere.has-webgl .earth-canvas {
+  display: block;
+}
+
+.earth-sphere.has-webgl .earth-fallback {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .earth-container { animation: none !important; }
+  .hud-pulse { animation: none !important; }
+  .earth-sphere.has-webgl .earth-canvas {
+    display: none !important;
+  }
+  .earth-sphere.has-webgl .earth-fallback {
+    display: block !important;
+  }
+  #sat-beacon { animation: none !important; }
+  .button.primary.is-transitioning { animation: none !important; }
+  .transition-beam { animation: none !important; display: none !important; }
+  .mission-transition-overlay { transition: none !important; }
 }
 
 .earth-hud {
@@ -323,6 +349,68 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
   height: 100%;
   z-index: 3;
   pointer-events: none;
+}
+
+.orbit-path {
+  pointer-events: none;
+}
+.orbit-path-front {
+  filter: drop-shadow(0 0 3px rgba(70, 214, 195, 0.45));
+}
+
+#hud-spacecraft {
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(70, 214, 195, 0.6));
+  will-change: transform, opacity;
+}
+
+#sat-beacon {
+  animation: satBeaconPulse 1.8s ease-out infinite;
+}
+@keyframes satBeaconPulse {
+  0% { r: 6px; opacity: 0.9; stroke-width: 1.2px; }
+  100% { r: 16px; opacity: 0; stroke-width: 0.4px; }
+}
+
+#radar-beam {
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+  will-change: opacity, points;
+}
+
+.radar-swath-layer {
+  pointer-events: none;
+}
+#radar-swath-base, #radar-swath-fringes, #radar-swath-scanline {
+  transition: opacity 0.3s ease-out;
+}
+
+.hud-status-txt {
+  fill: rgba(220, 240, 255, 0.9);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+#hud-status-dot.is-acquiring {
+  fill: #46d6c3;
+  filter: drop-shadow(0 0 6px #46d6c3);
+  animation: statusDotPulse 0.8s ease-in-out infinite alternate;
+}
+@keyframes statusDotPulse {
+  0% { r: 3px; opacity: 0.6; }
+  100% { r: 4.8px; opacity: 1; }
+}
+
+#target-pulse-ring.is-locked {
+  stroke: #ffffff;
+  stroke-width: 2px;
+  animation: targetLockPulse 0.6s ease-out infinite alternate;
+}
+@keyframes targetLockPulse {
+  0% { r: 14px; opacity: 0.8; }
+  100% { r: 22px; opacity: 0.3; }
 }
 
 .hud-target-title {
@@ -345,16 +433,6 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
   font-family: var(--mono);
   font-size: 9.5px;
   letter-spacing: 0.08em;
-}
-
-.hud-pulse {
-  animation: pulseNode 3s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
-}
-
-@keyframes pulseNode {
-  0% { transform: scale(0.9); opacity: 0.8; }
-  50% { transform: scale(1.4); opacity: 0.2; }
-  100% { transform: scale(0.9); opacity: 0.8; }
 }
 
 .earth-caption {
@@ -381,6 +459,133 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 6px var(--accent);
+}
+
+/* Button Component */
+.button.ghost.replay-btn {
+  border-color: rgba(70, 214, 195, 0.35);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+.button.ghost.replay-btn:hover {
+  border-color: var(--accent);
+  background: rgba(70, 214, 195, 0.12);
+  color: #ffffff;
+}
+
+.button.primary.is-transitioning {
+  background: linear-gradient(135deg, #24b8a4 0%, #15726a 100%);
+  border-color: #46d6c3;
+  box-shadow: 0 0 16px rgba(70, 214, 195, 0.5);
+  pointer-events: none;
+  animation: ctaTransitionPulse 0.5s ease-in-out infinite alternate;
+}
+@keyframes ctaTransitionPulse {
+  0% { opacity: 0.85; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.02); }
+}
+
+/* Mission Transition Overlay */
+.mission-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease-out, visibility 0.25s ease-out;
+  background: radial-gradient(circle at 65% 45%, rgba(10, 25, 45, 0.45) 0%, rgba(2, 6, 14, 0.88) 75%);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mission-transition-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+.transition-beam {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(70, 214, 195, 0.25) 50%, rgba(255, 255, 255, 0.85) 98%, #ffffff 100%);
+  box-shadow: 0 0 45px rgba(70, 214, 195, 0.65);
+}
+.mission-transition-overlay.is-active .transition-beam {
+  animation: radarWipe 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+@keyframes radarWipe {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+.transition-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(8, 14, 24, 0.94);
+  border: 1px solid rgba(70, 214, 195, 0.55);
+  border-radius: 12px;
+  padding: 1.25rem 1.85rem;
+  box-shadow: 0 0 40px rgba(70, 214, 195, 0.28);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 90vw;
+}
+.transition-spinner {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(70, 214, 195, 0.2);
+  border-top-color: #46d6c3;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.transition-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.transition-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.transition-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #46d6c3;
+  box-shadow: 0 0 6px #46d6c3;
+}
+.transition-status {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+.transition-target {
+  font-size: 0.95rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+.transition-bold {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+.transition-sub {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
 }
 
 /* Button Component */

@@ -52,49 +52,106 @@
           </p>
           <div class="hero-actions">
             <button class="button primary" id="open-explorer">EXPLORE OBSERVATIONS</button>
+            <button type="button" class="button ghost" id="replay-acquisition" title="Replay illustrative radar acquisition sweep" aria-label="Replay radar acquisition demonstration">↻ REPLAY SWEEP</button>
             <a class="button ghost" href="#method">HOW RADAR REVEALS CHANGE</a>
           </div>
           <div class="hero-honesty-note">
             <span class="honesty-dot"></span>
-            <span>Planetary view is illustrative context · Level-2 radar interferometry and validated rasters explored in workspace</span>
+            <span>Illustrative orbit &amp; radar sweep · Level-2 radar interferometry and validated rasters explored in workspace</span>
           </div>
         </div>
 
         <div class="hero-visual" aria-hidden="true">
           <div class="earth-container">
             <div class="earth-glow"></div>
-            <picture class="earth-picture">
-              <source srcset="/static/assets/earth_hero.webp" type="image/webp" />
-              <img src="/static/assets/earth_hero.jpg" alt="Earth Western Hemisphere as observed from space (NASA Visible Earth)" class="earth-img" loading="eager" width="700" height="700" />
-            </picture>
-            <div class="earth-limb"></div>
+            <div class="earth-sphere">
+              <picture class="earth-fallback">
+                <source srcset="/static/assets/earth_hero.webp" type="image/webp" />
+                <img src="/static/assets/earth_hero.jpg" alt="Earth Western Hemisphere as observed from space (NASA Visible Earth)" class="earth-fallback-img" loading="eager" width="700" height="700" />
+              </picture>
+              <canvas id="earth-canvas" class="earth-canvas" width="1024" height="1024" aria-hidden="true"></canvas>
+            </div>
             <svg class="earth-hud" viewBox="0 0 600 600">
-              <!-- Orbit track trajectory -->
-              <path d="M 80,440 A 280,280 0 0,1 480,120" class="hud-orbit" stroke="rgba(70,214,195,0.45)" stroke-width="1.6" stroke-dasharray="7,5" fill="none" />
-              <!-- Orbit Node & Pulse -->
-              <circle cx="330" cy="190" r="5" fill="#46d6c3" class="hud-sat" />
-              <circle cx="330" cy="190" r="12" fill="none" stroke="rgba(70,214,195,0.45)" stroke-width="1.2" class="hud-pulse" />
-              <text x="345" y="185" class="hud-orbit-label">NISAR ORBIT · 747 KM ALTITUDE</text>
+              <defs>
+                <clipPath id="earth-sphere-clip">
+                  <circle cx="300" cy="300" r="270" />
+                </clipPath>
+                <linearGradient id="radar-beam-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#46d6c3" stop-opacity="0.85" />
+                  <stop offset="40%" stop-color="#46d6c3" stop-opacity="0.30" />
+                  <stop offset="100%" stop-color="#23a293" stop-opacity="0.04" />
+                </linearGradient>
+                <linearGradient id="swath-fill-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#46d6c3" stop-opacity="0.30" />
+                  <stop offset="50%" stop-color="#38b2ac" stop-opacity="0.60" />
+                  <stop offset="100%" stop-color="#46d6c3" stop-opacity="0.25" />
+                </linearGradient>
+                <pattern id="radar-fringes" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-25)">
+                  <line x1="0" y1="0" x2="0" y2="16" stroke="#46d6c3" stroke-width="2.2" stroke-opacity="0.55" />
+                </pattern>
+              </defs>
+
+              <!-- 3D Orbit paths (back occluded, front visible) -->
+              <path id="orbit-track-back" class="orbit-path orbit-path-back" stroke="rgba(70,214,195,0.22)" stroke-width="1.2" stroke-dasharray="4,6" fill="none" />
+              <path id="orbit-track-front" class="orbit-path orbit-path-front" stroke="rgba(70,214,195,0.65)" stroke-width="1.6" stroke-dasharray="8,5" fill="none" />
+
+              <!-- Ground swath on Earth surface (clipped to sphere) -->
+              <g clip-path="url(#earth-sphere-clip)" class="radar-swath-layer">
+                <polygon id="radar-swath-base" points="265,245 365,340 375,370 275,275" fill="url(#swath-fill-grad)" stroke="#46d6c3" stroke-width="1.2" opacity="0" />
+                <polygon id="radar-swath-fringes" points="265,245 365,340 375,370 275,275" fill="url(#radar-fringes)" opacity="0" />
+                <!-- Scanline pulse traveling along swath -->
+                <line id="radar-swath-scanline" x1="260" y1="240" x2="280" y2="280" stroke="#ffffff" stroke-width="2.5" opacity="0" filter="drop-shadow(0 0 6px #46d6c3)" />
+              </g>
+
+              <!-- Radar acquisition beam (from satellite antenna to swath) -->
+              <polygon id="radar-beam" points="315,305 265,245 375,370" fill="url(#radar-beam-grad)" opacity="0" />
+
+              <!-- Spacecraft Satellite Group -->
+              <g id="hud-spacecraft" transform="translate(315, 305)">
+                <!-- Solar Panels -->
+                <rect x="-24" y="-3.5" width="14" height="7" rx="1" fill="#0d1926" stroke="#46d6c3" stroke-width="0.8" />
+                <line x1="-17" y1="-3.5" x2="-17" y2="3.5" stroke="rgba(70,214,195,0.6)" stroke-width="0.6" />
+                <rect x="10" y="-3.5" width="14" height="7" rx="1" fill="#0d1926" stroke="#46d6c3" stroke-width="0.8" />
+                <line x1="17" y1="-3.5" x2="17" y2="3.5" stroke="rgba(70,214,195,0.6)" stroke-width="0.6" />
+                <!-- Spacecraft Bus -->
+                <rect x="-8" y="-5.5" width="16" height="11" rx="2" fill="#182333" stroke="#e0e8f0" stroke-width="1" />
+                <!-- Gold MLI blanket accent -->
+                <rect x="-4.5" y="-3" width="9" height="6" rx="1" fill="#c99a3b" stroke="rgba(255,255,255,0.3)" stroke-width="0.5" />
+                <!-- Deployable Mesh Reflector Radar Antenna on Boom -->
+                <line x1="0" y1="5.5" x2="0" y2="12" stroke="#e0e8f0" stroke-width="1.2" />
+                <circle cx="0" cy="16" r="6" fill="rgba(35,162,147,0.25)" stroke="#46d6c3" stroke-width="1.2" />
+                <circle cx="0" cy="16" r="1.5" fill="#ffffff" />
+                <!-- Radar emitter pulse glow -->
+                <circle id="sat-beacon" cx="0" cy="16" r="9" fill="none" stroke="rgba(70,214,195,0.6)" stroke-width="1" opacity="0" />
+              </g>
+
+              <!-- Dynamic Mission Status Pill in HUD -->
+              <g class="hud-status-group" transform="translate(50, 48)">
+                <rect x="0" y="0" width="235" height="22" rx="11" fill="rgba(8,14,24,0.78)" stroke="rgba(70,214,195,0.35)" stroke-width="1" />
+                <circle id="hud-status-dot" cx="12" cy="11" r="3.5" fill="#46d6c3" />
+                <text id="hud-status-text" x="22" y="14.5" class="hud-status-txt">ILLUSTRATIVE ORBIT · 747 KM</text>
+              </g>
+
               <!-- Target Swath Reticle on Venezuela / Caribbean region -->
               <g class="hud-target-group" transform="translate(315, 305)">
-                <circle cx="0" cy="0" r="16" fill="rgba(70,214,195,0.10)" stroke="#46d6c3" stroke-width="1.2" />
+                <circle id="target-pulse-ring" cx="0" cy="0" r="16" fill="rgba(70,214,195,0.10)" stroke="#46d6c3" stroke-width="1.2" />
                 <circle cx="0" cy="0" r="3" fill="#46d6c3" />
                 <line x1="-22" y1="0" x2="-10" y2="0" stroke="#46d6c3" stroke-width="1.2" />
                 <line x1="10" y1="0" x2="22" y2="0" stroke="#46d6c3" stroke-width="1.2" />
                 <line x1="0" y1="-22" x2="0" y2="-10" stroke="#46d6c3" stroke-width="1.2" />
                 <line x1="0" y1="10" x2="0" y2="22" stroke="#46d6c3" stroke-width="1.2" />
                 <text x="26" y="2" class="hud-target-title">TARGET SWATH · 10.4°N, 68.6°W</text>
-                <text x="26" y="15" class="hud-target-sub">TRACK 162 · REAL NISAR GUNW</text>
+                <text id="hud-target-sub" x="26" y="15" class="hud-target-sub">TRACK 162 · REAL NISAR GUNW</text>
               </g>
+
               <!-- HUD Reticle Brackets -->
               <path d="M 35,55 L 35,35 L 55,35" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none" />
-              <text x="65" y="42" class="hud-reticle-txt">SWATH COVERAGE: 242 KM</text>
               <path d="M 545,565 L 565,565 L 565,545" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none" />
               <text x="555" y="558" text-anchor="end" class="hud-reticle-txt">REPEAT: 11 DAYS · L-BAND 24 CM</text>
             </svg>
             <div class="earth-caption">
               <span class="caption-pulse"></span>
-              <span>PLANETARY CONTEXT · NASA MODIS COMPOSITE</span>
+              <span>ILLUSTRATIVE MISSION VIEW · LEVEL-2 IN WORKSPACE</span>
             </div>
           </div>
         </div>
@@ -277,6 +334,23 @@
 </main>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<div class="mission-transition-overlay" id="mission-transition-overlay" aria-hidden="true">
+  <div class="transition-beam"></div>
+  <div class="transition-card">
+    <div class="transition-spinner"></div>
+    <div class="transition-content">
+      <div class="transition-header">
+        <span class="transition-pulse"></span>
+        <span class="transition-status">MISSION WORKSPACE · INITIALIZING LEVEL-2 GUNW</span>
+      </div>
+      <div class="transition-target">
+        <span class="transition-bold">TARGET SWATH:</span> VENEZUELA · TRACK 162 · 10.4°N, 68.6°W
+      </div>
+      <div class="transition-sub">Unwrapped phase interferogram · Coherence map · Connected components</div>
+    </div>
+  </div>
+</div>
 
 <footer class="footer">
   <div class="footer-primary">
