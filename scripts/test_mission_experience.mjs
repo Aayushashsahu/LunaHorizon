@@ -91,6 +91,52 @@ try {
   assert(orbitInit.spacecraftFound, 'Spacecraft satellite group found');
   assert(orbitInit.replayBtnFound, 'Replay acquisition control button found');
 
+  console.log('\n=== 1B. VERIFY GRAM-SCHMIDT ORTHONORMAL BASIS & 3D CONSTANT RADIUS ===');
+  const basisCheck = await evaluate(`(() => {
+    const ob = window.earthController?.orbitalBasis;
+    if (!ob) return { found: false };
+    const { u, v, R_orbit, R_earth, getOrbitPoint } = ob;
+    const dot = u.x * v.x + u.y * v.y + u.z * v.z;
+    const uLen = Math.hypot(u.x, u.y, u.z);
+    const vLen = Math.hypot(v.x, v.y, v.z);
+
+    let maxRadiusError = 0;
+    let occludedCount = 0;
+    let headingValid = true;
+
+    for (let deg = 0; deg < 360; deg += 3) {
+      const rad = (deg * Math.PI) / 180;
+      const pt = getOrbitPoint(rad);
+      const r3d = Math.hypot(pt.px, pt.py, pt.pz);
+      const err = Math.abs(r3d - R_orbit);
+      if (err > maxRadiusError) maxRadiusError = err;
+      if (pt.occluded) occludedCount++;
+      if (isNaN(pt.angleDeg) || !isFinite(pt.angleDeg)) headingValid = false;
+    }
+
+    return {
+      found: true,
+      u,
+      v,
+      dot,
+      uLen,
+      vLen,
+      maxRadiusError,
+      occludedCount,
+      headingValid,
+      R_orbit
+    };
+  })()`);
+
+  console.log('Orbital Basis Check:', basisCheck);
+  assert(basisCheck.found, 'Orbital basis exposed on window.earthController');
+  assert(Math.abs(basisCheck.dot) < 1e-6, `Basis vectors u and v are strictly orthogonal (abs(dot) < 1e-6): ${basisCheck.dot}`);
+  assert(Math.abs(basisCheck.uLen - 1.0) < 1e-6, `Basis vector u has unit length: ${basisCheck.uLen}`);
+  assert(Math.abs(basisCheck.vLen - 1.0) < 1e-6, `Basis vector v has unit length: ${basisCheck.vLen}`);
+  assert(basisCheck.maxRadiusError < 1e-4, `Sampled points maintain exact constant 3D orbital radius (${basisCheck.R_orbit}px): max error=${basisCheck.maxRadiusError}`);
+  assert(basisCheck.occludedCount > 10, `Occultation behind Earth occurs properly: ${basisCheck.occludedCount} sample points occluded`);
+  assert(basisCheck.headingValid, 'Satellite heading angles are finite and well-defined across full orbit');
+
   console.log('\n=== 2. VERIFY SATELLITE CONTINUOUS MOVEMENT & ROTATION ===');
   const getSatTransform = () => evaluate(`(() => {
     const el = document.getElementById('hud-spacecraft');
@@ -138,7 +184,7 @@ try {
   assert(sweepState.beamOpacity > 0.1, 'Radar beam is actively illuminated during acquisition');
   assert(sweepState.swathBaseOpacity > 0.1, 'Surface ground swath is actively illuminated');
   assert(sweepState.isAcquiring, 'HUD status dot indicates active acquisition');
-  assert(sweepState.statusText.includes('ACQUISITION'), 'HUD text indicates radar acquisition');
+  assert(sweepState.statusText.includes('ILLUSTRATIVE RADAR PASS'), 'HUD text indicates illustrative radar pass');
 
   // Capture screenshot of radar acquisition sweep
   const shotSweep = await send('Page.captureScreenshot', { format: 'png' });

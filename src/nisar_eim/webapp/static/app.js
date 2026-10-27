@@ -1353,6 +1353,7 @@ function updateLegend() {
 const earthController = {
   onViewChange: () => {},
 };
+window.earthController = earthController;
 
 function initRotatingEarth() {
   const canvas = els["earth-canvas"];
@@ -1497,11 +1498,21 @@ function initRotatingEarth() {
     // 3D Orbital Geometry & NISAR Polar Orbit Parameters
     const R_orbit = 305;
     const R_earth = 270;
-    const u_raw = { x: 15, y: -5, z: Math.sqrt(R_orbit * R_orbit - 15 * 15 - 5 * 5) };
-    const u = { x: u_raw.x / R_orbit, y: u_raw.y / R_orbit, z: u_raw.z / R_orbit };
-    const w = { x: -0.35, y: -0.92, z: 0 };
-    const w_dot_u = w.x * u.x + w.y * u.y + w.z * u.z;
-    const v_prime = { x: w.x - w_dot_u * u.x, y: w.y - w_dot_u * u.y, z: w.z - w_dot_u * u.z };
+
+    // Gram–Schmidt Orthonormal Orbital Basis
+    // 1. Normalize u (from initial vector u = (0.24, -0.96, 0.14))
+    const u_raw = { x: 0.24, y: -0.96, z: 0.14 };
+    const u_len = Math.hypot(u_raw.x, u_raw.y, u_raw.z);
+    const u = { x: u_raw.x / u_len, y: u_raw.y / u_len, z: u_raw.z / u_len };
+
+    // 2. Gram–Schmidt orthogonalization of v (from v = (0.35, 0.12, 0.93)) against normalized u
+    const v_raw = { x: 0.35, y: 0.12, z: 0.93 };
+    const dot_uv_raw = v_raw.x * u.x + v_raw.y * u.y + v_raw.z * u.z;
+    const v_prime = {
+      x: v_raw.x - dot_uv_raw * u.x,
+      y: v_raw.y - dot_uv_raw * u.y,
+      z: v_raw.z - dot_uv_raw * u.z,
+    };
     const v_len = Math.hypot(v_prime.x, v_prime.y, v_prime.z);
     const v = { x: v_prime.x / v_len, y: v_prime.y / v_len, z: v_prime.z / v_len };
 
@@ -1516,8 +1527,11 @@ function initRotatingEarth() {
       const dpx = R_orbit * (-u.x * Math.sin(rad) + v.x * Math.cos(rad));
       const dpy = R_orbit * (-u.y * Math.sin(rad) + v.y * Math.cos(rad));
       const angleDeg = Math.atan2(-dpy, dpx) * (180 / Math.PI);
-      return { sx, sy, pz, dist, occluded, angleDeg };
+      return { sx, sy, px, py, pz, dist, occluded, angleDeg };
     }
+
+    // Expose orbital basis and geometry on earthController for runtime verification
+    earthController.orbitalBasis = { u, v, u_raw, v_raw, R_orbit, R_earth, getOrbitPoint };
 
     // Render 3D SVG orbit tracks (front visible, back occluded)
     const frontTrackEl = document.getElementById("orbit-track-front");
@@ -1575,8 +1589,8 @@ function initRotatingEarth() {
       gl.drawArrays(gl.TRIANGLES, 0, 6);
 
       // Orbital satellite tracking & radar sweep choreography
-      // When orbitTime reaches 2.0s, satellite is over target swath at (315, 305)
-      const orbitRad = ((orbitTime - 2.0) / 28.0) * Math.PI * 2;
+      // Sweeps over front arc alongside the swath during illustrative radar sweep (orbitTime 0.5s - 4.5s)
+      const orbitRad = ((orbitTime - 2.5) / 28.0) * Math.PI * 2 + (75 * Math.PI / 180);
       const satPt = getOrbitPoint(orbitRad);
 
       if (satEl) {
@@ -1627,9 +1641,9 @@ function initRotatingEarth() {
           swathScanlineEl.style.opacity = (beamIntensity * 0.95).toFixed(2);
         }
 
-        if (statusTextEl) statusTextEl.textContent = "RADAR ACQUISITION ACTIVE · SWATH 242 KM";
+        if (statusTextEl) statusTextEl.textContent = "ILLUSTRATIVE RADAR PASS · SWATH 242 KM";
         if (statusDotEl) statusDotEl.classList.add("is-acquiring");
-        if (targetSubEl) targetSubEl.textContent = "ACQUIRING LEVEL-2 GUNW INTERFEROGRAM";
+        if (targetSubEl) targetSubEl.textContent = "DEMO: LEVEL-2 GUNW INTERFEROGRAM";
       } else {
         if (radarBeamEl) radarBeamEl.style.opacity = "0";
         if (swathBaseEl) swathBaseEl.style.opacity = "0";
