@@ -1361,10 +1361,120 @@ function initRotatingEarth() {
   if (!canvas || !sphere) return;
 
   const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  // Cinematic Earth Reveal State & Telemetry
+  const heroEl = document.querySelector(".hero");
+  const earthContainer = document.querySelector(".earth-container");
+  const revealGroup = document.getElementById("earth-reveal-group");
+  const revealPipLeft = document.getElementById("reveal-pip-left");
+  const revealPipRight = document.getElementById("reveal-pip-right");
+
+  const REVEAL_DURATION = 2500;
+  let revealStartTime = performance.now();
+  let isRevealing = !motionQuery.matches;
+
+  function updateRevealPips(now) {
+    if (!isRevealing) return;
+    const elapsed = now - revealStartTime;
+    const progress = Math.min(1.0, Math.max(0.0, elapsed / REVEAL_DURATION));
+    // Smooth quartic ease-out matching cubic-bezier(0.16, 1, 0.3, 1)
+    const easeT = progress < 1.0 ? 1.0 - Math.pow(1.0 - progress, 3.5) : 1.0;
+    const R_stroke = 272.5;
+    const angL = (-162 + easeT * 84) * (Math.PI / 180);
+    const angR = (-18 - easeT * 84) * (Math.PI / 180);
+    if (revealPipLeft) {
+      const pxL = 300 + R_stroke * Math.cos(angL);
+      const pyL = 300 + R_stroke * Math.sin(angL);
+      revealPipLeft.setAttribute("transform", `translate(${pxL.toFixed(1)}, ${pyL.toFixed(1)})`);
+    }
+    if (revealPipRight) {
+      const pxR = 300 + R_stroke * Math.cos(angR);
+      const pyR = 300 + R_stroke * Math.sin(angR);
+      revealPipRight.setAttribute("transform", `translate(${pxR.toFixed(1)}, ${pyR.toFixed(1)})`);
+    }
+    if (progress >= 1.0) {
+      isRevealing = false;
+      if (revealGroup) revealGroup.style.display = "none";
+    }
+  }
+
+  function revealLoop(time) {
+    if (isRevealing) {
+      updateRevealPips(time);
+      requestAnimationFrame(revealLoop);
+    }
+  }
+
+  earthController.getRevealState = () => {
+    const elapsed = performance.now() - revealStartTime;
+    const progress = Math.min(1.0, Math.max(0.0, elapsed / REVEAL_DURATION));
+    const easeT = progress < 1.0 ? 1.0 - Math.pow(1.0 - progress, 3.5) : 1.0;
+    return {
+      isRevealing,
+      progress,
+      scale: 0.38 + easeT * (1.0 - 0.38),
+      completed: progress >= 1.0,
+    };
+  };
+
+  earthController.triggerReveal = () => {
+    if (motionQuery.matches) return;
+    revealStartTime = performance.now();
+    isRevealing = true;
+    if (revealGroup) {
+      revealGroup.style.display = "";
+    }
+    if (earthContainer) {
+      earthContainer.classList.remove("reveal-completed");
+      earthContainer.classList.add("is-revealing");
+    }
+    if (heroEl) {
+      heroEl.classList.remove("reveal-completed");
+      heroEl.classList.add("is-revealing");
+    }
+    requestAnimationFrame(revealLoop);
+    setTimeout(() => {
+      isRevealing = false;
+      if (earthContainer) {
+        earthContainer.classList.remove("is-revealing");
+        earthContainer.classList.add("reveal-completed");
+      }
+      if (heroEl) {
+        heroEl.classList.remove("is-revealing");
+        heroEl.classList.add("reveal-completed");
+      }
+    }, REVEAL_DURATION + 50);
+  };
+
   if (motionQuery.matches) {
     // Respect reduced-motion preference: static fallback picture remains visible
+    if (earthContainer) {
+      earthContainer.classList.remove("is-revealing");
+      earthContainer.classList.add("reveal-completed");
+    }
+    if (heroEl) {
+      heroEl.classList.remove("is-revealing");
+      heroEl.classList.add("reveal-completed");
+    }
+    if (revealGroup) revealGroup.style.display = "none";
     return;
   }
+
+  // Active reveal lifecycle
+  if (heroEl) heroEl.classList.add("is-revealing");
+  if (earthContainer) earthContainer.classList.add("is-revealing");
+  requestAnimationFrame(revealLoop);
+  setTimeout(() => {
+    isRevealing = false;
+    if (earthContainer) {
+      earthContainer.classList.remove("is-revealing");
+      earthContainer.classList.add("reveal-completed");
+    }
+    if (heroEl) {
+      heroEl.classList.remove("is-revealing");
+      heroEl.classList.add("reveal-completed");
+    }
+  }, REVEAL_DURATION + 50);
 
   let gl = null;
   try {
@@ -1640,6 +1750,9 @@ function initRotatingEarth() {
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform1f(uRot, rotation);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+      // Cinematic Reveal stroke telemetry tracking (R = 272.5px arc)
+      updateRevealPips(now);
 
       // Orbital satellite tracking & radar sweep choreography
       // Sweeps over front arc alongside the swath during illustrative radar sweep (orbitTime 0.5s - 4.5s)

@@ -37,7 +37,7 @@
 
 <main>
   <section id="view-dashboard" class="view" aria-label="Dashboard">
-    <div class="hero">
+    <div class="hero is-revealing">
       <div class="hero-content">
         <div class="hero-copy">
           <div class="hero-eyebrow-wrap">
@@ -62,7 +62,7 @@
         </div>
 
         <div class="hero-visual" aria-hidden="true">
-          <div class="earth-container">
+          <div class="earth-container is-revealing">
             <div class="earth-glow"></div>
             <div class="earth-sphere">
               <picture class="earth-fallback">
@@ -89,6 +89,24 @@
                 <pattern id="radar-fringes" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-25)">
                   <line x1="0" y1="0" x2="0" y2="16" stroke="#46d6c3" stroke-width="2.2" stroke-opacity="0.55" />
                 </pattern>
+                <!-- Restrained soft glow filter for green orbital tracking strokes -->
+                <filter id="reveal-glow" x="-25%" y="-25%" width="150%" height="150%">
+                  <feGaussianBlur stdDeviation="3.2" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <linearGradient id="reveal-grad-left" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#38b2ac" stop-opacity="0.1" />
+                  <stop offset="35%" stop-color="#46d6c3" stop-opacity="0.85" />
+                  <stop offset="100%" stop-color="#5cf89a" stop-opacity="1.0" />
+                </linearGradient>
+                <linearGradient id="reveal-grad-right" x1="100%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stop-color="#38b2ac" stop-opacity="0.1" />
+                  <stop offset="35%" stop-color="#46d6c3" stop-opacity="0.85" />
+                  <stop offset="100%" stop-color="#5cf89a" stop-opacity="1.0" />
+                </linearGradient>
               </defs>
 
               <!-- 3D Orbit paths (back occluded, front visible) -->
@@ -148,6 +166,35 @@
               <path d="M 35,55 L 35,35 L 55,35" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none" />
               <path d="M 545,565 L 565,565 L 565,545" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none" />
               <text x="555" y="558" text-anchor="end" class="hud-reticle-txt">ORBIT REPEAT CYCLE · 12 DAYS · L-BAND 24 CM</text>
+
+              <!-- Cinematic Planetary Reveal: Two Diagonal Green Orbital-Tracking Strokes -->
+              <g id="earth-reveal-group" class="earth-reveal-group" aria-hidden="true">
+                <!-- Faint scientific tracking contour guides (subtle dashed limb track at R=272.5) -->
+                <path id="reveal-guide-left" class="reveal-guide-path" d="M 40.8,215.8 A 272.5 272.5 0 0 1 356.7,33.5" fill="none" stroke="rgba(70,214,195,0.12)" stroke-width="1" stroke-dasharray="2,6" />
+                <path id="reveal-guide-right" class="reveal-guide-path" d="M 559.2,215.8 A 272.5 272.5 0 0 0 243.3,33.5" fill="none" stroke="rgba(70,214,195,0.12)" stroke-width="1" stroke-dasharray="2,6" />
+
+                <!-- Signature Upper-Left Diagonal Luminous Green Orbital-Tracking Stroke -->
+                <path id="reveal-stroke-left" class="reveal-edge-stroke reveal-edge-left"
+                      d="M 40.8,215.8 A 272.5 272.5 0 0 1 356.7,33.5"
+                      fill="none" stroke="url(#reveal-grad-left)" stroke-width="2.2" stroke-linecap="round"
+                      filter="url(#reveal-glow)" />
+
+                <!-- Signature Upper-Right Diagonal Luminous Green Orbital-Tracking Stroke -->
+                <path id="reveal-stroke-right" class="reveal-edge-stroke reveal-edge-right"
+                      d="M 559.2,215.8 A 272.5 272.5 0 0 0 243.3,33.5"
+                      fill="none" stroke="url(#reveal-grad-right)" stroke-width="2.2" stroke-linecap="round"
+                      filter="url(#reveal-glow)" />
+
+                <!-- Leading scanning telemetry pips at stroke heads -->
+                <g id="reveal-pip-left" class="reveal-pip" transform="translate(40.8, 215.8)">
+                  <circle cx="0" cy="0" r="2.2" fill="#ffffff" />
+                  <circle cx="0" cy="0" r="4.5" fill="none" stroke="#5cf89a" stroke-width="0.8" opacity="0.8" />
+                </g>
+                <g id="reveal-pip-right" class="reveal-pip" transform="translate(559.2, 215.8)">
+                  <circle cx="0" cy="0" r="2.2" fill="#ffffff" />
+                  <circle cx="0" cy="0" r="4.5" fill="none" stroke="#5cf89a" stroke-width="0.8" opacity="0.8" />
+                </g>
+              </g>
             </svg>
             <div class="earth-caption">
               <span class="caption-pulse"></span>

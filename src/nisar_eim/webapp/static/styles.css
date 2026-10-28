@@ -247,6 +247,7 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
   align-items: center;
   position: relative;
   min-width: 0;
+  perspective: 1200px;
 }
 
 .earth-container {
@@ -263,6 +264,164 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
 @keyframes earthFloat {
   0% { transform: translateY(0px) rotate(0deg); }
   100% { transform: translateY(-7px) rotate(0.6deg); }
+}
+
+/* Cinematic Planetary Reveal Animation */
+.earth-container.is-revealing {
+  animation: earthApproach 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes earthApproach {
+  0% {
+    transform: translateZ(-340px) scale(0.38) translateY(22px);
+    opacity: 0.85;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateZ(0px) scale(1) translateY(0px);
+    opacity: 1;
+  }
+}
+
+.earth-container.reveal-completed {
+  animation: earthFloat 14s ease-in-out infinite alternate;
+}
+
+.earth-container.is-revealing .earth-glow {
+  animation: earthGlowExpand 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes earthGlowExpand {
+  0% {
+    opacity: 0.3;
+    filter: blur(12px);
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(24px);
+    transform: scale(1);
+  }
+}
+
+/* Two Diagonal Luminous Green Orbital-Tracking Strokes */
+.earth-reveal-group {
+  pointer-events: none;
+  transition: opacity 0.4s ease-out;
+}
+
+.reveal-guide-path {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.reveal-edge-stroke {
+  stroke-dasharray: 120 420;
+  stroke-dashoffset: 120;
+  will-change: stroke-dashoffset, opacity;
+}
+
+.earth-container.is-revealing .reveal-edge-left {
+  animation: revealSweepLeft 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+.earth-container.is-revealing .reveal-edge-right {
+  animation: revealSweepRight 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+@keyframes revealSweepLeft {
+  0% {
+    stroke-dashoffset: 120;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+    stroke-dashoffset: -260;
+  }
+  90% {
+    opacity: 0.7;
+    stroke-dashoffset: -300;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -320;
+  }
+}
+
+@keyframes revealSweepRight {
+  0% {
+    stroke-dashoffset: 120;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+    stroke-dashoffset: -260;
+  }
+  90% {
+    opacity: 0.7;
+    stroke-dashoffset: -300;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -320;
+  }
+}
+
+.earth-container.is-revealing .reveal-pip {
+  animation: revealPipFade 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+@keyframes revealPipFade {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  75% { opacity: 1; }
+  90% { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
+.earth-container.reveal-completed .earth-reveal-group {
+  display: none !important;
+}
+
+/* Orchestrated entrance of telemetry and hero typography during reveal */
+.hero.is-revealing .orbit-path,
+.hero.is-revealing #hud-spacecraft,
+.hero.is-revealing .radar-swath-layer,
+.hero.is-revealing #radar-beam,
+.hero.is-revealing .hud-status-group,
+.hero.is-revealing .hud-target-group,
+.hero.is-revealing .earth-reticle {
+  opacity: 0;
+  animation: hudElementsFadeIn 0.8s ease-out 1.8s forwards;
+}
+
+@keyframes hudElementsFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero.is-revealing .hero-content {
+  animation: heroTextReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
+}
+
+@keyframes heroTextReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 
@@ -328,6 +487,25 @@ main { padding: 1.8rem 2rem 3.5rem; max-width: 1680px; margin: 0 auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .earth-container { animation: none !important; }
+  .earth-container.is-revealing {
+    animation: none !important;
+    transform: none !important;
+  }
+  .earth-reveal-group {
+    display: none !important;
+  }
+  .hero.is-revealing .orbit-path,
+  .hero.is-revealing #hud-spacecraft,
+  .hero.is-revealing .radar-swath-layer,
+  .hero.is-revealing #radar-beam,
+  .hero.is-revealing .hud-status-group,
+  .hero.is-revealing .hud-target-group,
+  .hero.is-revealing .earth-reticle,
+  .hero.is-revealing .hero-content {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
   .hud-pulse { animation: none !important; }
   .earth-sphere.has-webgl .earth-canvas {
     display: none !important;
