@@ -1,0 +1,48 @@
+name: Bug report
+description: Create a report to help us improve NISAR // Earth in Motion
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue!
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS version, Python version, browser (if applicable)
+      placeholder: Windows 11 / Ubuntu 24.04, Python 3.11, Chrome 120
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Run 'python -m nisar_eim serve'
+        2. Open 'http://127.0.0.1:8000'
+        3. Click on '...'
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Terminal / Console Output
+      description: Please copy and paste any relevant terminal traceback or browser console errors.
+      render: shell

@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software or its methodology in your research, please cite it as below."
+authors:
+  - family-names: Sahu
+    given-names: Aayush
+    alias: Aayushashsahu
+title: "NISAR // Earth in Motion: Interactive Level-2 Radar Interferogram Geospatial Explorer"
+version: 0.1.0
+date-released: 2026-10-31
+url: "https://github.com/Aayushashsahu/LunaHorizon"
+keywords:
+  - nisar
+  - sar
+  - insar
+  - earth-observation
+  - interferometry
+  - remote-sensing
+  - nasa-space-apps
+abstract: "A local, offline-capable application that turns NASA-ISRO NISAR Level-2 Geocoded UNWRapped Interferogram (GUNW) products into an interpretable, scientifically honest exploration experience: georeferenced phase and coherence quicklooks, quality masks, statistics, and event verification."
+license: MIT
