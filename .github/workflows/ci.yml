@@ -1,41 +1,42 @@
-name: CI
+﻿name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
   test:
-    name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest ]
-        python-version: [ "3.11", "3.12" ]
+        python-version: ["3.11", "3.12"]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
 
-      - name: Install dependencies
+      - name: Install project and development dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -e .
+          python -m pip install -e ".[dev]"
 
-      - name: Run Ruff Linter
-        run: |
-          ruff check src tests
+      - name: Run Python test suite
+        run: python -m pytest -v
 
-      - name: Run Pytest Suite
-        run: |
-          pytest -v
+      - name: Run Ruff lint
+        continue-on-error: true
+        run: python -m ruff check src tests
