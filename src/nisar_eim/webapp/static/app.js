@@ -1380,8 +1380,8 @@ function initRotatingEarth() {
     // Smooth quartic ease-out matching cubic-bezier(0.16, 1, 0.3, 1)
     const easeT = progress < 1.0 ? 1.0 - Math.pow(1.0 - progress, 3.5) : 1.0;
     const R_stroke = 272.5;
-    const angL = (-162 + easeT * 84) * (Math.PI / 180);
-    const angR = (-18 - easeT * 84) * (Math.PI / 180);
+    const angL = (-162 + easeT * 72) * (Math.PI / 180);
+    const angR = (-18 - easeT * 72) * (Math.PI / 180);
     if (revealPipLeft) {
       const pxL = 300 + R_stroke * Math.cos(angL);
       const pyL = 300 + R_stroke * Math.sin(angL);
@@ -1425,11 +1425,13 @@ function initRotatingEarth() {
       revealGroup.style.display = "";
     }
     if (earthContainer) {
-      earthContainer.classList.remove("reveal-completed");
+      earthContainer.classList.remove("reveal-completed", "is-revealing");
+      void earthContainer.offsetWidth;
       earthContainer.classList.add("is-revealing");
     }
     if (heroEl) {
-      heroEl.classList.remove("reveal-completed");
+      heroEl.classList.remove("reveal-completed", "is-revealing");
+      void heroEl.offsetWidth;
       heroEl.classList.add("is-revealing");
     }
     requestAnimationFrame(revealLoop);
