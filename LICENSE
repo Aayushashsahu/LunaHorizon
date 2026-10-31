@@ -19,22 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-### Third-Party Data & Asset Notices
-
-The above MIT license applies to the original source code, web frontend, processing scripts,
-and documentation developed for the NISAR // Earth in Motion project. Third-party data,
-imagery, and specifications bundled or referenced by this project retain their original
-licenses and public-domain terms:
-
-1. **NASA-ISRO SAR (NISAR) Data Products & Specifications:**
-   * Products and specifications provided by NASA/JPL and the Alaska Satellite Facility (ASF)
-     are governed by the NASA Open Data Policy (Public Domain / US Government Work).
-2. **USGS Earthquake ComCat Records:**
-   * Earthquake event catalog data retrieved from the U.S. Geological Survey (USGS) is in the
-     Public Domain.
-3. **NASA Visible Earth Imagery:**
-   * Earth textures sourced from NASA Visible Earth / Blue Marble are in the Public Domain under
-     NASA image use guidelines. See `src/nisar_eim/webapp/static/assets/ATTRIBUTION.md`.

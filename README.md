@@ -250,7 +250,6 @@ LunaHorizon/
 │   └── workflows/
 │       └── ci.yml                  # GitHub Actions CI matrix (Python 3.11 & 3.12)
 ├── data/
-│   ├── demo/                       # Pre-launch sample GUNW HDF5 (for pipeline smoke tests)
 │   ├── processed/
 │   │   ├── sample_demo/            # Pre-processed 2008 sample observation assets
 │   │   └── venezuela/              # Pre-processed real 2026 NISAR Venezuela observation
@@ -314,7 +313,7 @@ node scripts/test_earth_reveal.mjs http://127.0.0.1:8000
 node scripts/check_responsive_viewports.mjs http://127.0.0.1:8000
 ```
 
-### Last Verified Test Status (Commit `f01ca89`)
+### Last Verified Test Status (Commit `f8946c9`)
 * **Pytest:** 93 passed, 0 failed (16.7s)
 * **Ruff:** All checks passed (code 0)
 * **Browser Smoke:** 36 of 36 checks passed
@@ -339,7 +338,7 @@ We gratefully acknowledge the scientific organizations whose open data and techn
 ## License & Attribution
 
 * **Source Code:** Distributed under the open-source **[MIT License](LICENSE)**. Copyright © 2026 Aayush Sahu and the LunaHorizon Contributors.
-* **Third-Party Data & Imagery:** NISAR data products, NASA Visible Earth textures, and USGS earthquake records are in the Public Domain under United States Government open data policies. See [`LICENSE`](LICENSE) and [`src/nisar_eim/webapp/static/assets/ATTRIBUTION.md`](src/nisar_eim/webapp/static/assets/ATTRIBUTION.md) for full terms.
+* **Third-Party Data & Imagery:** NISAR data products, NASA Visible Earth textures, and USGS earthquake records are in the Public Domain under United States Government open data policies. See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and [`src/nisar_eim/webapp/static/assets/ATTRIBUTION.md`](src/nisar_eim/webapp/static/assets/ATTRIBUTION.md) for full terms.
 
 ---
 
