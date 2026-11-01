@@ -2,7 +2,7 @@
 
 ```text
 data/raw/**                immutable inputs (read-only, never rewritten)
-data/demo/                 small public sample product (pipeline smoke test)
+data/processed/sample_demo/ pre-processed 2008 sample observation (pipeline smoke test)
 data/processed/<id>/       all derived artefacts, one directory per observation
 src/nisar_eim/             the package (Python 3.11, no web framework)
   errors.py                typed, actionable error hierarchy (NisarError)

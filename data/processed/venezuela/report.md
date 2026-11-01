@@ -6,7 +6,7 @@ Generated **2026-10-25T12:40:27Z** by `nisar-earth-in-motion` 0.2.0.
 
 Source granule `NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_20260613T100731_20260625T100655_20260625T100730_P05023_N_F_J_001` — NISAR GUNW (product version 1.0.11, specification 1.5.0).
 
-Reference acquisition **2026-06-13 10:06:56 UTC** → secondary acquisition **2026-06-25 10:06:55 UTC** (temporal baseline 11 days).
+Reference acquisition **2026-06-13 10:06:56 UTC** → secondary acquisition **2026-06-25 10:06:55 UTC** (temporal baseline 11 days 23:59:59 UTC (~12.000 calendar days; 1 nominal repeat cycle)).
 
 Track 162, frame 7, Ascending pass, Left-looking, band L, frequency A, polarization HH.
 

@@ -40,3 +40,9 @@ partial_*
 # Temporary validation screenshots and logs
 /data/processed/_validation/
 *.log
+
+# Python packaging generated artefacts
+*.egg-info/
+*.dist-info/
+build/
+dist/

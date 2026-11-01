@@ -179,10 +179,9 @@ cd LunaHorizon
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 
-# 3. Upgrade pip and install dependencies
+# 3. Upgrade pip and install dependencies (use [dev] for running tests)
 python -m pip install --upgrade pip
-pip install -r requirements.txt
-pip install -e .
+pip install -e ".[dev]"
 
 # 4. Run the full automated test suite (93 tests, offline)
 pytest -v
@@ -191,6 +190,8 @@ pytest -v
 python -m nisar_eim serve --port 8000
 ```
 Open **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)** in any modern web browser.
+
+> *For production runtime only (without test/lint tooling), use `pip install -r requirements.txt && pip install -e .`.*
 
 ---
 
@@ -205,10 +206,9 @@ cd LunaHorizon
 python3.11 -m venv .venv
 source .venv/bin/activate
 
-# 3. Upgrade pip and install dependencies
+# 3. Upgrade pip and install dependencies (use [dev] for running tests)
 pip install --upgrade pip
-pip install -r requirements.txt
-pip install -e .
+pip install -e ".[dev]"
 
 # 4. Run the full automated test suite
 pytest -v
@@ -258,9 +258,11 @@ LunaHorizon/
 │   ├── images/                     # Documentation screenshots and visual tour assets
 │   ├── ARCHITECTURE.md             # Detailed system and module design specifications
 │   ├── DATA_VALIDATION.md          # Georeferencing invariants and numerical validation records
+│   ├── FINAL_COMPLETION_AUDIT.md   # Comprehensive pre-submission QA audit
 │   └── SCIENTIFIC_METHOD.md        # Definitive scientific principles, caveats, and citations
 ├── research/
-│   └── references/                 # Official NASA JPL L2 GUNW product specifications (PDF)
+│   ├── references/                 # Official NASA JPL L2 GUNW product specifications (PDF)
+│   └── NASA_VENEZUELA_REFERENCE_ANALYSIS.md  # NASA published displacement study comparison
 ├── scripts/
 │   ├── browser_smoke.mjs           # 36-step automated headless browser test suite
 │   ├── check_responsive_viewports.mjs # Responsive layout check (1440px down to 390px)
@@ -278,12 +280,19 @@ LunaHorizon/
 │   └── webapp/
 │       ├── server.py               # Offline local HTTP server
 │       └── static/                 # Frontend assets (HTML5, CSS3, WebGL, SVG, JS)
+├── submission/                     # NASA Space Apps Challenge submission materials
+│   ├── DEMO_VIDEO_SCRIPT.md        # 90-second narrated video recording script
+│   ├── JUDGE_QUICKSTART.md         # 5-minute judge setup and demo walkthrough
+│   ├── PROJECT_SUBMISSION.md       # Project narrative for the submission portal
+│   └── SUBMISSION_CHECKLIST.md     # Pre-submission verification checklist
 ├── tests/                          # 93 automated unit, regression, and webapp tests
 ├── CITATION.cff                    # Machine-readable academic citation metadata
 ├── CONTRIBUTING.md                 # Contribution and development guidelines
-├── LICENSE                         # Open-source MIT License
+├── LICENSE                         # Open-source MIT License (canonical MIT text)
+├── THIRD_PARTY_NOTICES.md          # Third-party data and asset attribution notices
 ├── pyproject.toml                  # Package configuration and tool definitions
-├── requirements.txt                # Production dependencies
+├── requirements.txt                # Production runtime dependencies
+├── requirements-dev.txt            # Development dependencies (pytest, jupyterlab, ruff)
 └── SECURITY.md                     # Security policy and vulnerability reporting
 ```
 
@@ -313,9 +322,14 @@ node scripts/test_earth_reveal.mjs http://127.0.0.1:8000
 node scripts/check_responsive_viewports.mjs http://127.0.0.1:8000
 ```
 
-### Last Verified Test Status (Commit `f8946c9`)
-* **Pytest:** 93 passed, 0 failed (16.7s)
-* **Ruff:** All checks passed (code 0)
+### Last Verified Test Status
+
+**Python suite and lint** (current commit — 2026-11-01):
+* **Pytest:** 93 passed, 0 failed (~25s, Python 3.11 local; 3.11 + 3.12 on CI)
+* **Ruff:** All checks passed (mandatory CI step, code 0)
+* **JS syntax:** `node --check app.js` and all `scripts/*.mjs` — no syntax errors
+
+**Browser acceptance tests** (last run commit `f01ca89` — application source unchanged):
 * **Browser Smoke:** 36 of 36 checks passed
 * **Mission Experience:** All checks passed (Gram–Schmidt basis $\mathbf{u} \cdot \mathbf{v} = 0$, radius error $< 10^{-13}\text{ px}$)
 * **Planetary Reveal:** All checks passed (arc radius error $< 0.05\text{ px}$, zero centerline crossing)

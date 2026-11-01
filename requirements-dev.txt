@@ -1,2 +1,4 @@
 -r requirements.txt
+pytest>=8,<10
+jupyterlab>=4,<5
 ruff>=0.9,<1
