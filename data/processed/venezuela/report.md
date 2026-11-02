@@ -19,6 +19,8 @@ Raw file: `data\raw\nisar_venezuela\NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_2
 | phase | `science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase` | radians | [4149, 4239] | 9,175,108 | 52.2% |
 | coherence | `science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/coherenceMagnitude` | 1 | [4149, 4239] | 9,173,753 | 52.2% |
 
+*Note on valid pixel counts:* Phase and coherence share the same 32-bit validity mask (9,175,108 mask-valid pixels). All 9,175,108 mask-valid pixels contain finite unwrapped phase values. In the coherence raster, exactly 1,355 of these mask-valid pixels contain native `NaN` entries (primarily at edge boundaries of the multi-look correlation estimator), yielding 9,173,753 finite coherence pixels.
+
 ### 2.1 Unwrapped phase
 
 The unwrapped interferogram is the phase difference between the reference and secondary acquisitions after ellipsoid and topographic flattening. Values are in **radians**, the unit declared by the product dataset. This is **not** a displacement map in metres.
@@ -70,12 +72,13 @@ Coordinates were resolved from the phase raster's own HDF5 dimension scales, not
 | M7.2 foreshock (us6000t7zc) | 7.2 | True | 0.00 km | 100.0% | 0.354 | inside_usable |
 | M7.5 mainshock (us6000t7zp) | 7.5 | True | 0.00 km | 100.0% | 0.092 | inside_marginal |
 
-Event coordinates come from the USGS ComCat reference file bundled with the application; the screening rules are exploratory rules of this application.
+Event coordinates come from the USGS ComCat reference file bundled with the application; the screening rules are exploratory rules of this application. The two epicenters are separated by **148.33 km** geodesic distance along the northern Venezuelan coast (from San Felipe, Yaracuy to Catia La Mar, La Guaira).
 
 ## 5. Interpretation and limitations
 
 - Unwrapped phase is reported in radians, the unit declared by the product. No phase-to-displacement conversion is applied: the GUNW product does not document a sign convention that this project could verify, and metric displacement requires assumptions that are not validated here.
-- The product includes an ionospheric phase screen and geocoded tropospheric and solid-Earth-tide correction layers but does not apply them to the interferometric phase. Long-wavelength phase patterns therefore mix atmospheric and orbital effects with any surface signal.
+- The product center frequency is **1,239.0 MHz** (derived wavelength $\lambda \approx 0.2420\text{ m}$; nominal scale $\approx 1.93\text{ cm/rad}$, $2\pi\text{ rad} \approx 12.10\text{ cm}$ LOS).
+- Product geocoding metadata flags (`rangeIonosphericCorrectionApplied`, `hydrostaticTroposphericCorrectionApplied`, etc.) record corrections applied to improve pixel geolocation during geocoding. Ellipsoidal and DEM topographic flattening are applied to the interferometric phase, but atmospheric delay screens remain un-subtracted from the phase array. Long-wavelength phase patterns therefore mix atmospheric and orbital effects with any surface signal.
 - Coherence magnitude is a similarity/quality indicator. A coherence threshold is an exploratory filter chosen in the interface; no product-defined universal threshold exists.
 - Pixels in different connected components can carry different integer phase ambiguities, so phase is not necessarily continuous across component boundaries.
 - Geolocation is validated only for internal consistency (coordinate vectors, affine transform, EPSG code, footprint). Absolute product geolocation accuracy is not independently assessed.

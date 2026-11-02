@@ -58,46 +58,51 @@ The displacement maps use the following colour convention:
 - **Blue / cool tones:** surface movement **away** from the satellite (westward/subsidence)
 - **Yellow:** near-zero displacement
 
-### 4.3 Corrections Applied
+### 4.3 Corrections and Processing Flags
 
-NISAR Level-2 GUNW products used by NASA include the following standard geocoding corrections, all of which are confirmed as applied in our product's metadata:
+Inspection of the product metadata and the NASA JPL D-102272 Rev E specification clarifies the exact scope of each processing flag:
 
-| Correction | Applied? (Our product metadata) |
-|---|---|
-| Ellipsoidal flattening | `True` |
-| Topographic (DEM) flattening | `True` |
-| Ionospheric range correction | `True` (geocoding step) |
-| Ionospheric azimuth correction | `True` (geocoding step) |
-| Hydrostatic tropospheric correction | `True` (geocoding step) |
-| Wet tropospheric correction | `True` (geocoding step) |
-| RFI mitigation | `True` |
+| Correction / Parameter | Product Metadata Flag | True Scope in Product Specification (D-102272) |
+|---|---|---|
+| Ellipsoidal flattening | `ellipsoidalFlatteningApplied: True` | **Phase flattened:** Interferometric phase flattened with respect to reference ellipsoid |
+| Topographic flattening | `topographicFlatteningApplied: True` | **Phase flattened:** Interferometric phase flattened with respect to DEM topography |
+| Ionospheric range correction | `rangeIonosphericCorrectionApplied: True` | **Geolocation only:** Flag indicates range ionospheric delay correction applied *to improve pixel geolocation* |
+| Ionospheric azimuth correction | `azimuthIonosphericCorrectionApplied: True` | **Geolocation only:** Flag indicates azimuth ionospheric correction applied *to improve pixel geolocation* |
+| Hydrostatic tropospheric correction | `hydrostaticTroposphericCorrectionApplied: True` | **Geolocation only:** Flag indicates hydrostatic delay applied *to improve pixel geolocation* |
+| Wet tropospheric correction | `wetTroposphericCorrectionApplied: True` | **Geolocation only:** Flag indicates wet tropospheric delay applied *to improve pixel geolocation* |
+| RFI mitigation | `reference/rfiMitigationApplied: True` | Radio Frequency Interference filter applied to raw signal |
 
-These corrections are applied during the geocoding step to the geocoded layers; they do **not** modify the stored `unwrappedPhase` raster values directly. The unwrapped phase values in the HDF5 file therefore represent:
+> **Critical Distinction:** The geocoding flags under `metadata/processingInformation/parameters/geocoding/*` record corrections applied **to improve geolocation (pixel coordinate positioning)** during geocoding. They do **not** represent subtraction of atmospheric phase delay screens from the `unwrappedPhase` raster! Atmospheric phase delays (ionosphere phase screen, tropospheric delay layers) are stored as separate layers/cubes in the Level-2 GUNW granule but are **not subtracted** from the interferometric phase array.
 
-> **Phase difference after ellipsoidal and topographic flattening, in radians, without explicit atmospheric corrections applied to the phase array itself.**
+### 4.4 Phase-to-Displacement Conversion & Radar Parameters
 
-### 4.4 Phase-to-Displacement Conversion
-
-The standard two-way interferometric relationship is:
+The standard two-way interferometric line-of-sight relationship is:
 
 $$d_{\text{LOS}} = \frac{\phi \cdot \lambda}{4\pi}$$
 
 Where:
 - $\phi$ = unwrapped interferometric phase (radians)
-- $\lambda$ = radar wavelength ≈ 0.2385 m for NISAR L-band (1255 MHz centre frequency)
-- $d_{\text{LOS}}$ = line-of-sight displacement (metres, positive = towards satellite)
+- $\lambda = \frac{c}{f_0}$ = radar wavelength
+- $d_{\text{LOS}}$ = line-of-sight displacement (metres)
 
-**One full phase cycle ($2\pi$ rad) corresponds to approximately $\lambda/2 \approx 11.9$ cm of LOS displacement.**
+**Product-Specific Radar Frequency:**
+The granule's actual metadata records a center frequency under `grids/frequencyA/centerFrequency`:
+- **Center frequency:** $f_0 = 1,239,000,000.0\text{ Hz}$ ($1.239\text{ GHz}$)
+- **Derived radar wavelength:** $\lambda = \frac{299,792,458\text{ m/s}}{1,239,000,000\text{ Hz}} \approx 0.241963\text{ m}$ ($\approx 24.20\text{ cm}$)
 
-### 4.5 Sign Convention
+*(Note: While generic literature often quotes NISAR's nominal L-band center as 1.255 GHz or 1.2575 GHz giving $\lambda \approx 23.85\text{ cm}$, the authoritative product metadata for this granule specifically records $1.239\text{ GHz}$. Product-specific metadata must take precedence.)*
 
-The standard NISAR GUNW convention for unwrapped phase is:
+**Derived Metric Conversions:**
+- **Per radian:** $\frac{\lambda}{4\pi} = \frac{0.241963\text{ m}}{4\pi} \approx 0.019255\text{ m} \approx \mathbf{1.93\text{ cm/radian}}$
+- **Per full $2\pi$ phase cycle:** $\frac{\lambda}{2} = \frac{0.241963\text{ m}}{2} \approx 0.12098\text{ m} \approx \mathbf{12.10\text{ cm}}$ (rather than the generic 11.9 cm)
 
-> **Phase = secondary phase − reference phase**
+### 4.5 Phase Sign Convention — Unresolved in Specification
 
-Positive phase values indicate the surface moved **away** from the satellite (range increased) between the reference and secondary acquisitions. Negative values indicate movement **towards** the satellite.
+In SAR interferometry, the sign convention depends on whether the interferogram is formed as $S_1 S_2^*$ or $S_2 S_1^*$:
+- Under $S_{\text{secondary}} S_{\text{reference}}^*$, an increasing range away from the radar yields positive phase.
+- Under $S_{\text{reference}} S_{\text{secondary}}^*$, an increasing range away from the radar yields negative phase.
 
-This convention is confirmed by NASA JPL documentation (D-102272, NISAR NASA SDS Product Specification L2 GUNW, which is the reference document stated in our product's HDF5 file attributes).
+**Audit finding:** An exhaustive audit of the NASA JPL Level-2 GUNW specification (D-102272 Rev E) reveals that **no explicit phase sign convention is defined in the product specification**. Section 5 defines `unwrappedPhase` merely as *"Unwrapped interferogram between HH layers"*. Without an explicit definition in product documentation or independent ground-truth calibration against continuous GNSS stations, **the phase sign convention remains unresolved for this product**.
 
 ### 4.6 Uncertainty and Limitations Reported by NASA
 
@@ -111,55 +116,43 @@ This convention is confirmed by NASA JPL documentation (D-102272, NISAR NASA SDS
 
 ## 5. Comparison with the LunaHorizon Project
 
-### 5.1 What is identical
+### 5.1 What is comparable
 
-| Parameter | NASA (Track A162) | LunaHorizon |
+| Parameter | NASA Study (A162 track) | LunaHorizon Observation |
 |---|---|---|
-| NISAR track | A162 | A162 |
+| NISAR orbital track | Track 162 (Ascending) | Track 162 (Ascending) |
 | Reference acquisition | 2026-06-13 | 2026-06-13 10:06:56 UTC |
 | Secondary acquisition | 2026-06-25 | 2026-06-25 10:06:55 UTC |
-| Temporal baseline | 12 days | 11 days 23:59:59 (~12.000 days) |
-| Product type | L-2 GUNW | L-2 GUNW |
-| Specification | D-102272 | D-102272 v1.5.0 |
-| Corrections applied | Iono, tropo, topo, ellipsoidal | Same (confirmed from metadata) |
+| Temporal baseline | ~12 days | 11 days 23:59:59 UTC (~12.000 calendar days) |
+| Product family | NISAR Level-2 GUNW | NISAR Level-2 GUNW (v1.0.11, spec 1.5.0) |
+| Center frequency | L-band (1.239 GHz) | 1,239,000,000.0 Hz (derived $\lambda \approx 0.2420$ m) |
+| Flattening | Ellipsoidal + DEM topographic | Ellipsoidal + DEM topographic (`True` in metadata) |
 
-**The LunaHorizon project is working with the same Track A162 interferometric product that NASA used for one of its three displacement maps.**
+**Relationship:** The LunaHorizon project processes an authentic NISAR Level-2 GUNW granule covering the same orbital pass (Ascending Track 162) and same nominal date pair (June 13 and June 25, 2026) that NASA used as one of its three InSAR tracks. However, NASA's published study was produced by the NASA/JPL Operations Science Team using their specialized processing, multi-track combination (integrating A162 with Descending D54 and Ascending A61), and calibrated deformation modeling. LunaHorizon displays standalone Level-2 unwrapped phase in radians and does not claim to reproduce or replicate NASA's multi-track displacement solution.
 
-### 5.2 What is different
+### 5.2 Key Differences
 
-| Aspect | NASA | LunaHorizon |
+| Aspect | NASA Study | LunaHorizon Project |
 |---|---|---|
-| Number of tracks processed | 3 (A162, D54, A61) | 1 (A162) |
-| Displacement map produced | Yes (LOS, cm) | Not published — phase in radians |
-| Sign convention documented | Yes (towards/away from satellite) | Identified from D-102272 |
-| Multi-track decomposition | Planned/partial | Not applicable |
-| Independent validation | Yes (published July 10, 2026) | Referenced, not replicated |
-| Fault trace overlay | Yes (geological fault map) | Not included |
+| Number of tracks processed | 3 (A162, D54, A61) | 1 (A162 standalone granule) |
+| Output quantity | Derived LOS displacement (cm) | Unwrapped interferometric phase (radians) |
+| Multi-track 3D decomposition | Yes (combined geometry) | No (single track line-of-sight only) |
+| Atmospheric phase screen | Evaluated / modeled | Separated as distinct product layers; un-subtracted from phase |
+| Phase sign convention | Operational pipeline convention | Explicitly marked unresolved in product spec |
+| Independent validation | Yes (published research result) | Marked `scientific_interpretation_validated: false` |
 
-### 5.3 Whether LOS displacement can be derived from our product
+### 5.3 Scientific Prerequisites for Metric Displacement
 
-Based on this investigation:
+A scientifically defensible conversion from unwrapped phase to ground displacement requires satisfying several prerequisites:
 
-**The physical preconditions for computing relative LOS displacement from the bundled A162 product ARE met:**
+1. ⚠️ **Phase sign convention:** Unresolved in product specification D-102272; must be confirmed before assigning direction (uplift vs. subsidence).
+2. ⚠️ **Reference anchoring:** Single-granule InSAR requires an independently verified reference point (e.g. continuous GNSS station) to convert relative phase differences to absolute ground displacement.
+3. ⚠️ **Atmospheric phase screens:** Tropospheric delay variations and ionospheric phase screens are present in `unwrappedPhase` and must be subtracted to prevent atmospheric turbulence from masquerading as tectonic motion.
+4. ⚠️ **Orbital ramp removal:** Residual orbital trajectory errors produce long-wavelength ramps that must be removed via baseline modeling.
+5. ✅ **Radar wavelength:** Authoritatively determined from product metadata: $f_0 = 1.239\text{ GHz} \rightarrow \lambda \approx 0.2420\text{ m}$.
+6. ✅ **Quality masking:** Coherence magnitude and product validity masks allow rigorous exclusion of unreliable decorrelated pixels.
 
-1. ✅ Wavelength is documented: NISAR L-band, centre frequency 1255 MHz → $\lambda \approx 0.2385$ m
-2. ✅ Phase unit is confirmed: radians (declared in HDF5 dataset attributes)
-3. ✅ Corrections applied during geocoding: iono, tropo, topo, ellipsoidal flattening
-4. ✅ Sign convention is defined: secondary − reference; positive = away from satellite
-5. ✅ Connected components are provided: ambiguity-safe within a component
-6. ✅ Coherence magnitude is provided: quality filter applicable
-7. ⚠️ Solid-Earth tidal correction: not explicitly listed in geocoding parameters; may be embedded in the product processing
-8. ⚠️ Orbital error ramp: not corrected in the product; large-scale phase trends may include orbital contributions
-9. ⚠️ Reference pixel: no absolute reference; only **relative** displacement (change relative to a chosen reference point) can be computed without GPS ground truth
-
-**Conclusion:** A **relative LOS displacement** estimate is scientifically defensible, provided:
-- It is presented as **relative** (not absolute displacement)
-- Coherence thresholding is applied (recommend ≥ 0.4)
-- Connected-component boundaries are respected
-- The computation is clearly labeled as illustrative, not independently validated
-- The sign convention and wavelength assumption are disclosed
-
-The metric conversion is: **1 radian ≈ 1.9 cm LOS displacement** at L-band.
+**Conclusion:** Because prerequisites 1–4 are not resolved within this single Level-2 GUNW granule, the application strictly and honestly presents **unwrapped phase in radians**, accompanied by coherence and validity masks. The metric conversion factor ($1\text{ rad} \approx 1.93\text{ cm}$ LOS, $2\pi\text{ rad} \approx 12.10\text{ cm}$) is documented as an educational reference, not asserted as a calibrated measurement.
 
 ---
 

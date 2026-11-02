@@ -123,11 +123,13 @@ Product: Level-2 Geocoded UNWRapped Interferogram (GUNW) · Version 1.0.11 · Sp
 Pass: Track 162 · Frame 7 · Ascending Pass · Polarization: HH · Frequency: A
 Temporal Baseline: 2026-06-13 10:06:56 UTC -> 2026-06-25 10:06:55 UTC (12 days / 1 nominal repeat cycle)
 Coordinate System: WGS 84 / UTM zone 19N (EPSG:32619) · Regular 80 m x 80 m grid (4149 x 4239 pixels)
-Valid Coverage: 9,175,108 of 17,587,611 pixels (52.2%) · Median Coherence: 0.177 (valid pixels)
+Valid Coverage: 9,175,108 of 17,587,611 pixels (52.2% phase-valid; 9,173,753 coherence-valid) · Median Coherence: 0.177 (valid pixels)
+Center Frequency: 1,239,000,000.0 Hz (1.239 GHz, derived λ ≈ 0.2420 m; 1 rad ≈ 1.93 cm LOS; 2π rad ≈ 12.10 cm LOS)
 ```
 
 ### USGS Earthquake Verification (Doublet Sequence)
 Independent event records from the USGS Comprehensive Earthquake Catalog (ComCat) are checked against the raster footprint:
+* **Event Separation:** The two epicentres are separated by **148.3 km** geodesic distance along the northern Venezuelan coast (from San Felipe in Yaracuy to Catia La Mar near Caracas/La Guaira).
 * **M7.2 Foreshock (`us6000t7zc`):** 2026-06-24 22:04:31 UTC · $10.3713^\circ\text{N}, 68.5564^\circ\text{W}$ · Depth: 10.0 km.  
   *Status:* **Inside Usable Footprint** (0.0 km to nearest valid pixel). Nearest pixel coherence = **0.708**; 1.6 km window median coherence = **0.406**.
 * **M7.5 Mainshock (`us6000t7zp`):** 2026-06-24 22:05:04 UTC (~32 seconds later) · $10.5955^\circ\text{N}, 67.2205^\circ\text{W}$ · Depth: 10.0 km.  

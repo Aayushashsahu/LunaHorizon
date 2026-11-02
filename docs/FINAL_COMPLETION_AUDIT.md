@@ -140,34 +140,28 @@ NASA used three NISAR tracks to map the June 2026 Venezuela coseismic deformatio
 | D54 | Descending | 2026-06-17 | 2026-06-29 |
 | A61 | Ascending | 2026-06-18 | 2026-06-30 |
 
-**LunaHorizon uses Track A162** — the same product as one of NASA's three maps.
+**Track Relationship:** LunaHorizon processes an authentic Level-2 GUNW granule from Ascending Track 162 (June 13–25, 2026), one of the three InSAR tracks included in NASA's published Earth Observatory study. NASA combined three tracks (A162, D54, A61) with specialized modeling, whereas LunaHorizon presents standalone single-track Level-2 phase in radians.
 
-NASA reported displacement of up to ~60 cm (peak, near La Guaira). One L-band phase cycle ≈ 11.9 cm LOS displacement.
+NASA reported displacement of up to ~60 cm (peak, near La Guaira). For this product's center frequency (1.239 GHz, $\lambda \approx 0.2420$ m), one full $2\pi$ phase cycle corresponds to $\lambda / 2 \approx 12.10$ cm of line-of-sight range change ($\approx 1.93$ cm/rad).
 
 Full analysis: `research/NASA_VENEZUELA_REFERENCE_ANALYSIS.md`
 
-### 2.2 LOS Displacement Feasibility
+### 2.2 LOS Displacement Feasibility & Processing Scope
 
-Based on NISAR L-band wavelength (~0.2385 m), confirmed corrections (iono, tropo, topo, ellipsoidal — all `True` in geocoding metadata), and the GUNW product specification (D-102272):
+Based on NISAR L-band wavelength ($f_0 = 1.239\text{ GHz} \rightarrow \lambda \approx 0.2420\text{ m}$), metadata processing flags, and product specification D-102272 Rev E:
 
-**A relative LOS displacement estimate is physically justifiable** subject to these constraints:
-1. Must be labeled as **relative** — no absolute reference pixel validated against GPS
-2. Must apply coherence threshold ≥ 0.4
-3. Must respect connected-component boundaries
-4. Must disclose sign convention (positive = away from satellite = secondary minus reference)
-5. Must disclose wavelength assumption
-6. Must explicitly state it is NOT independently validated
+1. **Geolocation vs. Phase Screens:** Geocoding metadata flags (`rangeIonosphericCorrectionApplied`, `hydrostaticTroposphericCorrectionApplied`, etc.) record corrections applied *to improve pixel geolocation positioning*, NOT subtraction of atmospheric delay screens from `unwrappedPhase`. While ellipsoidal and DEM topographic flattening are applied to the interferogram, atmospheric delay screens remain present in the interferometric phase array.
+2. **Phase Sign Convention:** Unresolved in product specification D-102272 (the document does not define whether $S_1 S_2^*$ or $S_2 S_1^*$ is formed).
+3. **Reference Anchoring:** Absolute displacement conversion requires independent continuous GNSS ground-truth reference anchoring.
 
-**Current state:** The existing UI displays phase in radians. The `phase_to_los_displacement()` helper in `metrics.py` exists and is correctly implemented. The formula is standard and the wavelength is documented. A frontend "Show relative LOS displacement (experimental)" toggle could be implemented without modifying any existing functionality or compromising scientific honesty.
-
-**Decision:** Not implemented in this sprint — the existing presentation is scientifically defensible and correct. Adding a displacement toggle without GPS validation would require careful UI labeling. This is documented as a future enhancement in `docs/SCIENTIFIC_METHOD.md`.
+**Conclusion:** The application strictly and properly displays **unwrapped phase in radians**, accompanied by coherence and validity masks. Adding uncalibrated metric displacement is intentionally prevented.
 
 ### 2.3 Coherence Interpretation
 
-- M7.2 foreshock area: high coherence (~0.41 at 1.6 km) → reliable phase measurement
-- M7.5 mainshock area: very low coherence (~0.08 at 1.6 km) → highly decorrelated
+- M7.2 foreshock area: moderate coherence (~0.41 at 1.6 km) → usable phase measurement
+- M7.5 mainshock area: very low coherence (~0.08 at 1.6 km) → heavily decorrelated
 
-**Correct interpretation:** The mainshock region's coherence loss is consistent with severe surface disruption, but is not proven to be caused exclusively by ground displacement. Vegetation change, atmospheric effects, and phase aliasing all reduce coherence. The UI correctly uses "poor phase reliability" language.
+**Correct interpretation:** The mainshock region's coherence loss indicates reduced interferometric measurement reliability. It is not asserted as direct proof of earthquake damage or displacement severity. The UI correctly uses "poor phase reliability" language.
 
 ---
 
@@ -189,10 +183,10 @@ Based on NISAR L-band wavelength (~0.2385 m), confirmed corrections (iono, tropo
 |---|---|---|
 | Phase-valid pixels | 9,175,108 | `report.md`, layer table |
 | Coherence-valid pixels (threshold 0.0) | 9,173,753 | `quality.threshold_table[0]` |
-| Difference | 1,355 | Expected — coherence has slightly fewer valid pixels |
+| Difference | 1,355 | Native `NaN` entries in `coherenceMagnitude` along swath margins |
 | Total raster pixels | 17,587,611 | 4149 × 4239 |
 
-These values are consistent. No discrepancy to resolve.
+**1,355 Pixel Difference Investigation:** Both layers share the same 32-bit validity mask (9,175,108 mask-valid pixels). All 9,175,108 mask-valid pixels contain finite phase values. In the coherence layer, exactly 1,355 of these mask-valid pixels contain native `NaN` values in the Level-2 GUNW raster (primarily along multi-look correlation estimator margins), resulting in 9,173,753 finite coherence pixels. Separate counts are preserved and documented.
 
 ### 3.3 Sample Dataset
 

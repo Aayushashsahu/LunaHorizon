@@ -28,8 +28,8 @@ cd LunaHorizon
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 
-# 3. Install dependencies
-pip install -e .
+# 3. Install dependencies (including developer/test dependencies)
+pip install -e ".[dev]"
 
 # 4. Verify the installation
 python -m nisar_eim list
@@ -48,7 +48,7 @@ git clone https://github.com/Aayushashsahu/LunaHorizon.git
 cd LunaHorizon
 python3.11 -m venv .venv
 source .venv/bin/activate
-pip install -e .
+pip install -e ".[dev]"
 python -m nisar_eim list
 ```
 
@@ -91,9 +91,10 @@ The application is 100% offline after installation. No internet connection is re
 ### Step 4: Event Epicentres (1 minute)
 
 - Look for the two earthquake epicentre markers on the map.
-- **M7.2 foreshock** (west): Local 1.6 km median coherence ≈ 0.406 — data is usable.
-- **M7.5 mainshock** (east): Local 1.6 km median coherence ≈ 0.077 — heavily decorrelated.
-- The statistics table shows the event assessment at three spatial windows.
+- The two epicentres are separated by **148.3 km** along northern Venezuela (from San Felipe in Yaracuy to Catia La Mar near Caracas/La Guaira).
+- **M7.2 foreshock** (west): Local 1.6 km median coherence ≈ 0.406 — moderate coherence, usable interferometric measurement.
+- **M7.5 mainshock** (east): Local 1.6 km median coherence ≈ 0.077 — heavily decorrelated, low measurement reliability.
+- The statistics table shows the event assessment at three spatial windows (0.16 km, 1.6 km, and 10 km).
 
 ### Step 5: Export (30 seconds)
 

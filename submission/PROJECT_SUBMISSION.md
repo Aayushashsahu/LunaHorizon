@@ -81,9 +81,11 @@ NISAR_L2_PR_GUNW_022_162_A_007_023_4000_SH_20260613T100656_
 - **Temporal baseline:** 11 days 23:59:59 (~12.000 days; 1 nominal repeat cycle)
 - **CRS:** WGS 84 / UTM zone 19N (EPSG:32619)
 - **Grid:** 4239 × 4149 pixels at 80 m × 80 m posting
-- **Corrections applied (geocoding):** Ionospheric, hydrostatic tropospheric, wet tropospheric, ellipsoidal flattening, topographic flattening
+- **Center frequency:** 1,239,000,000.0 Hz ($1.239\text{ GHz}$, derived $\lambda \approx 0.2420\text{ m}$)
+- **Flattening applied:** Ellipsoidal flattening and DEM topographic flattening applied to interferogram
+- **Geolocation corrections applied:** Ionospheric range/azimuth and tropospheric wet/hydrostatic corrections applied during geocoding to improve pixel geolocation (atmospheric phase delay screens remain un-subtracted from the phase array)
 
-This is **the same Track A162 product** used by NASA/JPL in their published displacement study of the June 2026 Venezuela earthquakes.
+The granule covers the same orbital pass (Ascending Track 162) and same nominal date pair (June 13 and June 25, 2026) that NASA/JPL analyzed as one of three InSAR tracks in their Earth Observatory study.
 
 ---
 
@@ -91,22 +93,23 @@ This is **the same Track A162 product** used by NASA/JPL in their published disp
 
 ### What we measure
 
-- **Unwrapped interferometric phase (radians):** The differential microwave phase between the two acquisitions after topographic and ellipsoidal flattening. This encodes surface change along the radar line-of-sight.
+- **Unwrapped interferometric phase (radians):** The differential microwave phase between the two acquisitions after topographic and ellipsoidal flattening. Reported strictly in radians.
 - **Coherence magnitude [0–1]:** The interferometric correlation between the two observations. High coherence = reliable phase; low coherence = noisy or decorrelated measurement.
-- **Product validity mask:** Decoded 32-bit bitfield separating valid land, water, and masked pixels.
-- **Connected components:** Phase unwrapping island labels.
+- **Product validity mask:** Decoded 32-bit bitfield separating valid land, water, and masked pixels (9,175,108 valid pixels).
+- **Connected components:** Phase unwrapping island labels revealing unwrapping continuity.
+- **Valid pixel counts:** 9,175,108 pixels have valid phase and product mask (52.2% of the raster); 9,173,753 pixels have valid coherence. The 1,355 pixel difference reflects native `NaN` entries in the product's coherence raster along swath margins where phase is finite.
 
 ### What we do not do (and why)
 
 | Claim | Why we avoid it |
 |---|---|
-| Phase = displacement in cm | Requires verified sign convention, wavelength, corrections, and reference pixel against ground truth |
-| Low coherence = earthquake damage | Coherence loss has many causes; without independent evidence, no causal claim is valid |
-| Pattern = earthquake deformation | Atmospheric and orbital phase contributions are not independently subtracted |
+| Phase = displacement in cm | Requires verified sign convention (unresolved in D-102272), reference pixel calibration against ground truth, and atmospheric screen subtraction |
+| Low coherence = earthquake damage | Coherence loss has multiple physical causes (vegetation, steep terrain, wet ground, phase aliasing); it indicates measurement quality, not damage |
+| Pattern = earthquake deformation | Atmospheric turbulence and orbital ramps are not independently removed |
 
 ### Reference comparison
 
-NASA's published displacement maps (July 2026) used three tracks including A162. One full phase cycle at NISAR L-band (~24 cm wavelength) corresponds to ~11.9 cm of LOS displacement. The peak ground shift reported by NASA was up to ~60 cm in the coastal region near La Guaira.
+NASA's published displacement study (July 2026) combined three tracks (A162, D54, and A61) with specialized deformation modeling. For this granule's center frequency ($1.239\text{ GHz}$, $\lambda \approx 0.2420\text{ m}$), one full $2\pi$ phase cycle corresponds to $\lambda / 2 \approx 12.10\text{ cm}$ of line-of-sight range change ($\approx 1.93\text{ cm/radian}$). NASA reported peak ground shifts up to ~60 cm in the coastal zone using multi-track InSAR analysis.
 
 ---
 

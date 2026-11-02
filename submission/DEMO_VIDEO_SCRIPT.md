@@ -57,7 +57,7 @@
 **On-screen action:** Phase layer displayed. Toggle to Coherence. Move the coherence slider from 0.4 to 0.0 and back. Hover near the M7.2 foreshock epicentre marker.
 
 **Narration:**
-> "This is the unwrapped interferometric phase — the raw measurement in radians over an 80-metre resolution, 330 by 330-kilometre grid. The coherence layer tells us where measurements are reliable. The M7.2 foreshock site shows high coherence — 0.406 at 1.6 kilometres — meaning the radar signal was stable and the phase is trustworthy. The M7.5 mainshock, nine kilometres to the east, shows coherence below 0.08 — the ground changed too dramatically between acquisitions for a clean measurement."
+> "This is the unwrapped interferometric phase — the raw measurement in radians over an 80-metre resolution, 330 by 330-kilometre grid. The coherence layer tells us where measurements are reliable. The M7.2 foreshock site shows moderate coherence — 0.406 median at 1.6 kilometres — meaning the radar backscatter was stable and the phase relationship is preserved. The M7.5 mainshock, approximately 148 kilometres to the east-northeast near the coast, shows local median coherence of 0.077 — indicating severe decorrelation where the interferometric phase is noisy and unreliable."
 
 **Shot:** Phase map → coherence map → coherence slider moving → epicentre hover tooltip.
 
@@ -68,7 +68,7 @@
 **On-screen action:** Scroll to the event assessment panel. Show the two earthquake epicentre markers and their local statistics table.
 
 **Narration:**
-> "The foreshock area is inside our best data. The mainshock area is decorrelated — likely because the surface displacement there exceeded what the phase could track continuously. This is a real scientific insight: the pattern of coherence loss itself tells us something about the severity and spatial extent of the surface change."
+> "The foreshock region maintains usable interferometric correlation, while the coastal mainshock region decorrelates. This demonstrates why quality masking is essential in radar science: before attempting any geophysical interpretation, scientists must examine where interferometric phase is physically trustworthy rather than treating all pixels equally."
 
 **Shot:** Epicentre markers on map, local statistics table visible — foreshock coherence ~0.41, mainshock coherence ~0.077.
 

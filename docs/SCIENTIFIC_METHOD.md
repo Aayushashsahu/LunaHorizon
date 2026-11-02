@@ -163,8 +163,11 @@ valid = finite(value) AND mask.valid (fill excluded, both subswath digits > 0)
   pixels is reported for every layer.
 
 For this granule: 9,175,108 of 17,587,611 pixels carry a valid phase
-measurement (52.2%); coherence median over valid pixels is 0.177 (p05-p95
-0.047-0.739).
+measurement (52.2%), while 9,173,753 pixels carry valid coherence. The 1,355
+pixel difference represents pixels where the product validity mask is valid
+and unwrapped phase is finite, but the product's native `coherenceMagnitude`
+raster contains `NaN` values (primarily along multi-look correlation window
+boundaries). Coherence median over valid pixels is 0.177 (p05-p95 0.047-0.739).
 
 ---
 
@@ -172,12 +175,17 @@ measurement (52.2%); coherence median over valid pixels is 0.177 (p05-p95
 
 `unwrappedPhase` is the interferometric phase difference between the 2026-06-13
 and 2026-06-25 acquisitions after ellipsoid and topographic flattening, in
-**radians**, as declared by the dataset's own `units` attribute.
+**radians**, as declared by the dataset's own `units` attribute. The product
+center frequency is **1,239.0 MHz** (derived wavelength $\lambda \approx 0.2420\text{ m}$;
+nominal scale $\approx 1.93\text{ cm/rad}$; $2\pi\text{ rad} \approx 12.10\text{ cm}$ LOS).
 
 Interferometric phase can be changed by surface displacement, topographic
 residuals, atmosphere (ionosphere, troposphere), solid-Earth tides, orbital
-errors and decorrelation.  A colourful phase ramp is therefore **not** evidence
-of ground motion.
+errors and decorrelation. Geocoding metadata flags (`rangeIonosphericCorrectionApplied`,
+`hydrostaticTroposphericCorrectionApplied`, etc.) record corrections applied
+**to improve pixel geolocation**, while atmospheric delay screens remain
+un-subtracted from the phase array. A colourful phase ramp is therefore **not**
+evidence of ground motion.
 
 ### Displacement conversion gate
 
@@ -185,7 +193,7 @@ The application deliberately performs **no** phase-to-displacement conversion.
 Before such a conversion could be implemented, authoritative documentation of
 all of the following would be required:
 
-1. the phase sign convention (toward/away from the radar) for this product,
+1. the phase sign convention (toward/away from the radar) for this product (unresolved in D-102272),
 2. the exact phase quantity (flattened, unwrapped, corrected or raw),
 3. the acquisition geometry per pixel (incidence angle, LOS vectors),
 4. which corrections are already applied versus still required,
@@ -217,8 +225,9 @@ Event locations come from a bundled copy of the USGS ComCat records, retrieved
 | M7.2 foreshock | `us6000t7zc` | 2026-06-24 22:04:31.806 | 10.3713 N, 68.5564 W (20 km E of San Felipe, Yaracuy) | 10.0 km |
 | M7.5 mainshock | `us6000t7zp` | 2026-06-24 22:05:04.053 | 10.5955 N, 67.2205 W (20 km W of Catia La Mar, La Guaira) | 10.0 km |
 
-The two reviewed events are ~32 s apart (a doublet).  Both records, their
-review status, horizontal errors and the source URLs live in
+The two reviewed events occurred ~32 s apart (a doublet), with epicentres
+separated by **148.33 km** geodesic distance along the northern Venezuelan coast.
+Both records, their review status, horizontal errors and the source URLs live in
 `src/nisar_eim/data/venezuela_2026_earthquakes.json`.
 
 Machine-readable endpoints:

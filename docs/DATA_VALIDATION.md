@@ -36,15 +36,16 @@ From `python -m nisar_eim validate <granule> --out data/processed/venezuela`
 Coverage of the layers (valid pixels after mask):
 
 * phase: 9,175,108 / 17,587,611 = 52.2%
-* coherence: 9,173,753 valid pixels
+* coherence: 9,173,753 valid pixels (1,355 pixels fewer than phase due to native `NaN` entries in `coherenceMagnitude` along swath margins where phase is finite)
 * coherence median over valid pixels 0.177, p05-p95 0.047 - 0.739
 * phase median 15.301 rad, p05-p95 4.559 - 30.357 rad (display limits clamp
   colour only; the GeoTIFF keeps the measurements)
+* center frequency: 1,239.0 MHz (derived wavelength $\lambda \approx 0.2420\text{ m}$; nominal scale $\approx 1.93\text{ cm/rad}$; $2\pi\text{ rad} \approx 12.10\text{ cm}$ LOS)
 
 ## 3. Event overlap (independent reference)
 
 USGS ComCat records bundled in `src/nisar_eim/data/venezuela_2026_earthquakes.json`
-(retrieved 2026-10-25):
+(retrieved 2026-10-25; epicentres separated by **148.33 km** geodesic distance):
 
 | Event | Inside raster bounds | Inside image footprint | Nearest valid pixel | 10 km window |
 | --- | --- | --- | --- | --- |
@@ -92,8 +93,8 @@ GeoTIFF bounds transformed back to WGS84: approx. `-69.8241 .. -66.7055` E,
 (`-69.6048 .. -66.8493` E, `9.5437 .. 12.2138` N), which sits inside the grid
 extent as expected for a rotated swath.
 
-The pre-launch demo product `data/demo/sample_gunw.h5` (2008 dates) is processed
-into `data/processed/sample_demo/` and is labelled **sample** in the interface;
+The pre-launch sample observation (2008 dates) is stored under
+`data/processed/sample_demo/` and is labelled **sample** in the interface;
 it is a pipeline smoke test only and is never presented as a real observation.
 
 ## 5. Commands executed
