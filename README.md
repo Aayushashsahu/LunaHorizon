@@ -99,7 +99,10 @@ However, interpreting Level-2 NISAR interferometry presents steep barriers:
 This project strictly adheres to scientific integrity. Presentation polish never replaces physical validity:
 
 1. **Phase is Displayed in Radians, NOT Displacement:**  
-   Unwrapped phase represents the interferometric phase difference between satellite passes after ellipsoid and topographic flattening. Transforming phase to line-of-sight displacement ($d = \frac{\phi \lambda}{4\pi}$) requires authoritative satellite phase sign conventions, incidence angle lookup tables, atmospheric phase screen corrections, and ground-truth calibration. Because the product metadata does not fully publish these conventions for this granule, **phase is reported strictly in radians**.
+   Unwrapped phase represents the interferometric phase difference between satellite passes after ellipsoid and topographic flattening. Deriving physical surface displacement from interferometric phase involves two distinct modeling tiers, neither of which is claimed here:
+   * **Phase-to-Line-of-Sight (LOS) Conversion:** Transforming scalar phase to 1D slant range displacement ($d_{\text{LOS}} = \frac{\phi \lambda}{4\pi}$) requires an authoritative phase sign convention (unresolved in product spec D-102272), an absolute zero-deformation reference point (e.g. continuous GNSS), and removal of residual atmospheric phase delays and orbital ramps.
+   * **Vector Decomposition:** Decomposing 1D line-of-sight motion into true vertical (uplift/subsidence) and horizontal (east–west / north–south) tectonic components is a geometry-dependent inversion that fundamentally requires combining multiple radar viewing angles (e.g. ascending and descending tracks).
+   Because these conventions and multi-track geometric combinations are not validated for this standalone granule, **phase is reported strictly in radians**.
 2. **Coherence is a Quality Indicator:**  
    Coherence measures phase stability and signal similarity between the two radar acquisitions. It indicates measurement reliability—it is **never** a measurement of displacement.
 3. **No Earthquake Causation Claims:**  

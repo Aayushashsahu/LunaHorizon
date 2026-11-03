@@ -24,7 +24,7 @@
 **On-screen action:** App loads. Cinematic Earth reveal animation plays — Earth scales up from space, two green orbital-tracking strokes sweep the globe's silhouette.
 
 **Narration:**
-> "NISAR — the NASA-ISRO Synthetic Aperture Radar satellite — orbits Earth every 12 days, transmitting L-band microwaves that pierce clouds, smoke, and darkness to measure millimeter-scale changes in the ground beneath us."
+> "NISAR — the NASA-ISRO Synthetic Aperture Radar satellite — operates on a 12-day repeat cycle, transmitting L-band microwaves that pierce clouds, smoke, and darkness to measure millimeter-scale changes in the ground beneath us."
 
 **Shot:** Full-screen hero with Earth reveal, satellite cruise visible, dual arc strokes converging at the north pole.
 
@@ -57,7 +57,7 @@
 **On-screen action:** Phase layer displayed. Toggle to Coherence. Move the coherence slider from 0.4 to 0.0 and back. Hover near the M7.2 foreshock epicentre marker.
 
 **Narration:**
-> "This is the unwrapped interferometric phase — the raw measurement in radians over an 80-metre resolution, 330 by 330-kilometre grid. The coherence layer tells us where measurements are reliable. The M7.2 foreshock site shows moderate coherence — 0.406 median at 1.6 kilometres — meaning the radar backscatter was stable and the phase relationship is preserved. The M7.5 mainshock, approximately 148 kilometres to the east-northeast near the coast, shows local median coherence of 0.077 — indicating severe decorrelation where the interferometric phase is noisy and unreliable."
+> "This is the unwrapped interferometric phase product in radians over an 80-metre resolution, 330 by 330-kilometre grid. The coherence layer tells us where measurements are reliable. The M7.2 foreshock site shows moderate coherence — 0.406 median at 1.6 kilometres — meaning the radar backscatter was stable and the phase relationship is preserved. The M7.5 mainshock, approximately 148 kilometres to the east-northeast near the coast, shows local median coherence of 0.077 — indicating severe decorrelation where the interferometric phase is noisy and unreliable."
 
 **Shot:** Phase map → coherence map → coherence slider moving → epicentre hover tooltip.
 

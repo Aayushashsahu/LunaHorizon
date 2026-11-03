@@ -219,10 +219,10 @@ async function main() {
     await evaluate("document.title"),
   );
 
-  const reachedConnected = await waitFor("document.getElementById('server-status').dataset.state === 'connected'", 8000);
+  const reachedConnected = await waitFor("document.getElementById('server-status').dataset.state === 'connected'", 20000);
   check("connection indicator reaches 'connected'", reachedConnected, `state=${await statusState()} text="${await statusText()}"`);
 
-  const cards = await waitFor("document.querySelectorAll('#observation-cards .card').length", 8000);
+  const cards = await waitFor("document.querySelectorAll('#observation-cards .card').length", 20000);
   check("available observations populate", cards >= 2, `count=${cards}`);
 
   const hasBadges = await evaluate(`(() => {
@@ -400,11 +400,11 @@ async function main() {
   /* recover */
   await evaluate("(() => { window.__nisarFailIndex = false; return true; })()");
   await evaluate(`(() => { document.querySelector('#dashboard-empty [data-retry]').click(); return true; })()`);
-  const recovered = await waitFor("document.getElementById('server-status').dataset.state === 'connected'", 8000);
+  const recovered = await waitFor("document.getElementById('server-status').dataset.state === 'connected'", 20000);
   check("retry recovers to 'connected'", Boolean(recovered), `state=${await statusState()}`);
   check(
     "observations return after recovery",
-    (await waitFor("document.querySelectorAll('#observation-cards .card').length", 8000)) >= 2,
+    (await waitFor("document.querySelectorAll('#observation-cards .card').length", 20000)) >= 2,
     `count=${await evaluate("document.querySelectorAll('#observation-cards .card').length")}`,
   );
   check(

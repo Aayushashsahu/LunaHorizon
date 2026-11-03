@@ -72,7 +72,7 @@ Inspection of the product metadata and the NASA JPL D-102272 Rev E specification
 | Wet tropospheric correction | `wetTroposphericCorrectionApplied: True` | **Geolocation only:** Flag indicates wet tropospheric delay applied *to improve pixel geolocation* |
 | RFI mitigation | `reference/rfiMitigationApplied: True` | Radio Frequency Interference filter applied to raw signal |
 
-> **Critical Distinction:** The geocoding flags under `metadata/processingInformation/parameters/geocoding/*` record corrections applied **to improve geolocation (pixel coordinate positioning)** during geocoding. They do **not** represent subtraction of atmospheric phase delay screens from the `unwrappedPhase` raster! Atmospheric phase delays (ionosphere phase screen, tropospheric delay layers) are stored as separate layers/cubes in the Level-2 GUNW granule but are **not subtracted** from the interferometric phase array.
+> **Critical Distinction:** The geocoding flags under `metadata/processingInformation/parameters/geocoding/*` record corrections applied **to improve geolocation (pixel coordinate positioning)** during geocoding. They do **not** represent subtraction of atmospheric phase delays from the `unwrappedPhase` raster. Natural atmospheric phase contributions (differential tropospheric water vapor delay and ionospheric variations) affect radar propagation and remain present in the observed interferometric phase. While the product packages separate, auxiliary atmospheric correction layers (such as an ionospheric phase screen dataset and 3D tropospheric delay cubes), these auxiliary datasets are neither automatically subtracted from nor directly embedded within the `unwrappedPhase` array.
 
 ### 4.4 Phase-to-Displacement Conversion & Radar Parameters
 
@@ -147,7 +147,7 @@ A scientifically defensible conversion from unwrapped phase to ground displaceme
 
 1. ⚠️ **Phase sign convention:** Unresolved in product specification D-102272; must be confirmed before assigning direction (uplift vs. subsidence).
 2. ⚠️ **Reference anchoring:** Single-granule InSAR requires an independently verified reference point (e.g. continuous GNSS station) to convert relative phase differences to absolute ground displacement.
-3. ⚠️ **Atmospheric phase screens:** Tropospheric delay variations and ionospheric phase screens are present in `unwrappedPhase` and must be subtracted to prevent atmospheric turbulence from masquerading as tectonic motion.
+3. ⚠️ **Atmospheric phase contributions:** Physical propagation delays through the atmosphere (tropospheric water vapor turbulence and ionospheric TEC gradients) remain present in the observed `unwrappedPhase`. While the Level-2 product provides separate auxiliary correction layers and cubes, isolating true tectonic deformation requires explicitly modeling and subtracting these atmospheric contributions rather than assuming the interferogram is free of atmospheric phase.
 4. ⚠️ **Orbital ramp removal:** Residual orbital trajectory errors produce long-wavelength ramps that must be removed via baseline modeling.
 5. ✅ **Radar wavelength:** Authoritatively determined from product metadata: $f_0 = 1.239\text{ GHz} \rightarrow \lambda \approx 0.2420\text{ m}$.
 6. ✅ **Quality masking:** Coherence magnitude and product validity masks allow rigorous exclusion of unreliable decorrelated pixels.

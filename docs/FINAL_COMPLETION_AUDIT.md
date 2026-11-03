@@ -90,7 +90,7 @@ Key verified values:
 **Valid pixel counts (correctly distinguished):**
 - Phase-valid pixels: **9,175,108** (finite AND product mask valid)
 - Coherence-valid pixels (threshold 0.0): **9,173,753** (finite AND product mask valid)
-- Difference: **1,355 pixels** — coherence array has 1,355 fewer finite-and-valid values than phase array; this is expected when coherence is exactly 0.0 or NaN at pixels where phase is still finite within the mask
+- Difference: **1,355 pixels** — confirmed by raster inspection of the processed GeoTIFFs: all 1,355 pixels have finite unwrapped phase within the valid mask, but carry non-finite `NaN` values in the native `coherenceMagnitude` array along multi-look correlation estimator margins (all 1,355 are non-finite `NaN`s; none are zero).
 - Coherence finite pixels total: **9,519,743** (includes some outside the validity mask)
 - Total pixels: **17,587,611** (4149 × 4239)
 

@@ -83,7 +83,7 @@ The application is 100% offline after installation. No internet connection is re
 
 ### Step 3: Explore the Science Layers (2 minutes)
 
-- **Phase layer** (default): Unwrapped interferometric phase in radians. Colour range represents the differential microwave path length change between June 13 and June 25, 2026.
+- **Phase layer** (default): Unwrapped interferometric phase values displayed in radians (the native unit of the Level-2 product). The colormap visualizes spatial phase differences across the scene after ellipsoidal and topographic flattening. Not every phase pattern represents ground displacement: phase variations inherently combine potential surface motion with atmospheric path delays, orbital trajectory errors, and noise.
 - **Coherence layer**: Toggle using the layer button. This shows measurement quality — 0 = unreliable, 1 = perfect similarity between acquisitions.
 - **Coherence slider**: Drag the threshold slider to filter pixels. At threshold 0.4, approximately 16.7% of pixels (2.94 million) remain — the highest-quality measurements.
 - **Hover / click** anywhere on the raster to see exact geodetic coordinates, UTM coordinates, phase value, and coherence.
@@ -108,7 +108,7 @@ The application is 100% offline after installation. No internet connection is re
 
 | Limitation | Explanation |
 |---|---|
-| Phase is in radians, not cm | Converting phase to displacement requires a verified sign convention and reference point that has not been independently validated against GPS |
+| Phase is in radians, not cm | Converting phase to calibrated metric displacement requires resolving four prerequisites: (1) an authoritative phase sign convention (unresolved in product spec D-102272), (2) reference zero-anchoring against ground truth (e.g. continuous GNSS), (3) subtraction of atmospheric delay contributions (tropospheric water vapor and ionospheric variations remain in the phase array), and (4) removal of residual orbital trajectory error ramps. In addition, decomposing 1D line-of-sight motion into vertical and horizontal components requires multiple viewing geometries. |
 | No live data | The application serves pre-processed products from `data/processed/` — no live NISAR download |
 | Raw HDF5 file not included | The 2.34 GB raw granule is gitignored; the pre-processed observation is committed |
 | Browser E2E tests | Require headless Chrome; not run in CI but verified locally |
