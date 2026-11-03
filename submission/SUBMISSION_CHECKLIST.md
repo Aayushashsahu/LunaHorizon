@@ -18,7 +18,7 @@
 | No committed secrets or credentials | ✅ Verified | `.gitignore` excludes `.env`, `.netrc`, `*.pem`, `*.key` |
 | No committed raw HDF5 data | ✅ Verified | `data/raw/` is gitignored |
 | Working application (offline) | ✅ Verified | `python -m nisar_eim serve --port 8000` |
-| Reproducible installation | ✅ Verified | `pip install -e .; pytest -v` (93 tests pass) |
+| Reproducible installation | ✅ Verified | `pip install -e ".[dev]"; pytest -v` (93 tests pass) |
 
 ---
 

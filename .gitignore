@@ -46,3 +46,11 @@ partial_*
 *.dist-info/
 build/
 dist/
+
+# Video recording temporary artefacts
+/artifacts/demo/temp/
+/artifacts/demo/audio_temp/
+/artifacts/demo/*.wav
+/artifacts/demo/*.raw
+
+/artifacts/

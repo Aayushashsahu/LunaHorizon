@@ -85,7 +85,7 @@ However, interpreting Level-2 NISAR interferometry presents steep barriers:
 ### Scientific Observation Explorer
 * **Georeferenced Canvas Rendering:** Native resolution rendering with smooth mouse-wheel zooming, click-and-drag panning, and dynamic scale bar.
 * **Four Core Data Layers:**
-  * **Phase:** Unwrapped interferometric phase difference in radians ($-\pi$ to $+\pi$ cycle representation).
+  * **Phase:** Unwrapped interferometric phase difference in radians, with values that can span multiple 2π cycles.
   * **Coherence:** Interferometric correlation magnitude (0.0 to 1.0), measuring signal quality.
   * **Mask:** Decoded 32-bit bitfield isolating valid data, water boundaries, subswaths, and ionospheric fill flags.
   * **Connected Components:** Unwrapping island labels revealing phase-unwrapping reliability.
