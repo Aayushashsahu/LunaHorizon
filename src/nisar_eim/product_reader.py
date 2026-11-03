@@ -417,6 +417,51 @@ class GunwProduct:
         return 299_792_458.0 / float(self.center_frequency_hz)
 
     @property
+    def derived_temporal_baseline(self) -> dict[str, Any] | None:
+        """Derived elapsed interval from reference and secondary zero-Doppler start times.
+
+        NISAR Level-2 GUNW HDF5 metadata contains an integer / truncated 'temporalBaseline'
+        scalar (e.g. 11 days for an 11d 23h 59m 59s interval). This property computes the exact
+        elapsed duration and formatted display string (~12 days).
+        """
+        if not self.reference_start or not self.secondary_start:
+            return None
+        try:
+            from datetime import datetime
+
+            ref_str = self.reference_start.split(".")[0].rstrip("Z")
+            sec_str = self.secondary_start.split(".")[0].rstrip("Z")
+            t_ref = datetime.fromisoformat(ref_str)
+            t_sec = datetime.fromisoformat(sec_str)
+            diff = abs(t_sec - t_ref)
+            total_sec = int(diff.total_seconds())
+            days = total_sec // 86400
+            rem = total_sec % 86400
+            hours = rem // 3600
+            rem = rem % 3600
+            minutes = rem // 60
+            seconds = rem % 60
+            exact_str = f"{days}d {hours}h {minutes}m {seconds}s"
+            nominal_days = round(total_sec / 86400)
+            formatted = (
+                f"~{nominal_days} days"
+                if abs(total_sec / 86400 - nominal_days) < (1 / 24)
+                else f"{total_sec / 86400:.1f} days"
+            )
+            return {
+                "elapsed_seconds": total_sec,
+                "days": days,
+                "hours": hours,
+                "minutes": minutes,
+                "seconds": seconds,
+                "exact_interval": exact_str,
+                "formatted": formatted,
+                "nominal_repeat_cycle_days": 12,
+            }
+        except Exception:
+            return None
+
+    @property
     def phase(self) -> LayerSpec | None:
         return self.layers.get("phase")
 

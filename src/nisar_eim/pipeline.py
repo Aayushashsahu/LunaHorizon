@@ -905,6 +905,7 @@ def _source_block(product: GunwProduct, path: Path, pre_launch: bool) -> dict[st
         "secondary_start": product.secondary_start,
         "secondary_end": product.secondary_end,
         "temporal_baseline_days": product.temporal_baseline_days,
+        "derived_temporal_baseline": product.derived_temporal_baseline,
         "frequency": product.frequency,
         "polarization": product.polarization,
         "center_frequency_hz": product.center_frequency_hz,

@@ -54,6 +54,28 @@ const prettyTime = (iso) => {
   if (!s.includes("T")) return "";
   return s.split("T")[1].split(".")[0] + " UTC";
 };
+const formatBaseline = (source) => {
+  if (!source) return "—";
+  if (source.derived_temporal_baseline && source.derived_temporal_baseline.formatted) {
+    return source.derived_temporal_baseline.formatted;
+  }
+  const ref = source.reference_start;
+  const sec = source.secondary_start;
+  if (ref && sec) {
+    const tRef = Date.parse(String(ref).split(".")[0]);
+    const tSec = Date.parse(String(sec).split(".")[0]);
+    if (!Number.isNaN(tRef) && !Number.isNaN(tSec)) {
+      const diffSec = Math.abs(tSec - tRef) / 1000;
+      const daysExact = diffSec / 86400;
+      const roundedDays = Math.round(daysExact);
+      if (Math.abs(daysExact - roundedDays) < 1 / 24) {
+        return `~${roundedDays} days`;
+      }
+      return `${daysExact.toFixed(1)} days`;
+    }
+  }
+  return source.temporal_baseline_days != null ? `${source.temporal_baseline_days} days` : "—";
+};
 const bytes = (v) => {
   if (!v && v !== 0) return "—";
   const units = ["B", "KB", "MB", "GB"];
@@ -388,7 +410,7 @@ function renderDashboard(index) {
   const realCount = observations.filter((o) => !o.is_pre_launch_sample).length;
   const sampleCount = observations.filter((o) => o.is_pre_launch_sample).length;
   const realCoverage = realObs?.phase?.coverage_percent;
-  const realInterval = realObs?.temporal_baseline_days != null ? `${realObs.temporal_baseline_days} days` : "—";
+  const realInterval = realObs?.temporal_baseline_days != null ? formatBaseline(realObs) : "—";
   const eventsInside = observations.reduce(
     (acc, o) => acc + ((o.event_summary && o.event_summary.events_inside_raster_bounds) || 0),
     0
@@ -677,7 +699,7 @@ function renderExplorer(payload) {
       <dt>Observation</dt><dd>${escapeHtml(summary.observation_id)}</dd>
       <dt>Reference</dt><dd>${escapeHtml(prettyDate(source.reference_start))}<br>${escapeHtml(prettyTime(source.reference_start))}</dd>
       <dt>Secondary</dt><dd>${escapeHtml(prettyDate(source.secondary_start))}<br>${escapeHtml(prettyTime(source.secondary_start))}</dd>
-      <dt>Baseline</dt><dd>${escapeHtml(source.temporal_baseline_days ?? "—")} days</dd>
+      <dt>Baseline</dt><dd>${escapeHtml(formatBaseline(source))}</dd>
       <dt>Product</dt><dd>${escapeHtml(source.product_type)} v${escapeHtml(source.product_version)}</dd>
       <dt>Specification</dt><dd>${escapeHtml(source.product_specification_version)}</dd>
       <dt>CRS</dt><dd>${escapeHtml(geo.crs_name)} (EPSG:${escapeHtml(geo.epsg)})</dd>

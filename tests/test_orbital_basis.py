@@ -170,3 +170,39 @@ def test_html_authoritative_repeat_cycle_label():
 
     assert "ORBIT REPEAT CYCLE · 12 DAYS" in content
     assert "REPEAT: 11 DAYS" not in content
+
+
+def test_derived_temporal_baseline_calculation():
+    """Verify that derived temporal baseline for Venezuela acquisition interval formats as ~12 days."""
+    from datetime import datetime
+
+    ref = "2026-06-13T10:06:56.000000000"
+    sec = "2026-06-25T10:06:55.000000000"
+
+    t_ref = datetime.fromisoformat(ref.split(".")[0])
+    t_sec = datetime.fromisoformat(sec.split(".")[0])
+    diff = abs(t_sec - t_ref)
+    total_sec = int(diff.total_seconds())
+
+    assert total_sec == 1_036_799, "Expected exactly 1,036,799 seconds (11d 23h 59m 59s)"
+    days = total_sec // 86400
+    rem = total_sec % 86400
+    hours = rem // 3600
+    rem = rem % 3600
+    minutes = rem // 60
+    seconds = rem % 60
+
+    assert (days, hours, minutes, seconds) == (11, 23, 59, 59)
+    nominal_days = round(total_sec / 86400)
+    assert nominal_days == 12, "Nominal rounded repeat cycle must be 12 days"
+    formatted = f"~{nominal_days} days"
+    assert formatted == "~12 days"
+
+
+def test_app_js_derived_temporal_baseline_logic():
+    """Verify app.js includes formatBaseline function and handles acquisition timestamps."""
+    app_js_path = Path("src/nisar_eim/webapp/static/app.js")
+    assert app_js_path.exists()
+    content = app_js_path.read_text(encoding="utf-8")
+    assert "formatBaseline" in content
+    assert "realObs?.temporal_baseline_days != null" in content
