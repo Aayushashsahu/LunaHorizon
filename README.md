@@ -23,6 +23,16 @@ Instead of presenting superficial mockups or fabricating uncalibrated ground-dis
 
 ---
 
+## 🎬 Watch the Demo
+
+Explore LunaHorizon in action — our NISAR-powered earthquake analysis experience, featuring interferometric phase and coherence visualization, interactive pixel inspection, earthquake event exploration, and scientific interpretation.
+
+[![Watch the LunaHorizon Demonstration](https://img.youtube.com/vi/5sJhfWjcJF8/maxresdefault.jpg)](https://youtu.be/5sJhfWjcJF8)
+
+▶ [Watch the full demonstration on YouTube](https://youtu.be/5sJhfWjcJF8)
+
+---
+
 ## Visual Tour
 
 ### 1. Cinematic Earth Observation & Mission Orbit
@@ -188,7 +198,7 @@ py -3.11 -m venv .venv
 python -m pip install --upgrade pip
 pip install -e ".[dev]"
 
-# 4. Run the full automated test suite (93 tests, offline)
+# 4. Run the full automated test suite (106 tests, offline)
 pytest -v
 
 # 5. Launch the application
@@ -330,7 +340,7 @@ node scripts/check_responsive_viewports.mjs http://127.0.0.1:8000
 ### Last Verified Test Status
 
 **Python suite and lint** (current commit — 2026-11-01):
-* **Pytest:** 93 passed, 0 failed (~25s, Python 3.11 local; 3.11 + 3.12 on CI)
+* **Pytest:** 106 passed, 0 failed (~16s, Python 3.11 local; 3.11 + 3.12 on CI)
 * **Ruff:** All checks passed (mandatory CI step, code 0)
 * **JS syntax:** `node --check app.js` and all `scripts/*.mjs` — no syntax errors
 

@@ -127,7 +127,7 @@ These are the fields typically required in the NASA Space Apps submission portal
 - [ ] Short description (150–300 characters)
 - [ ] Challenge: `Dancing with the SARs`
 - [ ] Project URL (GitHub): `https://github.com/Aayushashsahu/LunaHorizon`
-- [ ] Demo video URL (YouTube)
+- [x] Demo video URL (YouTube): https://youtu.be/5sJhfWjcJF8
 - [ ] Team / participant name(s)
 - [ ] Location / country
 - [ ] Project description (long form)
