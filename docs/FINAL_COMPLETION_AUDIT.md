@@ -72,7 +72,7 @@
 
 ### 1.4 Test Suite
 
-- **93 tests** — all pass on Python 3.11 (verified locally) and Python 3.11+3.12 (verified on CI)
+- **106 tests** — all pass on Python 3.11 (verified locally) and Python 3.11+3.12 (verified on CI)
 - Ruff: exit code 0, all checks passed
 - `python -m compileall -q src`: no syntax errors
 
@@ -269,7 +269,7 @@ concurrency:
 
 | Test Suite | Count | Result | Date |
 |---|---|---|---|
-| pytest (Python 3.11 local) | 93 | ✅ All passed (25.19s) | 2026-11-01 |
+| pytest (Python 3.11 local) | 106 | ✅ All passed (20.49s) | 2026-11-04 |
 | pytest (Python 3.11 CI) | 93 | ✅ All passed | 2026-10-31 (last CI run) |
 | pytest (Python 3.12 CI) | 93 | ✅ All passed | 2026-10-31 (last CI run) |
 | Ruff (local) | — | ✅ All checks passed | 2026-11-01 |
@@ -299,7 +299,7 @@ concurrency:
 
 | Item | Priority | Notes |
 |---|---|---|
-| Demo video recording | HIGH — required for submission | Script ready; record with OBS |
+| Demo video recording | ✅ Complete | Master MP4 rendered and YouTube demo published (<https://youtu.be/5sJhfWjcJF8>) |
 | Submission portal completion | HIGH — required | Log in to spaceappschallenge.org |
 | Verify current deadline | HIGH | Official site may differ from November 14-15 remembered date |
 
@@ -316,7 +316,7 @@ Specifically:
 - ✅ No unsupported displacement claims are made
 - ✅ The technical implementation is reproducible from the documented installation procedure
 - ✅ All CI checks pass
-- ⚠️ A demo video recording is the remaining required submission item
+- ✅ Demo video recording rendered and published on YouTube (<https://youtu.be/5sJhfWjcJF8>)
 - ⚠️ The submission portal form must be completed by the participant
 
 ---

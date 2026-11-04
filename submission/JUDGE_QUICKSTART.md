@@ -119,7 +119,7 @@ The application is 100% offline after installation. No internet connection is re
 
 ```powershell
 pip install -e ".[dev]"
-pytest -v                                    # 93 tests, ~25 seconds
+pytest -v                                    # 106 tests, ~16–20 seconds
 python -m ruff check src tests               # Lint — all checks pass
 ```
 

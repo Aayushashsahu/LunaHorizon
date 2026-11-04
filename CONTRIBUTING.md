@@ -49,7 +49,7 @@ pip install -e .
 Before submitting any code changes, ensure all automated tests and linters pass:
 
 ```bash
-# Run full pytest suite (93 unit & regression tests)
+# Run full pytest suite (106 unit & regression tests)
 pytest -v
 
 # Run the Ruff linter

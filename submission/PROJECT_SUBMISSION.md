@@ -129,7 +129,7 @@ NASA's published displacement study (July 2026) combined three tracks (A162, D54
 - **Language:** Python 3.11+ (no heavyweight scientific stack required at runtime)
 - **Core libraries:** h5py, numpy, rasterio, pyproj, shapely, pandas
 - **Web stack:** Vanilla HTML5, CSS3, WebGL 1.0, ES Modules — zero bundlers or frameworks
-- **Testing:** 93 automated pytest tests + Ruff lint; all passing on Python 3.11 and 3.12
+- **Testing:** 106 automated pytest tests + Ruff lint; all passing on Python 3.11 and 3.12
 - **CI:** GitHub Actions matrix CI (Python 3.11 and 3.12, mandatory Ruff)
 - **License:** MIT
 
@@ -161,7 +161,7 @@ cd LunaHorizon
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
-pytest -v          # 93 tests pass
+pytest -v          # 106 tests pass
 python -m nisar_eim serve --port 8000
 # Open http://127.0.0.1:8000/
 ```

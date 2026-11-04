@@ -18,7 +18,7 @@
 | No committed secrets or credentials | ✅ Verified | `.gitignore` excludes `.env`, `.netrc`, `*.pem`, `*.key` |
 | No committed raw HDF5 data | ✅ Verified | `data/raw/` is gitignored |
 | Working application (offline) | ✅ Verified | `python -m nisar_eim serve --port 8000` |
-| Reproducible installation | ✅ Verified | `pip install -e ".[dev]"; pytest -v` (93 tests pass) |
+| Reproducible installation | ✅ Verified | `pip install -e ".[dev]"; pytest -v` (106 tests pass) |
 
 ---
 
@@ -46,8 +46,8 @@
 | Demo video script | ✅ Complete | `submission/DEMO_VIDEO_SCRIPT.md` |
 | Judge quickstart guide | ✅ Complete | `submission/JUDGE_QUICKSTART.md` |
 | Submission checklist | ✅ This file | `submission/SUBMISSION_CHECKLIST.md` |
-| Demo video recording | ⚠️ Pending | Script prepared; recording requires manual capture |
-| YouTube / video URL | ⚠️ Pending | To be completed when video is recorded |
+| Demo video recording | ✅ Complete | Master MP4 rendered and verified (`artifacts/demo/nisar_earth_in_motion_FINAL.mp4`) |
+| YouTube / video URL | ✅ Complete | <https://youtu.be/5sJhfWjcJF8> |
 | Screenshots (≥3) | ✅ Available | `docs/images/` (4 screenshots committed) |
 
 ---
@@ -72,7 +72,7 @@
 | GitHub Actions CI | ✅ Green | Python 3.11 and 3.12 matrix |
 | Ruff lint (mandatory, not `continue-on-error`) | ✅ Fixed | `ci.yml` updated 2026-11-01 |
 | Ruff: all checks passed | ✅ Verified | Exit code 0 locally |
-| 93 pytest tests passing | ✅ Verified | Python 3.11 locally, Python 3.11 + 3.12 on CI |
+| 106 pytest tests passing | ✅ Verified | Python 3.11 locally, Python 3.11 + 3.12 on CI |
 | JS syntax check | ✅ Added to CI | `node --check app.js; node --check scripts/*.mjs` |
 | Dependabot enabled | ✅ Active | `.github/dependabot.yml` |
 | Dependabot PRs merged | ✅ Complete | `actions/setup-python@v7`, `actions/checkout@v7` |
@@ -97,8 +97,6 @@ These items require direct action by the submitter and cannot be automated:
 
 | Action | Priority | Description |
 |---|---|---|
-| Record demo video | **HIGH** | Follow `submission/DEMO_VIDEO_SCRIPT.md`; record with OBS Studio or QuickTime |
-| Upload video to YouTube | **HIGH** | Set as Unlisted; paste URL in submission portal |
 | Complete submission portal | **HIGH** | Log in to <https://www.spaceappschallenge.org/> and fill in all required fields |
 | Verify current submission deadline | **HIGH** | Confirm the exact submission window from the official site |
 | Add team members | If applicable | Add any additional team members to the submission |
@@ -138,4 +136,4 @@ These are the fields typically required in the NASA Space Apps submission portal
 
 ---
 
-*Last updated: 2026-11-01*
+*Last updated: 2026-11-04*

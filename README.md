@@ -300,7 +300,7 @@ LunaHorizon/
 │   ├── JUDGE_QUICKSTART.md         # 5-minute judge setup and demo walkthrough
 │   ├── PROJECT_SUBMISSION.md       # Project narrative for the submission portal
 │   └── SUBMISSION_CHECKLIST.md     # Pre-submission verification checklist
-├── tests/                          # 93 automated unit, regression, and webapp tests
+├── tests/                          # 106 automated unit, regression, and webapp tests
 ├── CITATION.cff                    # Machine-readable academic citation metadata
 ├── CONTRIBUTING.md                 # Contribution and development guidelines
 ├── LICENSE                         # Open-source MIT License (canonical MIT text)
@@ -339,7 +339,7 @@ node scripts/check_responsive_viewports.mjs http://127.0.0.1:8000
 
 ### Last Verified Test Status
 
-**Python suite and lint** (current commit — 2026-11-01):
+**Python suite and lint** (current commit — 2026-11-04):
 * **Pytest:** 106 passed, 0 failed (~16s, Python 3.11 local; 3.11 + 3.12 on CI)
 * **Ruff:** All checks passed (mandatory CI step, code 0)
 * **JS syntax:** `node --check app.js` and all `scripts/*.mjs` — no syntax errors
