@@ -1,0 +1,23 @@
+[Script Info]
+Title: NISAR // Earth in Motion — Final Master Subtitles
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1920
+PlayResY: 1080
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: BottomCaption,Arial,26,&H00FFFFFF,&H000000FF,&H0017A8E6,&H80050C1C,-1,0,0,0,100,100,0,0,3,1.5,0,2,140,140,32,1
+Style: TopCaption,Arial,25,&H00FFFFFF,&H000000FF,&H0017A8E6,&H80050C1C,-1,0,0,0,100,100,0,0,3,1.5,0,8,140,140,26,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.80,0:00:10.78,BottomCaption,,0,0,0,,NISAR, the NASA–ISRO Synthetic Aperture Radar mission, operates on a 12-day repeat cycle.\NIts L-band radar observes Earth's surface through clouds, smoke and darkness.
+Dialogue: 0,0:00:11.80,0:00:24.52,BottomCaption,,0,0,0,,In June 2026, two major earthquakes struck northern Venezuela within 32 seconds.\NWe built an explorer using authentic NISAR Level-2 data from Track 162, covering June 13 to June 25.
+Dialogue: 0,0:00:25.80,0:00:38.20,BottomCaption,,0,0,0,,The 2.34-gigabyte HDF5 product posed a key geospatial challenge.\NAttached dimension scales eliminate a 4× coordinate mismatch, preserving true 80-metre EPSG:32619 georeferencing.
+Dialogue: 0,0:00:39.20,0:00:48.50,TopCaption,,0,0,0,,The explorer displays unwrapped phase in radians and coherence as data quality.\NFull-resolution Float32 pixel inspection enables live coordinate and phase readout.
+Dialogue: 0,0:00:48.50,0:00:58.24,TopCaption,,0,0,0,,M7.2 foreshock median coherence is 0.406; M7.5 mainshock is 0.077 (148 km apart).\NThis reflects measurement reliability, not physical damage.
+Dialogue: 0,0:00:59.20,0:01:10.50,BottomCaption,,0,0,0,,Scientific honesty is essential. We do not claim phase as surface displacement or coherence loss as damage.\NThe system exports georeferenced GeoTIFFs, metadata, and scientific reports.
+Dialogue: 0,0:01:14.50,0:01:20.76,BottomCaption,,0,0,0,,NISAR // Earth in Motion.\NMaking complex radar science accessible, transparent, and reproducible.

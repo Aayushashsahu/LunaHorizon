@@ -1230,7 +1230,11 @@ async function sampleAt(point, pin) {
   const token = ++state.sampleToken;
   const url = `/api/observations/${encodeURIComponent(state.observationId)}/sample?lon=${point.lon.toFixed(6)}&lat=${point.lat.toFixed(6)}`;
   try {
-    const response = await fetch(url);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (token !== state.sampleToken) return;
     const data = await response.json();
     if (token !== state.sampleToken) return;
     if (!response.ok) {
@@ -1238,19 +1242,28 @@ async function sampleAt(point, pin) {
       return;
     }
     renderReadout(data, pin);
-    if (pin) {
+    if (pin && data.in_grid !== false) {
       map.marker = { lon: data.lon, lat: data.lat, row: data.row, col: data.col };
       drawMap();
     }
   } catch (error) {
     if (token !== state.sampleToken) return;
+    console.warn("[sampleAt] query error:", error);
     showReadoutError({ message: "Local server did not answer the pixel query." });
   }
 }
 
 function renderReadout(data, pinned) {
   const valid = data.valid;
+  const inGrid = data.in_grid !== false;
   const mask = data.mask || {};
+  const statusClass = valid ? "ok" : "bad";
+  const statusLabel = valid
+    ? "valid measurement"
+    : (!inGrid || mask.outside_coverage)
+    ? "outside coverage"
+    : "invalid / no data";
+
   els["readout"].innerHTML = `
     <span>${pinned ? "<b>pinned</b>" : "cursor"}</span>
     <span>lon <b>${num(data.lon, 5)}</b> lat <b>${num(data.lat, 5)}</b></span>
@@ -1258,7 +1271,7 @@ function renderReadout(data, pinned) {
     <span>phase <b>${num(data.phase_radians, 3)}</b> rad</span>
     <span>coherence <b>${num(data.coherence, 3)}</b></span>
     <span>component <b>${data.connected_component ?? "—"}</b></span>
-    <span class="${valid ? "ok" : "bad"}">${valid ? "valid measurement" : "invalid / no data"}</span>
+    <span class="${statusClass}">${statusLabel}</span>
     <span>${mask.water ? "water" : "land"}${mask.reference_subswath ? ` · subswath ${mask.reference_subswath}/${mask.secondary_subswath}` : ""}${mask.ionosphere_filled ? " · iono-filled" : ""}</span>
     <span>${data.window ? `window coh med <b>${num(data.window.coherence_median, 2)}</b>` : ""}</span>`;
 }

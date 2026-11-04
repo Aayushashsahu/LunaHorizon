@@ -15,6 +15,7 @@ import mimetypes
 import posixpath
 import re
 import sys
+import threading
 import traceback
 from collections.abc import Mapping
 from http import HTTPStatus
@@ -90,22 +91,25 @@ class ObservationRepository:
     def __init__(self, data_root: str | Path) -> None:
         self.data_root = Path(data_root)
         self._readers: dict[Path, Any] = {}
+        self._lock = threading.Lock()
 
     def _get_reader(self, path: Path) -> Any:
         import rasterio
 
         resolved = path.resolve()
-        if resolved not in self._readers:
-            self._readers[resolved] = rasterio.open(resolved)
-        return self._readers[resolved]
+        with self._lock:
+            if resolved not in self._readers:
+                self._readers[resolved] = rasterio.open(resolved)
+            return self._readers[resolved]
 
     def close(self) -> None:
-        for reader in self._readers.values():
-            try:
-                reader.close()
-            except Exception:
-                pass
-        self._readers.clear()
+        with self._lock:
+            for reader in self._readers.values():
+                try:
+                    reader.close()
+                except Exception:
+                    pass
+            self._readers.clear()
 
     def _find_raw_granule(self, metadata: Mapping[str, Any]) -> Path | None:
         source_rel = metadata.get("source", {}).get("path")
@@ -258,24 +262,58 @@ class ObservationRepository:
         lon: float | None = None,
         lat: float | None = None,
         half: int = 2,
+        strict: bool = True,
     ) -> dict[str, Any]:
         metadata = self.load(observation_id)
         geometry = GridGeometry.from_json(metadata["map_view"]["geometry"])
+        raw_source = self._find_raw_granule(metadata)
+        geotiffs = self._find_geotiffs(observation_id, metadata)
+
         if lon is not None and lat is not None:
             row_f, col_f = geometry.rowcol_of_lonlat(float(lon), float(lat))
-            if not (0 <= row_f <= geometry.height - 1 and 0 <= col_f <= geometry.width - 1):
-                raise NisarError(
-                    "Coordinate lies outside this observation's grid.",
-                    details={
-                        "lon": lon,
-                        "lat": lat,
-                        "row": row_f,
-                        "col": col_f,
-                        "grid_shape": [geometry.height, geometry.width],
-                    },
-                )
-            row_i = round(row_f)
-            col_i = round(col_f)
+            in_grid = (0 <= row_f <= geometry.height - 1 and 0 <= col_f <= geometry.width - 1)
+            if not in_grid:
+                if strict:
+                    raise NisarError(
+                        "Coordinate lies outside this observation's grid.",
+                        details={
+                            "lon": lon,
+                            "lat": lat,
+                            "row": row_f,
+                            "col": col_f,
+                            "grid_shape": [geometry.height, geometry.width],
+                        },
+                    )
+                return {
+                    "observation_id": observation_id,
+                    "row": None,
+                    "col": None,
+                    "row_fractional": row_f,
+                    "col_fractional": col_f,
+                    "lon": float(lon),
+                    "lat": float(lat),
+                    "easting": None,
+                    "northing": None,
+                    "epsg": geometry.epsg,
+                    "phase_radians": None,
+                    "coherence": None,
+                    "phase_valid": False,
+                    "coherence_valid": False,
+                    "connected_component": None,
+                    "valid": False,
+                    "in_grid": False,
+                    "mask": {"available": False, "valid": False, "outside_coverage": True},
+                    "window": None,
+                    "units": {"phase": "radians", "coherence": "1"},
+                    "inspection_source": (
+                        "raw_h5"
+                        if raw_source is not None
+                        else ("processed_geotiff" if geotiffs is not None else "unavailable")
+                    ),
+                    "note": "Coordinate lies outside this observation's raster coverage.",
+                }
+            row_i = min(geometry.height - 1, max(0, round(row_f)))
+            col_i = min(geometry.width - 1, max(0, round(col_f)))
         elif row is not None and col is not None:
             row_i = int(row)
             col_i = int(col)
@@ -292,9 +330,6 @@ class ObservationRepository:
         r1 = min(geometry.height, row_i + half + 1)
         c0 = max(0, col_i - half)
         c1 = min(geometry.width, col_i + half + 1)
-
-        raw_source = self._find_raw_granule(metadata)
-        geotiffs = self._find_geotiffs(observation_id, metadata)
 
         phase_window: np.ndarray | None = None
         coherence_window: np.ndarray | None = None
@@ -418,6 +453,7 @@ class ObservationRepository:
                 else None
             ),
             "valid": centre_valid,
+            "in_grid": True,
             "mask": mask_out,
             "window": summary,
             "units": {"phase": "radians", "coherence": "1"},
@@ -620,33 +656,45 @@ class Handler(BaseHTTPRequestHandler):
     # -- helpers ----------------------------------------------------------
     def _send_json(self, payload: Any, status: int = 200) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-store")
-        self.end_headers()
-        self.wfile.write(body)
+        try:
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            pass
 
     def _send_error_json(self, status: int, message: str, details: Any = None) -> None:
-        self._send_json({"error": message, "details": details}, status=status)
+        try:
+            self._send_json({"error": message, "details": details}, status=status)
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            pass
 
     def _send_file(self, path: Path) -> None:
         mime, _ = mimetypes.guess_type(str(path))
         body = path.read_bytes()
-        self.send_response(HTTPStatus.OK)
-        self.send_header("Content-Type", mime or "application/octet-stream")
-        self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-cache")
-        self.end_headers()
-        self.wfile.write(body)
+        try:
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", mime or "application/octet-stream")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-cache")
+            self.end_headers()
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            pass
 
     def _send_bytes(self, body: bytes, content_type: str) -> None:
-        self.send_response(HTTPStatus.OK)
-        self.send_header("Content-Type", content_type)
-        self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-cache")
-        self.end_headers()
-        self.wfile.write(body)
+        try:
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", content_type)
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-cache")
+            self.end_headers()
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            pass
 
     # -- routing ----------------------------------------------------------
     def do_GET(self) -> None:
@@ -656,7 +704,7 @@ class Handler(BaseHTTPRequestHandler):
             self._send_error_json(404, exc.message, exc.details)
         except NisarError as exc:
             self._send_error_json(400, exc.message, exc.details)
-        except BrokenPipeError:  # pragma: no cover - client disconnected
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):  # client disconnected
             pass
         except Exception as exc:  # unexpected
             traceback.print_exc()
@@ -703,6 +751,7 @@ class Handler(BaseHTTPRequestHandler):
                         lon=lon,
                         lat=lat,
                         half=max(1, min(half, 8)),
+                        strict=False,
                     )
                 )
             if len(parts) == 4 and parts[3] == "threshold":
