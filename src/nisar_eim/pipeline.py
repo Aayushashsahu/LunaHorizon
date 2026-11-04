@@ -1433,6 +1433,8 @@ def summarize_observation(metadata: Mapping[str, Any]) -> dict[str, Any]:
         "frame_number": source.get("frame_number"),
         "orbit_pass_direction": source.get("orbit_pass_direction"),
         "is_pre_launch_sample": source.get("is_pre_launch_sample"),
+        "temporal_baseline_days": source.get("temporal_baseline_days"),
+        "derived_temporal_baseline": source.get("derived_temporal_baseline"),
         "phase": {
             "units": layers.get("phase", {}).get("units"),
             "valid_pixels": phase.get("measured_pixels"),

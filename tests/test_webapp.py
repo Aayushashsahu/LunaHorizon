@@ -122,9 +122,23 @@ def test_offline_browsing_without_raw_granule(data_root, tmp_path):
     app = Application(offline_root)
     payload = app.observation("fixture")  # derived products still load
     assert payload["assets"]["phase_png"]["url"]
+
+    # When raw H5 is missing but processed GeoTIFFs exist, sampling succeeds via GeoTIFF fallback
+    sample = app.sample("fixture", row=12, col=15)
+    assert sample["inspection_source"] == "processed_geotiff"
+    assert sample["phase_radians"] is not None
+    assert sample["coherence"] is not None
+    assert sample["units"]["phase"] == "radians"
+
+    # When both raw H5 and GeoTIFFs are missing, sampling fails cleanly with honest error
+    app.close()
+    (offline_root / "fixture" / "phase.tif").unlink()
+    (offline_root / "fixture" / "coherence.tif").unlink()
+    app_no_tif = Application(offline_root)
     with pytest.raises(NisarError) as excinfo:
-        app.sample("fixture", row=12, col=15)
-    assert "raw granule is not available" in excinfo.value.message.lower()
+        app_no_tif.sample("fixture", row=12, col=15)
+    assert "neither the raw granule nor processed geotiff" in excinfo.value.message.lower()
+    app_no_tif.close()
 
 
 def test_http_endpoints(data_root):
@@ -180,3 +194,34 @@ def test_http_endpoints(data_root):
         server.shutdown()
         server.server_close()
         thread.join(timeout=5)
+
+
+def test_api_index_temporal_baseline_provenance():
+    """Verify that /api/index exposes both raw provenance and derived baseline without silent regression."""
+    repo_root = Path(__file__).resolve().parents[1]
+    data_root = repo_root / "data" / "processed"
+    if not (data_root / "venezuela" / "metadata.json").exists():
+        pytest.skip("Processed venezuela observation not present")
+
+    app = Application(data_root)
+    index = app.index()
+    ven = next((o for o in index["observations"] if o["observation_id"] == "venezuela"), None)
+    assert ven is not None, "venezuela observation must be listed in /api/index"
+
+    # 1. Raw integer baseline preserved from HDF5 provenance
+    assert ven["temporal_baseline_days"] == 11
+
+    # 2. Derived accurate repeat baseline derived from acquisition timestamps
+    derived = ven.get("derived_temporal_baseline")
+    assert derived is not None, "derived_temporal_baseline must be present"
+    assert derived["formatted"] == "~12 days"
+    assert derived["exact_interval"] == "11d 23h 59m 59s"
+    assert derived["elapsed_seconds"] == 1_036_799
+    assert derived["nominal_repeat_cycle_days"] == 12
+
+    # 3. Source sub-dict also exposes both
+    source = ven.get("source", {})
+    assert source.get("temporal_baseline_days") == 11
+    assert source.get("derived_temporal_baseline", {}).get("formatted") == "~12 days"
+
+    app.close()

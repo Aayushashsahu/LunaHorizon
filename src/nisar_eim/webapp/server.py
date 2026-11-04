@@ -89,6 +89,61 @@ class ObservationRepository:
 
     def __init__(self, data_root: str | Path) -> None:
         self.data_root = Path(data_root)
+        self._readers: dict[Path, Any] = {}
+
+    def _get_reader(self, path: Path) -> Any:
+        import rasterio
+
+        resolved = path.resolve()
+        if resolved not in self._readers:
+            self._readers[resolved] = rasterio.open(resolved)
+        return self._readers[resolved]
+
+    def close(self) -> None:
+        for reader in self._readers.values():
+            try:
+                reader.close()
+            except Exception:
+                pass
+        self._readers.clear()
+
+    def _find_raw_granule(self, metadata: Mapping[str, Any]) -> Path | None:
+        source_rel = metadata.get("source", {}).get("path")
+        if not source_rel:
+            return None
+        candidate = Path(source_rel)
+        if candidate.is_file():
+            return candidate
+        repo_candidate = (self.data_root.parent / candidate).resolve()
+        if repo_candidate.is_file():
+            return repo_candidate
+        cwd_candidate = (Path.cwd() / candidate).resolve()
+        if cwd_candidate.is_file():
+            return cwd_candidate
+        raw_dir = self.data_root.parent / "raw"
+        if raw_dir.is_dir():
+            for h5 in raw_dir.rglob("*.h5"):
+                if h5.name == candidate.name:
+                    return h5
+        return None
+
+    def _find_geotiffs(
+        self, observation_id: str, metadata: Mapping[str, Any]
+    ) -> tuple[Path, Path] | None:
+        directory = self.directory(observation_id)
+        phase_tif = directory / "phase.tif"
+        coh_tif = directory / "coherence.tif"
+        if phase_tif.is_file() and coh_tif.is_file():
+            return phase_tif, coh_tif
+        outputs = metadata.get("outputs", {})
+        p_name = outputs.get("phase_tif")
+        c_name = outputs.get("coherence_tif")
+        if p_name and c_name:
+            p_path = directory / p_name
+            c_path = directory / c_name
+            if p_path.is_file() and c_path.is_file():
+                return p_path, c_path
+        return None
 
     # -- discovery --------------------------------------------------------
     def ids(self) -> list[str]:
@@ -233,44 +288,75 @@ class ObservationRepository:
         else:
             raise NisarError("Provide either lon/lat or row/col for pixel inspection.")
 
-        source = Path(metadata.get("source", {}).get("path", ""))
-        if not source.exists():
-            raise NisarError(
-                "The raw granule is not available, so full-resolution pixel inspection "
-                "is disabled. The processed quicklooks and statistics still work offline.",
-                details={"source_path": str(source)},
-            )
-
-        layers = metadata.get("product_structure", {}).get("layers", {})
-        phase_path = layers.get("phase", {}).get("dataset_path")
-        coherence_path = layers.get("coherence", {}).get("dataset_path")
-        cc_path = layers.get("connected_components", {}).get("dataset_path")
-        mask_path = metadata.get("product_structure", {}).get("mask_path")
-        if not phase_path or not coherence_path:
-            raise NisarError("Processed metadata does not describe the phase/coherence layers.")
-
         r0 = max(0, row_i - half)
         r1 = min(geometry.height, row_i + half + 1)
         c0 = max(0, col_i - half)
         c1 = min(geometry.width, col_i + half + 1)
-        with h5py.File(source, "r") as h5:
-            phase_window = np.asarray(h5[phase_path][r0:r1, c0:c1], dtype=np.float32)
-            coherence_window = np.asarray(h5[coherence_path][r0:r1, c0:c1], dtype=np.float32)
-            components_window = (
-                np.asarray(h5[cc_path][r0:r1, c0:c1]) if cc_path else None
-            )
-            mask_window = np.asarray(h5[mask_path][r0:r1, c0:c1]) if mask_path else None
-            fill = h5[mask_path].attrs.get("_FillValue", 255) if mask_path else 255
-            description = str(h5[mask_path].attrs.get("description", "")) if mask_path else ""
 
-        mask_fields = (
-            decode_mask(mask_window, fill_value=fill, description=description)
-            if mask_window is not None
-            else None
-        )
-        valid_window = np.isfinite(phase_window)
+        raw_source = self._find_raw_granule(metadata)
+        geotiffs = self._find_geotiffs(observation_id, metadata)
+
+        phase_window: np.ndarray | None = None
+        coherence_window: np.ndarray | None = None
+        components_window: np.ndarray | None = None
+        mask_fields = None
+
+        if raw_source is not None:
+            layers = metadata.get("product_structure", {}).get("layers", {})
+            phase_path = layers.get("phase", {}).get("dataset_path")
+            coherence_path = layers.get("coherence", {}).get("dataset_path")
+            cc_path = layers.get("connected_components", {}).get("dataset_path")
+            mask_path = metadata.get("product_structure", {}).get("mask_path")
+            if not phase_path or not coherence_path:
+                raise NisarError("Processed metadata does not describe the phase/coherence layers.")
+            with h5py.File(raw_source, "r") as h5:
+                phase_window = np.asarray(h5[phase_path][r0:r1, c0:c1], dtype=np.float32)
+                coherence_window = np.asarray(h5[coherence_path][r0:r1, c0:c1], dtype=np.float32)
+                components_window = (
+                    np.asarray(h5[cc_path][r0:r1, c0:c1]) if cc_path and cc_path in h5 else None
+                )
+                mask_window = (
+                    np.asarray(h5[mask_path][r0:r1, c0:c1]) if mask_path and mask_path in h5 else None
+                )
+                fill = (
+                    h5[mask_path].attrs.get("_FillValue", 255)
+                    if mask_path and mask_path in h5
+                    else 255
+                )
+                description = (
+                    str(h5[mask_path].attrs.get("description", ""))
+                    if mask_path and mask_path in h5
+                    else ""
+                )
+
+            if mask_window is not None:
+                mask_fields = decode_mask(mask_window, fill_value=fill, description=description)
+
+        elif geotiffs is not None:
+            from rasterio.windows import Window
+
+            phase_tif, coh_tif = geotiffs
+            win = Window(col_off=c0, row_off=r0, width=c1 - c0, height=r1 - r0)
+            ds_phase = self._get_reader(phase_tif)
+            ds_coh = self._get_reader(coh_tif)
+            phase_window = np.asarray(ds_phase.read(1, window=win), dtype=np.float32)
+            coherence_window = np.asarray(ds_coh.read(1, window=win), dtype=np.float32)
+            components_window = None
+            mask_fields = None
+
+        else:
+            raise NisarError(
+                "Neither the raw granule nor processed GeoTIFF rasters are available, "
+                "so full-resolution pixel inspection is disabled.",
+                details={"source_path": metadata.get("source", {}).get("path")},
+            )
+
+        valid_phase = np.isfinite(phase_window)
+        valid_coh = np.isfinite(coherence_window)
+        valid_window = valid_phase & valid_coh
         if mask_fields is not None:
             valid_window &= mask_fields.valid
+
         summary = window_summary(
             phase_window,
             coherence_window,
@@ -278,11 +364,16 @@ class ObservationRepository:
             name=f"{r1 - r0}x{c1 - c0} pixel window",
         )
 
-        centre_valid = bool(valid_window[row_i - r0, col_i - c0])
+        centre_row = row_i - r0
+        centre_col = col_i - c0
+        centre_valid = bool(valid_window[centre_row, centre_col])
+        phase_val = _clean(phase_window[centre_row, centre_col])
+        coh_val = _clean(coherence_window[centre_row, centre_col])
         lon_c, lat_c = geometry.lonlat_of(row_i, col_i)
+
         mask_out: dict[str, Any] = {"available": mask_fields is not None}
         if mask_fields is not None:
-            idx = (row_i - r0, col_i - c0)
+            idx = (centre_row, centre_col)
             mask_out.update(
                 {
                     "valid": bool(mask_fields.valid[idx]),
@@ -295,6 +386,17 @@ class ObservationRepository:
                     "encoding": mask_fields.encoding,
                 }
             )
+        else:
+            mask_out.update(
+                {
+                    "valid": centre_valid,
+                    "water": False,
+                    "phase_valid": bool(valid_phase[centre_row, centre_col]),
+                    "coherence_valid": bool(valid_coh[centre_row, centre_col]),
+                    "source": "processed_geotiff",
+                }
+            )
+
         return {
             "observation_id": observation_id,
             "row": row_i,
@@ -306,10 +408,12 @@ class ObservationRepository:
             "easting": geometry.pixel_centre(row_i, col_i)[0],
             "northing": geometry.pixel_centre(row_i, col_i)[1],
             "epsg": geometry.epsg,
-            "phase_radians": _clean(phase_window[row_i - r0, col_i - c0]),
-            "coherence": _clean(coherence_window[row_i - r0, col_i - c0]),
+            "phase_radians": phase_val,
+            "coherence": coh_val,
+            "phase_valid": bool(valid_phase[centre_row, centre_col]),
+            "coherence_valid": bool(valid_coh[centre_row, centre_col]),
             "connected_component": (
-                int(components_window[row_i - r0, col_i - c0])
+                int(components_window[centre_row, centre_col])
                 if components_window is not None
                 else None
             ),
@@ -317,6 +421,7 @@ class ObservationRepository:
             "mask": mask_out,
             "window": summary,
             "units": {"phase": "radians", "coherence": "1"},
+            "inspection_source": "raw_h5" if raw_source is not None else "processed_geotiff",
             "note": (
                 "Phase is reported in radians. It is not converted to displacement and "
                 "cannot be read as vertical motion."
@@ -330,6 +435,9 @@ class Application:
     def __init__(self, data_root: str | Path) -> None:
         self.repository = ObservationRepository(data_root)
         self.limitations: list[str] = []
+
+    def close(self) -> None:
+        self.repository.close()
 
     def index(self) -> dict[str, Any]:
         observations = self.repository.summaries()
@@ -423,6 +531,8 @@ def _summary(metadata: Mapping[str, Any]) -> dict[str, Any]:
 
     summary = summarize_observation(metadata)
     source = metadata.get("source", {})
+    summary["temporal_baseline_days"] = source.get("temporal_baseline_days")
+    summary["derived_temporal_baseline"] = source.get("derived_temporal_baseline")
     summary["validation_states"] = metadata.get("validation", {}).get("states", [])
     summary["checks"] = metadata.get("checks", [])
     summary["warnings"] = metadata.get("warnings", [])
@@ -449,6 +559,8 @@ def _summary(metadata: Mapping[str, Any]) -> dict[str, Any]:
             "is_pre_launch_sample",
             "granule_id",
             "path",
+            "temporal_baseline_days",
+            "derived_temporal_baseline",
         )
     }
     summary["threshold_table"] = metadata.get("quality", {}).get("threshold_table", [])

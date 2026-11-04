@@ -135,9 +135,12 @@ def test_orbit_track_path_segmentation():
     assert max_line_step < 35.0, f"Max line segment length is too large ({max_line_step}px); indicates straight line across gap!"
 
 
+STATIC_DIR = Path(__file__).resolve().parents[1] / "src" / "nisar_eim" / "webapp" / "static"
+
+
 def test_app_js_runtime_orbital_code_integrity():
     """Verify that app.js includes Gram-Schmidt math, honest copy, and no stale telemetry wording."""
-    app_js_path = Path("src/nisar_eim/webapp/static/app.js")
+    app_js_path = STATIC_DIR / "app.js"
     assert app_js_path.exists(), "app.js must exist"
     content = app_js_path.read_text(encoding="utf-8")
 
@@ -164,7 +167,7 @@ def test_app_js_runtime_orbital_code_integrity():
 
 def test_html_authoritative_repeat_cycle_label():
     """Verify index.html uses the authoritative 12-day orbit repeat cycle and no hard-coded 11-day repeat."""
-    html_path = Path("src/nisar_eim/webapp/static/index.html")
+    html_path = STATIC_DIR / "index.html"
     assert html_path.exists(), "index.html must exist"
     content = html_path.read_text(encoding="utf-8")
 
@@ -201,8 +204,9 @@ def test_derived_temporal_baseline_calculation():
 
 def test_app_js_derived_temporal_baseline_logic():
     """Verify app.js includes formatBaseline function and handles acquisition timestamps."""
-    app_js_path = Path("src/nisar_eim/webapp/static/app.js")
+    app_js_path = STATIC_DIR / "app.js"
     assert app_js_path.exists()
     content = app_js_path.read_text(encoding="utf-8")
     assert "formatBaseline" in content
     assert "realObs?.temporal_baseline_days != null" in content
+

@@ -410,7 +410,7 @@ function renderDashboard(index) {
   const realCount = observations.filter((o) => !o.is_pre_launch_sample).length;
   const sampleCount = observations.filter((o) => o.is_pre_launch_sample).length;
   const realCoverage = realObs?.phase?.coverage_percent;
-  const realInterval = realObs?.temporal_baseline_days != null ? formatBaseline(realObs) : "—";
+  const realInterval = (realObs?.temporal_baseline_days != null || realObs?.derived_temporal_baseline != null || (realObs?.reference_start && realObs?.secondary_start)) ? formatBaseline(realObs) : "—";
   const eventsInside = observations.reduce(
     (acc, o) => acc + ((o.event_summary && o.event_summary.events_inside_raster_bounds) || 0),
     0
